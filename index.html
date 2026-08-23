@@ -10,7 +10,6 @@
   <style>
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    /* Tùy chỉnh thanh cuộn */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
   </style>
@@ -48,10 +47,22 @@
       </div>
     </section>
 
-    <!-- TAB 2: NỀ NẾP & RÈN LUYỆN -->
+    <!-- TAB 2: NỀ NẾP & RÈN LUYỆN & BẢNG XẾP HẠNG THI ĐUA TỔ -->
     <section id="tab-nenep" class="tab-content space-y-3">
-      <div class="flex justify-between items-center">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-shield-halved text-rose-500 mr-1.5"></i> Điểm Rèn Luyện Lớp</h2>
+      
+      <!-- KHUNG BẢNG VÀNG THI ĐUA 4 TỔ -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
+            <i class="fa-solid fa-trophy text-amber-500 text-sm"></i> Bảng Vàng Thi Đua 4 Tổ Tháng Này
+          </h3>
+          <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded border border-amber-200">Tổng kết tháng</span>
+        </div>
+        <div id="rankingToContainer" class="grid grid-cols-2 gap-2"></div>
+      </div>
+
+      <div class="flex justify-between items-center pt-2">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-shield-halved text-rose-500 mr-1.5"></i> Danh sách Rèn Luyện Học Sinh</h2>
         <div class="flex gap-1.5">
           <button id="btnThemDiemCong" onclick="openModal('modalDiemCong')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
             <i class="fa-solid fa-plus"></i> Cộng điểm
@@ -61,22 +72,20 @@
           </button>
         </div>
       </div>
-      <div id="listHocSinh" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1"></div>
+      <div id="listHocSinh" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1"></div>
     </section>
 
-    <!-- TAB 3: TRANG TỔNG HỢP CÁ NHÂN (TRA CỨU TOÀN DIỆN) -->
+    <!-- TAB 3: TRANG TỔNG HỢP CÁ NHÂN -->
     <section id="tab-canhan" class="tab-content space-y-3">
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện cá nhân</h2>
       </div>
       
-      <!-- Hộp chọn học sinh tra cứu -->
       <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
         <label class="text-xs font-bold text-slate-600 whitespace-nowrap"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu HS:</label>
         <select id="selectTraCuuHS" onchange="renderHoSoCaNhan(this.value)" class="w-full text-xs font-semibold border rounded-lg p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
       </div>
 
-      <!-- Khung hiển thị thông tin tổng hợp -->
       <div id="hoSoDetailContainer" class="space-y-3"></div>
     </section>
 
@@ -84,10 +93,9 @@
     <section id="tab-sodolop" class="tab-content space-y-3">
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-chalkboard-user text-teal-600 mr-1.5"></i> Sơ đồ vị trí chỗ ngồi</h2>
-        <span class="text-[10px] text-slate-400 italic">Bấm vào ô để xem hồ sơ HS</span>
+        <span class="text-[10px] text-slate-400 italic">Bấm vào ô để xem hồ sơ</span>
       </div>
 
-      <!-- Mô phỏng Bục giảng & Bàn giáo viên -->
       <div class="bg-slate-200/80 rounded-xl p-3 text-center border border-slate-300 shadow-inner">
         <div class="inline-block bg-slate-700 text-white font-black text-[11px] px-8 py-1 rounded shadow">
           <i class="fa-solid fa-person-chalkboard mr-1"></i> BẢNG ĐEN / BỤC GIẢNG
@@ -99,7 +107,6 @@
         </div>
       </div>
 
-      <!-- 4 Dãy bàn học sinh theo Tổ -->
       <div id="gridSoDoLop" class="grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-2"></div>
     </section>
 
@@ -114,10 +121,25 @@
       <div id="listHoatDong" class="space-y-2.5"></div>
     </section>
 
-    <!-- TAB 6: TRỰC NHẬT -->
+    <!-- TAB 6: TRỰC NHẬT & LAO ĐỘNG CÔNG ÍCH CUỐI THÁNG -->
     <section id="tab-trucnhat" class="tab-content space-y-3">
-      <div class="flex justify-between items-center">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Lịch trực nhật tuần này</h2>
+      
+      <!-- KHUNG LAO ĐỘNG VỆ SINH CUỐI THÁNG (DANH CHO HS VI PHẠM) -->
+      <div class="bg-rose-50/80 rounded-2xl p-4 border border-rose-200 shadow-sm space-y-2.5">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-black text-rose-800 flex items-center gap-1.5 uppercase">
+            <i class="fa-solid fa-triangle-exclamation text-rose-600 text-sm"></i> Vệ Sinh Toàn Trường Cuối Tháng
+          </h3>
+          <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
+        </div>
+        <p class="text-[11px] text-rose-600 leading-relaxed">
+          📌 Danh sách học sinh có vi phạm trong tháng cần tham gia trực nhật, lao động công ích toàn trường vào chiều thứ Bảy cuối tháng để rèn luyện ý thức:
+        </p>
+        <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
+      </div>
+
+      <div class="flex justify-between items-center pt-2">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Phân công trực nhật thường nhật</h2>
         <button id="btnThemTrucNhat" onclick="openModal('modalTrucNhat')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
           <i class="fa-solid fa-plus"></i> Thêm lịch
         </button>
@@ -127,7 +149,7 @@
 
   </main>
 
-  <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY (6 TABS) -->
+  <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 z-40 shadow-lg">
     <div class="max-w-xl mx-auto grid grid-cols-6 text-center text-[10px] font-medium">
       <button onclick="switchTab('tab-baobai', this)" class="nav-btn text-indigo-600 font-bold">
@@ -318,7 +340,7 @@
 
   <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
   <script>
-    // ⚠️ HÃY THAY ĐÚNG LINK APPS SCRIPT CỦA BẠN VÀO DÒNG DƯỚI ĐÂY:
+    // URL WEB APP CỦA CÔ ĐÃ ĐƯỢC GẮN CHÍNH XÁC:
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzDcSFh6CE7aAVfK91bDe24UmCAGc6KOFfdNpAjLNqz0siH8QbVYZJHbSyu37bVvwG-xw/exec";
     const ADMIN_EMAIL = "ngochuong290798@gmail.com";
 
@@ -339,6 +361,8 @@
           populateStudentSelects();
           setupPersonalTab();
           renderSoDoLop();
+          renderThiDuaTo();
+          renderLaoDongCuoiThang();
         }
       } catch (err) {
         console.error("Lỗi tải dữ liệu:", err);
@@ -408,7 +432,7 @@
         `).join('');
       }
 
-      // 2. Render Nề nếp
+      // 2. Render Danh sách học sinh ở tab Rèn luyện
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
@@ -499,6 +523,91 @@
     }
 
     // ==========================================
+    // LOGIC TÍNH NĂNG MỚI: XẾP HẠNG THI ĐUA 4 TỔ
+    // ==========================================
+    function renderThiDuaTo() {
+      const container = document.getElementById("rankingToContainer");
+      if (!container || !appData.hocSinh) return;
+
+      const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
+      const stats = toList.map(tenTo => {
+        const members = appData.hocSinh.filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
+        const tongCong = members.reduce((sum, h) => sum + (Number(h.Tong_Diem_Cong) || 0), 0);
+        const tongTru = members.reduce((sum, h) => sum + (Number(h.Tong_Diem_Tru) || 0), 0);
+        const diemThiDua = tongCong - tongTru;
+        return { tenTo, membersCount: members.length, tongCong, tongTru, diemThiDua };
+      });
+
+      // Sắp xếp theo điểm thi đua giảm dần
+      stats.sort((a, b) => b.diemThiDua - a.diemThiDua);
+
+      const badges = [
+        { rank: "Hạng 1", color: "from-amber-400 to-yellow-500 text-amber-900 border-amber-300", icon: "🥇" },
+        { rank: "Hạng 2", color: "from-slate-200 to-slate-400 text-slate-800 border-slate-300", icon: "🥈" },
+        { rank: "Hạng 3", color: "from-amber-600 to-orange-700 text-orange-100 border-amber-700", icon: "🥉" },
+        { rank: "Hạng 4", color: "from-slate-100 to-slate-200 text-slate-600 border-slate-200", icon: "🎖️" }
+      ];
+
+      container.innerHTML = stats.map((to, idx) => {
+        const b = badges[idx] || badges[3];
+        return `
+          <div class="bg-gradient-to-br ${b.color} rounded-xl p-2.5 border shadow-sm flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-black">${b.icon} ${to.tenTo}</span>
+              <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-black/10">${b.rank}</span>
+            </div>
+            <div class="mt-2 text-center">
+              <div class="text-base font-black">${to.diemThiDua > 0 ? '+' : ''}${to.diemThiDua} <span class="text-[10px]">điểm</span></div>
+              <div class="text-[9px] font-medium opacity-90 mt-0.5 space-x-1">
+                <span>+${to.tongCong}đ</span> | <span>-${to.tongTru}đ</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // LOGIC TÍNH NĂNG MỚI: LAO ĐỘNG VỆ SINH CUỐI THÁNG
+    // ==========================================
+    function renderLaoDongCuoiThang() {
+      const container = document.getElementById("listLaoDongCuoiThang");
+      const badge = document.getElementById("countLaoDongBadge");
+      if (!container || !appData.hocSinh) return;
+
+      // Lọc các bạn có điểm trừ > 0
+      const hsViPham = appData.hocSinh.filter(h => (Number(h.Tong_Diem_Tru) || 0) > 0);
+      
+      if (badge) badge.innerText = `${hsViPham.length} Học sinh`;
+
+      if (hsViPham.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white/80 p-3 rounded-xl border border-emerald-200 text-center text-xs text-emerald-700 font-bold">
+            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Tháng này lớp không có học sinh nào bị phạt lao động!
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = hsViPham.map(hs => `
+        <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-100 flex justify-between items-center shadow-xs cursor-pointer hover:border-rose-300 transition">
+          <div>
+            <div class="text-xs font-bold text-slate-800">
+              <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] mr-1">#${hs.STT}</span>
+              ${hs.Ho_Ten}
+            </div>
+            <div class="text-[10px] text-slate-400 mt-0.5">${hs.To} • Cần bù đắp điểm rèn luyện</div>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+              Bị trừ: -${hs.Tong_Diem_Tru}đ
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==========================================
     // LOGIC TAB 3: TỔNG HỢP HỒ SƠ CÁ NHÂN
     // ==========================================
     function setupPersonalTab() {
@@ -507,7 +616,6 @@
 
       select.innerHTML = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
 
-      // Tự chọn học sinh đang đăng nhập, hoặc chọn em đầu tiên
       const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
       const defaultSTT = currentUser ? currentUser.STT : (appData.hocSinh[0] ? appData.hocSinh[0].STT : "");
       
@@ -525,13 +633,11 @@
       const score = Number(hs.Diem_Hien_Tai) || 0;
       const myLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
 
-      // Lọc danh sách Vi phạm, Điểm cộng, Hoạt động của học sinh này
       const myViPham = (appData.viPham || []).filter(v => String(v.STT) === String(stt));
       const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt));
       const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
 
       container.innerHTML = `
-        <!-- Thẻ Tổng Quan Điểm -->
         <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
           <div class="flex justify-between items-start">
             <div>
@@ -556,7 +662,6 @@
           </div>
         </div>
 
-        <!-- Danh Sách Hoạt Động Đã Tham Gia -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã đăng ký</span>
@@ -575,7 +680,6 @@
           </div>
         </div>
 
-        <!-- Danh Sách Khen Thưởng / Điểm Cộng -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Lịch sử điểm cộng</span>
@@ -597,7 +701,6 @@
           </div>
         </div>
 
-        <!-- Danh Sách Vi Phạm / Điểm Trừ -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lịch sử lỗi vi phạm</span>
@@ -631,7 +734,6 @@
       const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
 
       container.innerHTML = toList.map(tenTo => {
-        // Lấy danh sách học sinh thuộc tổ này
         const members = appData.hocSinh.filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
 
         return `
@@ -661,13 +763,11 @@
       }).join('');
     }
 
-    // Xem nhanh hồ sơ khi bấm vào học sinh ở Tab Rèn Luyện hoặc Sơ Đồ
     function viewStudentProfile(stt) {
       const select = document.getElementById("selectTraCuuHS");
       if (select) select.value = stt;
       renderHoSoCaNhan(stt);
       
-      // Chuyển sang Tab Cá Nhân
       const btnCaNhan = document.querySelectorAll('.nav-btn')[2];
       switchTab('tab-canhan', btnCaNhan);
     }
