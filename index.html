@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN (MẶC ĐỊNH MỞ ĐẦU TIÊN) -->
+    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN -->
     <section id="tab-canhan" class="tab-content active space-y-3">
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện cá nhân</h2>
@@ -257,7 +257,7 @@
     </div>
   </nav>
 
-  <!-- MODAL ĐỔI AVATAR -->
+  <!-- MODAL ĐỔI AVATAR (100+ ICON DỄ THƯƠNG) -->
   <div id="modalAvatar" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-2">
@@ -410,7 +410,7 @@
 
   <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
-      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động</h3>
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động Đoàn</h3>
       <form onsubmit="submitHoatDong(event)" class="space-y-3 text-xs">
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Tên hoạt động:</label>
@@ -689,7 +689,7 @@
     }
 
     // ==============================================================
-    // LOGIC TAB CÁ NHÂN (CHỈ HIỆN KHI CHỌN TRA CỨU)
+    // LOGIC TAB CÁ NHÂN (CHỈ HIỆN KHI ĐƯỢC CHỌN TRA CỨU)
     // ==============================================================
     function setupPersonalTab() {
       const select = document.getElementById("selectTraCuuHS");
@@ -699,13 +699,12 @@
       const studentOptions = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
       select.innerHTML = defaultOption + studentOptions;
 
-      // Nếu chính học sinh đăng nhập -> Tự động load hồ sơ cá nhân
+      // Nếu người đăng nhập là học sinh trong lớp -> Tự động hiện hồ sơ của chính bạn đó
       const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
       if (currentUser) {
         select.value = currentUser.STT;
         renderHoSoCaNhan(currentUser.STT);
       } else {
-        // GVCN hoặc chưa đăng nhập -> Mặc định để trống
         select.value = "";
         renderHoSoCaNhan("");
       }
@@ -745,7 +744,9 @@
       const today = new Date();
       const isBirthdayToday = birthDate && (birthDate.day === today.getDate() && birthDate.month === (today.getMonth() + 1));
 
-      const isOwnerOrTeacher = (currentUserRole === "GVCN") || ((appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim())?.STT === hs.STT);
+      // CHỈ CHÍNH CHỦ HỌC SINH ĐĂNG NHẬP MỚI ĐỔI ĐƯỢC AVATAR
+      const loggedInStudent = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+      const isExactOwner = loggedInStudent && (String(loggedInStudent.STT) === String(hs.STT));
 
       container.innerHTML = `
         ${isBirthdayToday ? `
@@ -761,11 +762,14 @@
         <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
           <div class="flex justify-between items-start">
             <div class="flex items-center gap-3">
-              <div class="relative group cursor-pointer" onclick="${isOwnerOrTeacher ? `openAvatarModal('${hs.STT}')` : ''}" title="Bấm để đổi Avatar">
-                <div class="text-4xl bg-white/20 hover:bg-white/30 p-2.5 rounded-2xl shadow-inner border border-white/30 transition flex items-center justify-center">
+              <!-- KHUNG AVATAR: CHỈ CHÍNH CHỦ MỚI CLICK ĐƯỢC VÀ CÓ BÚT SỬA -->
+              <div class="relative group ${isExactOwner ? 'cursor-pointer' : ''}" 
+                   onclick="${isExactOwner ? `openAvatarModal('${hs.STT}')` : ''}" 
+                   title="${isExactOwner ? 'Bấm để đổi Avatar của bạn' : ''}">
+                <div class="text-4xl bg-white/20 ${isExactOwner ? 'hover:bg-white/30 hover:scale-105' : ''} p-2.5 rounded-2xl shadow-inner border border-white/30 transition flex items-center justify-center">
                   ${av}
                 </div>
-                ${isOwnerOrTeacher ? '<span class="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-900 rounded-full p-1 text-[8px] shadow"><i class="fa-solid fa-pen"></i></span>' : ''}
+                ${isExactOwner ? '<span class="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-900 rounded-full p-1 text-[8px] shadow animate-bounce"><i class="fa-solid fa-pen"></i></span>' : ''}
               </div>
               <div>
                 <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold">STT: #${hs.STT} • ${hs.To}</span>
@@ -784,7 +788,7 @@
           </div>
           <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/20 text-center">
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-emerald-200">Tổng điểm cộng</span>
+              <span class="text-[10px] block text-emerald-200">Tổng điểm thưởng</span>
               <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
@@ -969,6 +973,8 @@
         const json = await res.json();
         if (json.success) {
           alert(`Đã lưu Avatar ${icon} thành công!`);
+        } else {
+          alert("❌ " + json.message);
         }
       } catch (err) {
         console.error("Lỗi lưu Avatar:", err);
