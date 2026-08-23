@@ -61,12 +61,13 @@
       </div>
     </div>
 
-    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN -->
+    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN (MẶC ĐỊNH MỞ ĐẦU TIÊN) -->
     <section id="tab-canhan" class="tab-content active space-y-3">
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện cá nhân</h2>
       </div>
 
+      <!-- KHUNG SINH NHẬT THÁNG NÀY -->
       <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
@@ -77,11 +78,13 @@
         <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
       
+      <!-- HỘP CHỌN HỌC SINH TRA CỨU -->
       <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
         <label class="text-xs font-bold text-slate-600 whitespace-nowrap"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu HS:</label>
         <select id="selectTraCuuHS" onchange="renderHoSoCaNhan(this.value)" class="w-full text-xs font-semibold border rounded-lg p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
       </div>
 
+      <!-- VÙNG HIỂN THỊ CHI TIẾT HỒ SƠ -->
       <div id="hoSoDetailContainer" class="space-y-3"></div>
     </section>
 
@@ -289,7 +292,7 @@
     </div>
   </div>
 
-  <!-- MODAL MỚI: GVCN / BÍ THƯ / LỚP TRƯỞNG GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG -->
+  <!-- MODAL GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG -->
   <div id="modalAdminThamGia" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-3 shadow-2xl max-h-[85vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-2">
@@ -301,7 +304,6 @@
 
       <div class="text-xs text-slate-600 font-semibold" id="adminThamGiaTitle"></div>
 
-      <!-- Danh sách học sinh dạng Checkbox -->
       <div class="overflow-y-auto max-h-60 border rounded-xl p-2 bg-slate-50 space-y-1.5" id="adminThamGiaCheckboxList"></div>
 
       <div class="flex justify-between items-center pt-2 border-t text-xs">
@@ -315,7 +317,7 @@
     </div>
   </div>
 
-  <!-- CÁC MODALS KHÁC (VI PHẠM, ĐIỂM CỘNG, BÁO BÀI, HOẠT ĐỘNG, TRỰC NHẬT) -->
+  <!-- CÁC MODALS NHẬP LIỆU KHÁC -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
@@ -622,7 +624,7 @@
         }).join('');
       }
 
-      // 3. Hoạt động Đoàn (Có nút Đăng ký cho HS + Nút Gán DS cho GVCN/Bí thư/Lớp trưởng)
+      // 3. Hoạt động Đoàn
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
         const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
@@ -687,27 +689,49 @@
     }
 
     // ==============================================================
-    // LOGIC TAB CÁ NHÂN & CHỌN AVATAR
+    // LOGIC TAB CÁ NHÂN (CHỈ HIỆN KHI CHỌN TRA CỨU)
     // ==============================================================
     function setupPersonalTab() {
       const select = document.getElementById("selectTraCuuHS");
       if (!select || !appData.hocSinh) return;
 
-      select.innerHTML = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      const defaultOption = `<option value="">-- Chọn học sinh để xem hồ sơ --</option>`;
+      const studentOptions = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      select.innerHTML = defaultOption + studentOptions;
 
+      // Nếu chính học sinh đăng nhập -> Tự động load hồ sơ cá nhân
       const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
-      const defaultSTT = currentUser ? currentUser.STT : (appData.hocSinh[0] ? appData.hocSinh[0].STT : "");
-      
-      if (defaultSTT) {
-        select.value = defaultSTT;
-        renderHoSoCaNhan(defaultSTT);
+      if (currentUser) {
+        select.value = currentUser.STT;
+        renderHoSoCaNhan(currentUser.STT);
+      } else {
+        // GVCN hoặc chưa đăng nhập -> Mặc định để trống
+        select.value = "";
+        renderHoSoCaNhan("");
       }
     }
 
     function renderHoSoCaNhan(stt) {
       const container = document.getElementById("hoSoDetailContainer");
+      if (!container) return;
+
+      if (!stt) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-8 border border-dashed border-slate-300 text-center space-y-3 shadow-xs">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto text-xl">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="space-y-1">
+              <h3 class="text-xs font-bold text-slate-700">Chưa chọn học sinh</h3>
+              <p class="text-[11px] text-slate-400 max-w-xs mx-auto">Vui lòng bấm vào danh sách chọn ở trên hoặc nhấn vào tên học sinh từ sơ đồ lớp để xem chi tiết kết quả rèn luyện.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(stt));
-      if (!hs || !container) return;
+      if (!hs) return;
 
       const score = Number(hs.Diem_Hien_Tai) || 0;
       const av = hs.Avatar || "🐱";
@@ -833,7 +857,7 @@
     }
 
     // ==============================================================
-    // MODAL VÀ XỬ LÝ GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG
+    // GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG
     // ==============================================================
     function openAdminThamGiaModal(idHoatDong) {
       currentManagingActivityId = idHoatDong;
@@ -899,7 +923,7 @@
     }
 
     // ==============================================================
-    // MODAL VÀ XỬ LÝ CHỌN AVATAR
+    // CHỌN AVATAR
     // ==============================================================
     function initAvatarModalIcons() {
       const renderGroup = (id, list) => {
