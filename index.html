@@ -114,6 +114,7 @@
 
     <!-- TAB 4: NỀ NẾP & RÈN LUYỆN & THI ĐUA TỔ -->
     <section id="tab-nenep" class="tab-content space-y-3">
+      <!-- BẢNG VÀNG THI ĐUA 4 TỔ -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
@@ -122,6 +123,17 @@
           <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded border border-amber-200">Tổng kết tháng</span>
         </div>
         <div id="rankingToContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+      </div>
+
+      <!-- DANH SÁCH LỖI TẬP THỂ (NẾU CÓ) -->
+      <div id="collectiveViolationBox" class="hidden bg-rose-50/70 rounded-2xl p-3.5 border border-rose-200 space-y-2 shadow-xs">
+        <div class="flex justify-between items-center">
+          <h4 class="text-xs font-bold text-rose-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-users-slash text-rose-600"></i> Lỗi vi phạm tập thể lớp (Chia đều cả lớp)
+          </h4>
+          <span id="collectivePerStudentBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">-0 đ/HS</span>
+        </div>
+        <div id="collectiveViolationList" class="space-y-1 text-xs"></div>
       </div>
 
       <div class="flex justify-between items-center pt-2">
@@ -257,7 +269,7 @@
     </div>
   </nav>
 
-  <!-- MODAL ĐỔI AVATAR (100+ ICON DỄ THƯƠNG) -->
+  <!-- MODAL ĐỔI AVATAR -->
   <div id="modalAvatar" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-2">
@@ -292,53 +304,28 @@
     </div>
   </div>
 
-  <!-- MODAL GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG -->
-  <div id="modalAdminThamGia" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-3 shadow-2xl max-h-[85vh] flex flex-col">
-      <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-          <i class="fa-solid fa-user-check text-indigo-600"></i> Quản lý danh sách tham gia
-        </h3>
-        <button onclick="closeModal('modalAdminThamGia')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="text-xs text-slate-600 font-semibold" id="adminThamGiaTitle"></div>
-
-      <div class="overflow-y-auto max-h-60 border rounded-xl p-2 bg-slate-50 space-y-1.5" id="adminThamGiaCheckboxList"></div>
-
-      <div class="flex justify-between items-center pt-2 border-t text-xs">
-        <button type="button" onclick="selectAllThamGia(true)" class="text-indigo-600 font-bold hover:underline">Chọn tất cả</button>
-        <button type="button" onclick="selectAllThamGia(false)" class="text-slate-500 font-medium hover:underline">Bỏ chọn hết</button>
-        <div class="flex gap-2">
-          <button type="button" onclick="closeModal('modalAdminThamGia')" class="px-3 py-1.5 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
-          <button type="button" id="btnSubmitAdminThamGia" onclick="saveAdminThamGia()" class="px-4 py-1.5 bg-indigo-600 text-white rounded-lg font-bold">Lưu danh sách</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CÁC MODALS NHẬP LIỆU KHÁC -->
+  <!-- MODAL GHI NHẬN VI PHẠM (HỖ TRỢ CẢ LỖI CÁ NHÂN VÀ LỖI TẬP THỂ CẢ LỚP) -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
       <form onsubmit="submitViPham(event)" class="space-y-3 text-xs">
         <div>
-          <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
-          <select id="vp_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50"></select>
+          <label class="block font-semibold text-slate-600 mb-1">Đối tượng vi phạm:</label>
+          <select id="vp_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium"></select>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Loại lỗi:</label>
-            <input type="text" id="vp_loailoi" placeholder="Đi trễ, Quên bài..." required class="w-full border rounded-lg p-2 bg-slate-50">
+            <input type="text" id="vp_loailoi" placeholder="Đi trễ, Sổ đầu bài B, Vệ sinh..." required class="w-full border rounded-lg p-2 bg-slate-50">
           </div>
           <div>
-            <label class="block font-semibold text-slate-600 mb-1">Điểm trừ:</label>
-            <input type="number" id="vp_diemtru" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50">
+            <label class="block font-semibold text-slate-600 mb-1">Tổng điểm trừ:</label>
+            <input type="number" id="vp_diemtru" value="2" min="1" max="100" required class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-rose-600">
           </div>
         </div>
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Ghi chú thêm:</label>
-          <input type="text" id="vp_ghichu" placeholder="Tiết 2, không đồng phục..." class="w-full border rounded-lg p-2 bg-slate-50">
+          <input type="text" id="vp_ghichu" placeholder="Tiết 3, tuần 4, lỗi tập thể..." class="w-full border rounded-lg p-2 bg-slate-50">
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeModal('modalViPham')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
@@ -348,13 +335,14 @@
     </div>
   </div>
 
+  <!-- MODAL ĐIỂM CỘNG -->
   <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
       <form onsubmit="submitDiemCong(event)" class="space-y-3 text-xs">
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
-          <select id="dc_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50"></select>
+          <select id="dc_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium"></select>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
@@ -363,7 +351,7 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Điểm cộng:</label>
-            <input type="number" id="dc_diemcong" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50">
+            <input type="number" id="dc_diemcong" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-emerald-600">
           </div>
         </div>
         <div>
@@ -378,6 +366,7 @@
     </div>
   </div>
 
+  <!-- MODAL BÁO BÀI -->
   <div id="modalBaoBai" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-plus text-indigo-600"></i> Đăng báo bài mới</h3>
@@ -408,6 +397,7 @@
     </div>
   </div>
 
+  <!-- MODAL HOẠT ĐỘNG ĐOÀN -->
   <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động</h3>
@@ -438,6 +428,29 @@
     </div>
   </div>
 
+  <!-- MODAL GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG -->
+  <div id="modalAdminThamGia" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-3 shadow-2xl max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-user-check text-indigo-600"></i> Quản lý danh sách tham gia
+        </h3>
+        <button onclick="closeModal('modalAdminThamGia')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="text-xs text-slate-600 font-semibold" id="adminThamGiaTitle"></div>
+      <div class="overflow-y-auto max-h-60 border rounded-xl p-2 bg-slate-50 space-y-1.5" id="adminThamGiaCheckboxList"></div>
+      <div class="flex justify-between items-center pt-2 border-t text-xs">
+        <button type="button" onclick="selectAllThamGia(true)" class="text-indigo-600 font-bold hover:underline">Chọn tất cả</button>
+        <button type="button" onclick="selectAllThamGia(false)" class="text-slate-500 font-medium hover:underline">Bỏ chọn hết</button>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeModal('modalAdminThamGia')" class="px-3 py-1.5 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="button" id="btnSubmitAdminThamGia" onclick="saveAdminThamGia()" class="px-4 py-1.5 bg-indigo-600 text-white rounded-lg font-bold">Lưu danh sách</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TRỰC NHẬT -->
   <div id="modalTrucNhat" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-broom text-emerald-600"></i> Phân công trực nhật</h3>
@@ -492,6 +505,10 @@
     let currentEditingSTTForAvatar = null;
     let currentManagingActivityId = null;
 
+    // Biến lưu tổng điểm phạt tập thể chia đều cho mỗi học sinh
+    let collectivePenaltyPerStudent = 0;
+    let collectiveViolationsList = [];
+
     const AVATAR_LIST_1 = ["🐱","🐶","🐰","🦊","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐧","🐥","🦆","🦉","🦄","🐝","🦋","🐢","🐙","🐬","🐳","🦖","🦕","🦔","🦦","🦥","🦝","🐿️"];
     const AVATAR_LIST_2 = ["🍓","🍒","🍑","🥑","🍉","🍇","🍊","🍋","🍌","🍎","🥝","🥐","🥞","🍩","🧁","🍦","🍧","🍨","🍰","🎂","🍫","🍭","🍮","🍯","🧋","☕","🥤","🍿","🍕","🍔"];
     const AVATAR_LIST_3 = ["🌸","🌺","🌻","🌼","🌷","🍀","🌿","🍄","🌵","🌴","🌈","☀️","⭐","🌟","✨","🌙","🪐","🚀","🎈","🎨","🎭","🎪","🎡","🎠"];
@@ -505,6 +522,7 @@
         const json = await res.json();
         if (json.success) {
           appData = json.data;
+          calculateCollectivePenalty();
           identifyUser();
           renderUI();
           populateStudentSelects();
@@ -519,6 +537,27 @@
       } catch (err) {
         console.error("Lỗi tải dữ liệu:", err);
       }
+    }
+
+    // TÍNH TOÁN LỖI TẬP THỂ VÀ ĐIỂM CHIA ĐỀU
+    function calculateCollectivePenalty() {
+      const totalStudents = (appData.hocSinh || []).length || 1;
+      collectiveViolationsList = (appData.viPham || []).filter(v => String(v.STT).toUpperCase() === "ALL");
+      
+      const totalCollectivePoints = collectiveViolationsList.reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
+      // Chia đều và làm tròn 1 chữ số thập phân
+      collectivePenaltyPerStudent = totalStudents > 0 ? (totalCollectivePoints / totalStudents) : 0;
+      collectivePenaltyPerStudent = Math.round(collectivePenaltyPerStudent * 10) / 10;
+
+      // Cập nhật lại điểm tính toán cho từng học sinh
+      (appData.hocSinh || []).forEach(hs => {
+        const myPersonalTru = (appData.viPham || []).filter(v => String(v.STT) === String(hs.STT)).reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
+        const myPersonalCong = (appData.diemCong || []).filter(d => String(d.STT) === String(hs.STT)).reduce((sum, d) => sum + (Number(d.Diem_Cong) || 0), 0);
+        
+        hs.Tong_Diem_Tru = Math.round((myPersonalTru + collectivePenaltyPerStudent) * 10) / 10;
+        hs.Tong_Diem_Cong = myPersonalCong;
+        hs.Diem_Hien_Tai = Math.round((hs.Tong_Diem_Cong - hs.Tong_Diem_Tru) * 10) / 10;
+      });
     }
 
     function identifyUser() {
@@ -588,7 +627,7 @@
         `).join('');
       }
 
-      // 2. Danh sách học sinh
+      // 2. Danh sách học sinh ở Tab Rèn luyện
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
@@ -622,6 +661,26 @@
             </div>
           `;
         }).join('');
+      }
+
+      // Khung hiển thị Lỗi Tập Thể ở Tab Rèn luyện
+      const collectiveBox = document.getElementById("collectiveViolationBox");
+      const collectiveList = document.getElementById("collectiveViolationList");
+      const collectiveBadge = document.getElementById("collectivePerStudentBadge");
+      if (collectiveViolationsList.length > 0) {
+        collectiveBox.classList.remove("hidden");
+        collectiveBadge.innerText = `-${collectivePenaltyPerStudent} đ / mỗi HS`;
+        collectiveList.innerHTML = collectiveViolationsList.map(v => `
+          <div class="bg-white p-2 rounded-lg border border-rose-100 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
+              <span class="text-[10px] text-slate-400 block">${v.Ngay} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'} • ${v.Ghi_Chu || ''}</span>
+            </div>
+            <span class="font-black text-rose-600">Tổng trừ: -${v.Diem_Tru}đ</span>
+          </div>
+        `).join('');
+      } else {
+        collectiveBox.classList.add("hidden");
       }
 
       // 3. Hoạt động Đoàn
@@ -699,7 +758,6 @@
       const studentOptions = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
       select.innerHTML = defaultOption + studentOptions;
 
-      // Nếu người đăng nhập là học sinh trong lớp -> Tự động hiện hồ sơ của chính bạn đó
       const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
       if (currentUser) {
         select.value = currentUser.STT;
@@ -744,7 +802,7 @@
       const today = new Date();
       const isBirthdayToday = birthDate && (birthDate.day === today.getDate() && birthDate.month === (today.getMonth() + 1));
 
-      // CHỈ CHÍNH CHỦ HỌC SINH ĐĂNG NHẬP MỚI ĐỔI ĐƯỢC AVATAR
+      // Chỉ chính chủ học sinh mới có quyền đổi Avatar
       const loggedInStudent = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
       const isExactOwner = loggedInStudent && (String(loggedInStudent.STT) === String(hs.STT));
 
@@ -762,7 +820,6 @@
         <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
           <div class="flex justify-between items-start">
             <div class="flex items-center gap-3">
-              <!-- KHUNG AVATAR: CHỈ CHÍNH CHỦ MỚI CLICK ĐƯỢC VÀ CÓ BÚT SỬA -->
               <div class="relative group ${isExactOwner ? 'cursor-pointer' : ''}" 
                    onclick="${isExactOwner ? `openAvatarModal('${hs.STT}')` : ''}" 
                    title="${isExactOwner ? 'Bấm để đổi Avatar của bạn' : ''}">
@@ -792,12 +849,13 @@
               <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-rose-200">Tổng điểm trừ</span>
+              <span class="text-[10px] block text-rose-200">Tổng điểm trừ (gồm lỗi chung)</span>
               <span class="text-sm font-bold text-rose-300">-${hs.Tong_Diem_Tru || 0} đ</span>
             </div>
           </div>
         </div>
 
+        <!-- DANH SÁCH HOẠT ĐỘNG THAM GIA -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã đăng ký</span>
@@ -816,6 +874,7 @@
           </div>
         </div>
 
+        <!-- DANH SÁCH ĐIỂM CỘNG -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Lịch sử điểm cộng</span>
@@ -837,12 +896,28 @@
           </div>
         </div>
 
+        <!-- DANH SÁCH VI PHẠM (GỒM CẢ VI PHẠM CÁ NHÂN VÀ PHẦN LỖI CHUNG CẢ LỚP) -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lịch sử lỗi vi phạm</span>
-            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length}</span>
+            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lịch sử lỗi vi phạm & Trách nhiệm tập thể</span>
+            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length + (collectivePenaltyPerStudent > 0 ? 1 : 0)}</span>
           </h4>
-          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+          
+          <div class="space-y-1.5 max-h-56 overflow-y-auto">
+            <!-- Hiển thị phần chia đều lỗi tập thể nếu có -->
+            ${collectivePenaltyPerStudent > 0 ? `
+              <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs space-y-1">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-amber-900"><i class="fa-solid fa-users-viewfinder mr-1"></i>Trách nhiệm lỗi tập thể cả lớp</span>
+                  <span class="font-black text-rose-600">-${collectivePenaltyPerStudent}đ</span>
+                </div>
+                <div class="text-[10px] text-amber-700 leading-tight">
+                  (Tổng cộng ${collectiveViolationsList.length} lỗi tập thể chung của lớp được chia đều cho từng thành viên).
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Hiển thị các lỗi cá nhân riêng -->
             ${myViPham.length > 0 ? myViPham.slice().reverse().map(v => `
               <div class="bg-rose-50/50 p-2 rounded-lg border border-rose-100 text-xs">
                 <div class="flex justify-between items-center">
@@ -854,7 +929,7 @@
                   <span class="text-rose-400">${v.Ghi_Chu || ''}</span>
                 </div>
               </div>
-            `).join('') : '<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào.</div>'}
+            `).join('') : (collectivePenaltyPerStudent === 0 ? '<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào.</div>' : '')}
           </div>
         </div>
       `;
@@ -1245,8 +1320,8 @@
         const members = appData.hocSinh.filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
         const tongCong = members.reduce((sum, h) => sum + (Number(h.Tong_Diem_Cong) || 0), 0);
         const tongTru = members.reduce((sum, h) => sum + (Number(h.Tong_Diem_Tru) || 0), 0);
-        const diemThiDua = tongCong - tongTru;
-        return { tenTo, membersCount: members.length, tongCong, tongTru, diemThiDua };
+        const diemThiDua = Math.round((tongCong - tongTru) * 10) / 10;
+        return { tenTo, membersCount: members.length, tongCong, tongTru: Math.round(tongTru * 10)/10, diemThiDua };
       });
 
       stats.sort((a, b) => b.diemThiDua - a.diemThiDua);
@@ -1419,9 +1494,15 @@
 
     function populateStudentSelects() {
       if (!appData.hocSinh) return;
-      const options = appData.hocSinh.map(h => `<option value="${h.STT}" data-name="${h.Ho_Ten}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
-      if (document.getElementById("vp_hocsinh")) document.getElementById("vp_hocsinh").innerHTML = options;
-      if (document.getElementById("dc_hocsinh")) document.getElementById("dc_hocsinh").innerHTML = options;
+      
+      // Select cho Vi Phạm (Thêm tùy chọn ALL - Lỗi tập thể cả lớp)
+      let vpOptions = `<option value="ALL" data-name="Cả lớp (Lỗi tập thể - Chia đều)">👥 CẢ LỚP (Lỗi tập thể - Chia đều cả lớp)</option>`;
+      vpOptions += appData.hocSinh.map(h => `<option value="${h.STT}" data-name="${h.Ho_Ten}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      if (document.getElementById("vp_hocsinh")) document.getElementById("vp_hocsinh").innerHTML = vpOptions;
+
+      // Select cho Điểm Cộng
+      const dcOptions = appData.hocSinh.map(h => `<option value="${h.STT}" data-name="${h.Ho_Ten}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      if (document.getElementById("dc_hocsinh")) document.getElementById("dc_hocsinh").innerHTML = dcOptions;
     }
 
     async function submitViPham(e) {
