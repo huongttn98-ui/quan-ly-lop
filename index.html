@@ -44,7 +44,7 @@
   <main class="max-w-5xl mx-auto p-3 space-y-4">
 
     <!-- ============================================================== -->
-    <!-- TAB 1: TRANG CHỦ (TỔNG HỢP CÁC HOẠT ĐỘNG TƯƠNG LAI GẦN) -->
+    <!-- TAB 1: TRANG CHỦ -->
     <!-- ============================================================== -->
     <section id="tab-trangchu" class="tab-content active space-y-3">
       
@@ -250,7 +250,7 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- TAB 6: SƠ ĐỒ LỚP HỌC 10C5 (24 BÀN) -->
+    <!-- TAB 6: SƠ ĐỒ LỚP HỌC 10C5 -->
     <!-- ============================================================== -->
     <section id="tab-sodolop" class="tab-content space-y-3">
       <div class="flex justify-between items-center flex-wrap gap-2">
@@ -439,7 +439,7 @@
     </div>
   </div>
 
-  <!-- MODAL BÁO BÀI -->
+  <!-- MODAL BÁO BÀI (CHỌN HẠN NỘP / KIỂM TRA BẰNG LỊCH) -->
   <div id="modalBaoBai" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base flex items-center justify-between">
@@ -451,20 +451,21 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Thứ & Tiết:</label>
-            <input type="text" id="bb_thutiet" placeholder="Thứ 3 (Tiết 1-2)" required class="w-full border rounded-lg p-2 bg-slate-50">
+            <input type="text" id="bb_thutiet" placeholder="Thứ 3 (Tiết 1-2)" required class="w-full border rounded-lg p-2.5 bg-slate-50">
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Môn học:</label>
-            <input type="text" id="bb_monhoc" placeholder="Toán, Văn..." required class="w-full border rounded-lg p-2 bg-slate-50">
+            <input type="text" id="bb_monhoc" placeholder="Toán, Văn, Anh..." required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium">
           </div>
         </div>
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Nội dung báo bài:</label>
-          <textarea id="bb_noidung" rows="3" placeholder="Làm bài tập trang 45 SGK..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+          <textarea id="bb_noidung" rows="3" placeholder="Làm bài tập trang 45 SGK, chuẩn bị bài mới..." required class="w-full border rounded-lg p-2.5 bg-slate-50"></textarea>
         </div>
         <div>
+          <!-- CHỌN HẠN BẰNG LỊCH -->
           <label class="block font-semibold text-slate-600 mb-1">Hạn nộp / Kiểm tra:</label>
-          <input type="text" id="bb_hannop" placeholder="Thứ 5 tuần này" required class="w-full border rounded-lg p-2 bg-slate-50">
+          <input type="date" id="bb_hannop" required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium cursor-pointer">
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeModal('modalBaoBai')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
@@ -474,7 +475,7 @@
     </div>
   </div>
 
-  <!-- MODAL HOẠT ĐỘNG ĐOÀN (DÁN ẢNH CTRL+V & ĐÍNH KÈM ẢNH) -->
+  <!-- MODAL HOẠT ĐỘNG ĐOÀN -->
   <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 class="font-bold text-slate-800 text-base flex items-center justify-between">
@@ -485,7 +486,7 @@
         <input type="hidden" id="hd_edit_id" value="">
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Tên hoạt động:</label>
-          <input type="text" id="hd_ten" placeholder="Kéo co, Văn nghệ, Cuộc thi..." required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium">
+          <input type="text" id="hd_ten" placeholder="Kéo co, Văn nghệ, Rung chuông vàng..." required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium">
         </div>
 
         <!-- Ô NỘI DUNG TÍCH HỢP ĐÍNH KÈM & DÁN ẢNH CTRL+V -->
@@ -513,18 +514,30 @@
         <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Hạn chót:</label>
-            <input type="text" id="hd_hanchot" placeholder="23/8/2026" required class="w-full border rounded-lg p-2 bg-slate-50">
+            <input type="date" id="hd_hanchot" required class="w-full border rounded-lg p-2 bg-slate-50 font-medium cursor-pointer">
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Điểm cộng:</label>
             <input type="number" id="hd_diemcong" value="5" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-emerald-600">
           </div>
           <div>
-            <label class="block font-semibold text-slate-600 mb-1" title="Số lượng tối đa cần tuyển">Giới hạn HS:</label>
+            <label class="block font-semibold text-slate-600 mb-1">Giới hạn HS:</label>
             <input type="number" id="hd_gioihan" value="0" min="0" max="60" placeholder="0 = Tự do" class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-indigo-600">
           </div>
         </div>
-        <p class="text-[10px] text-slate-400 italic">💡 Mẹo: Nhập "Giới hạn HS" (ví dụ: 5 bạn). Khi đủ 5 bạn đăng ký, hệ thống sẽ tự đóng đăng ký.</p>
+
+        <!-- TÙY CHỌN THI ĐUA CẤP TRƯỜNG (X2 ĐIỂM NẾU CÓ GIẢI) -->
+        <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hd_co_giai_x2" class="rounded text-amber-600 focus:ring-amber-500 w-4 h-4">
+            <span class="text-xs font-black text-amber-900">
+              🏆 Hoạt động thi đua cấp trường (Đạt giải x2 điểm rèn luyện)
+            </span>
+          </label>
+          <p class="text-[10px] text-amber-700 mt-1 italic leading-tight">
+            Khi bật tính năng này, học sinh tham gia đạt giải sẽ tự động được nhân đôi số điểm cộng rèn luyện vào bảng điểm cá nhân!
+          </p>
+        </div>
 
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeModal('modalHoatDong')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
@@ -624,14 +637,31 @@
 
     let collectivePenaltyPerStudent = 0;
     let collectiveViolationsList = [];
-    
-    // BIẾN CỜ KIỂM SOÁT PHÁO HOA (CHỈ BẮN 1 LẦN KHI MỚI VÀO WEB)
     let hasTriggeredBirthdayConfetti = false;
 
     const AVATAR_LIST_1 = ["🐱","🐶","🐰","🦊","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐧","🐥","🦆","🦉","🦄","🐝","🦋","🐢","🐙","🐬","🐳","🦖","🦕","🦔","🦦","🦥","🦝","🐿️"];
     const AVATAR_LIST_2 = ["🍓","🍒","🍑","🥑","🍉","🍇","🍊","🍋","🍌","🍎","🥝","🥐","🥞","🍩","🧁","🍦","🍧","🍨","🍰","🎂","🍫","🍭","🍮","🍯","🧋","☕","🥤","🍿","🍕","🍔"];
     const AVATAR_LIST_3 = ["🌸","🌺","🌻","🌼","🌷","🍀","🌿","🍄","🌵","🌴","🌈","☀️","⭐","🌟","✨","🌙","🪐","🚀","🎈","🎨","🎭","🎪","🎡","🎠"];
     const AVATAR_LIST_4 = ["🐱‍👓","🐱‍👤","🧙‍♂️","🧙‍♀️","🧚‍♂️","🧚‍♀️","🦸‍♂️","🦸‍♀️","🐱‍🚀","🥰","🤩","🥳","😎","😺","😸","😻","😽","👾","🤖","👻","🧸","🎀","👑","💎"];
+
+    // HÀM CHUẨN HÓA ĐỊNH DẠNG NGÀY HIỂN THỊ ĐẸP (DD/MM/YYYY)
+    function formatDisplayDate(dateStr) {
+      if (!dateStr) return "";
+      const str = String(dateStr).trim();
+      if (str.includes("T")) {
+        const d = new Date(str);
+        if (!isNaN(d.getTime())) {
+          const day = String(d.getDate()).padStart(2, '0');
+          const month = String(d.getMonth() + 1).padStart(2, '0');
+          return `${day}/${month}/${d.getFullYear()}`;
+        }
+      }
+      if (str.includes("-") && str.length === 10) {
+        const parts = str.split("-");
+        if (parts[0].length === 4) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return str;
+    }
 
     async function loadData() {
       identifyUser();
@@ -783,7 +813,7 @@
                 <span class="font-bold text-slate-800 text-xs">${bb.Noi_Dung_Bao_Bai}</span>
                 <div class="text-[10px] text-slate-400 mt-0.5">Tiết: ${bb.Thu_Tiet}</div>
               </div>
-              <span class="text-rose-500 font-bold text-xs whitespace-nowrap ml-2"><i class="fa-regular fa-clock mr-0.5"></i>${bb.Han_Nop_Kiem_Tra}</span>
+              <span class="text-rose-500 font-bold text-xs whitespace-nowrap ml-2"><i class="fa-regular fa-clock mr-0.5"></i>${formatDisplayDate(bb.Han_Nop_Kiem_Tra)}</span>
             </div>
           `).join('');
         } else {
@@ -799,8 +829,11 @@
           homeHD.innerHTML = recentHD.map(hd => `
             <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex justify-between items-center">
               <div>
-                <div class="font-bold text-slate-800 text-xs">${hd.Ten_HoatDong}</div>
-                <div class="text-[10px] text-rose-500 mt-0.5 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn: ${hd.Han_Chot}</div>
+                <div class="font-bold text-slate-800 text-xs flex items-center gap-1">
+                  ${hd.Ten_HoatDong}
+                  ${hd.Co_Giai_X2 ? '<span class="text-[9px] bg-amber-100 text-amber-800 px-1 py-0.2 rounded font-extrabold">🏆 x2</span>' : ''}
+                </div>
+                <div class="text-[10px] text-rose-500 mt-0.5 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn: ${formatDisplayDate(hd.Han_Chot)}</div>
               </div>
               <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
             </div>
@@ -814,19 +847,21 @@
     function renderUI() {
       const isGVCN = (currentUserRole === "GVCN");
 
-      // 1. Báo bài
+      // 1. Báo bài (Hiển thị ngày chuẩn DD/MM/YYYY)
       const listBB = document.getElementById("listBaoBai");
       if (!appData.baoBai || appData.baoBai.length === 0) {
         listBB.innerHTML = '<div class="text-xs text-slate-400 text-center py-6">Chưa có thông báo bài mới.</div>';
       } else {
         listBB.innerHTML = appData.baoBai.slice().reverse().map((bb, idx) => {
           const actualRowIndex = appData.baoBai.length - idx + 1;
+          const displayDate = formatDisplayDate(bb.Han_Nop_Kiem_Tra);
+
           return `
             <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-1.5">
               <div class="flex justify-between items-center">
                 <span class="bg-indigo-50 text-indigo-700 text-[11px] font-bold px-2 py-0.5 rounded border border-indigo-100">${bb.Mon_Hoc}</span>
                 <div class="flex items-center gap-2">
-                  <span class="text-[11px] text-rose-500 font-semibold"><i class="fa-regular fa-clock"></i> Hạn: ${bb.Han_Nop_Kiem_Tra}</span>
+                  <span class="text-[11px] text-rose-500 font-semibold"><i class="fa-regular fa-clock"></i> Hạn: ${displayDate}</span>
                   ${isGVCN ? `
                     <button onclick="openEditBaoBaiModal(${actualRowIndex})" class="text-indigo-600 hover:text-indigo-800 text-xs px-1.5 py-0.5 bg-indigo-50 rounded border border-indigo-200" title="Chỉnh sửa"><i class="fa-solid fa-pen"></i></button>
                     <button onclick="deleteBaoBaiItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200" title="Xóa"><i class="fa-solid fa-trash"></i></button>
@@ -893,7 +928,7 @@
           <div class="bg-white p-2 rounded-lg border border-rose-100 flex justify-between items-center">
             <div>
               <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
-              <span class="text-[10px] text-slate-400 block">${v.Ngay} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'} • ${v.Ghi_Chu || ''}</span>
+              <span class="text-[10px] text-slate-400 block">${formatDisplayDate(v.Ngay)} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'} • ${v.Ghi_Chu || ''}</span>
             </div>
             <span class="font-black text-rose-600">Tổng trừ: -${v.Diem_Tru}đ</span>
           </div>
@@ -916,12 +951,14 @@
           const hasImage = hd.Hinh_Anh && hd.Hinh_Anh.startsWith("data:image");
           const gioiHan = Number(hd.Gioi_Han) || 0;
           const isFull = (gioiHan > 0 && dsArray.length >= gioiHan && !isJoined);
+          const displayDate = formatDisplayDate(hd.Han_Chot);
 
           return `
             <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2.5">
               <div class="flex justify-between items-center">
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
                   <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
+                  ${hd.Co_Giai_X2 ? '<span class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-black text-[9px] px-1.5 py-0.2 rounded shadow-2xs">🏆 THI ĐUA TRƯỜNG (X2 ĐIỂM)</span>' : ''}
                   ${gioiHan > 0 ? `<span class="bg-indigo-50 text-indigo-700 font-extrabold text-[9px] px-1.5 py-0.2 rounded border border-indigo-200">Chỉ tiêu: ${dsArray.length}/${gioiHan}</span>` : ''}
                 </div>
                 <div class="flex items-center gap-1.5">
@@ -940,7 +977,7 @@
               ` : ''}
 
               <p class="text-xs text-slate-600 leading-relaxed">${hd.Noi_Dung}</p>
-              <div class="text-[10px] text-rose-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn đăng ký: ${hd.Han_Chot}</div>
+              <div class="text-[10px] text-rose-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn đăng ký: ${displayDate}</div>
               
               <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] text-slate-600">
                 <div class="font-semibold text-slate-700 mb-0.5 flex justify-between items-center">
@@ -996,9 +1033,7 @@
       }
     }
 
-    // ==============================================================
-    // TIỆN ÍCH DÁN ẢNH (CTRL+V) & TẢI ẢNH ĐÍNH KÈM
-    // ==============================================================
+    // TIỆN ÍCH DÁN ẢNH & ĐÍNH KÈM
     function handlePasteImage(event) {
       const items = (event.clipboardData || event.originalEvent.clipboardData).items;
       for (let item of items) {
@@ -1041,7 +1076,6 @@
       w.document.write(`<img src="${src}" style="max-width:100%;height:auto;margin:auto;display:block;">`);
     }
 
-    // GỢI Ý CHỌN NHANH HỌC SINH / TỔ TRỰC
     function initQuickSelectTN() {
       const container = document.getElementById("quickSelectStudentForTN");
       if (!container || !appData.hocSinh) return;
@@ -1058,9 +1092,7 @@
       input.value = input.value ? (input.value + ", " + val) : val;
     }
 
-    // ==============================================================
-    // LOGIC CHỈNH SỬA & XÓA CỦA GVCN
-    // ==============================================================
+    // MỞ MODAL SỬA BÁO BÀI (CHUYỂN NGÀY VÀO INPUT DATE)
     function openEditBaoBaiModal(rowIndex) {
       const bb = appData.baoBai[appData.baoBai.length - (rowIndex - 1)];
       if (!bb) return;
@@ -1070,7 +1102,20 @@
       document.getElementById("bb_thutiet").value = bb.Thu_Tiet;
       document.getElementById("bb_monhoc").value = bb.Mon_Hoc;
       document.getElementById("bb_noidung").value = bb.Noi_Dung_Bao_Bai;
-      document.getElementById("bb_hannop").value = bb.Han_Nop_Kiem_Tra;
+
+      let dateVal = "";
+      if (bb.Han_Nop_Kiem_Tra) {
+        const parts = String(bb.Han_Nop_Kiem_Tra).split("/");
+        if (parts.length === 3) dateVal = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+        else if (String(bb.Han_Nop_Kiem_Tra).includes("T")) {
+          const d = new Date(bb.Han_Nop_Kiem_Tra);
+          if (!isNaN(d.getTime())) dateVal = d.toISOString().split('T')[0];
+        } else {
+          dateVal = bb.Han_Nop_Kiem_Tra;
+        }
+      }
+      document.getElementById("bb_hannop").value = dateVal;
+
       openModal("modalBaoBai");
     }
 
@@ -1087,9 +1132,24 @@
       document.getElementById("hd_edit_id").value = idHoatDong;
       document.getElementById("hd_ten").value = hd.Ten_HoatDong;
       document.getElementById("hd_noidung").value = hd.Noi_Dung;
-      document.getElementById("hd_hanchot").value = hd.Han_Chot;
+      
+      let dateVal = "";
+      if (hd.Han_Chot) {
+        const parts = String(hd.Han_Chot).split("/");
+        if (parts.length === 3) dateVal = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+        else if (String(hd.Han_Chot).includes("T")) {
+          const d = new Date(hd.Han_Chot);
+          if (!isNaN(d.getTime())) dateVal = d.toISOString().split('T')[0];
+        } else {
+          dateVal = hd.Han_Chot;
+        }
+      }
+      document.getElementById("hd_hanchot").value = dateVal;
+
       document.getElementById("hd_diemcong").value = hd.Diem_Cong;
       document.getElementById("hd_gioihan").value = hd.Gioi_Han || 0;
+      document.getElementById("hd_co_giai_x2").checked = Boolean(hd.Co_Giai_X2);
+
       if (hd.Hinh_Anh) {
         document.getElementById("hd_base64_image").value = hd.Hinh_Anh;
         document.getElementById("hd_image_preview").src = hd.Hinh_Anh;
@@ -1123,9 +1183,6 @@
       await sendPostRequest("deleteTrucNhat", { rowIndex: rowIndex }, "btnSubmitTN", "modalTrucNhat");
     }
 
-    // ==============================================================
-    // LOGIC HỒ SƠ RÈN LUYỆN CÁ NHÂN
-    // ==============================================================
     function setupPersonalTab() {
       const select = document.getElementById("selectTraCuuHS");
       if (!select || !appData.hocSinh) return;
@@ -1193,7 +1250,7 @@
                 <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold">STT: #${hs.STT} • ${hs.To}</span>
                 <h3 class="text-lg font-black mt-0.5">${hs.Ho_Ten}</h3>
                 <p class="text-xs text-indigo-100 flex items-center gap-1.5 mt-0.5">
-                  <span><i class="fa-solid fa-cake-candles text-pink-300"></i> ${hs.Ngay_Sinh || 'Chưa có ngày sinh'}</span>
+                  <span><i class="fa-solid fa-cake-candles text-pink-300"></i> ${formatDisplayDate(hs.Ngay_Sinh) || 'Chưa có ngày sinh'}</span>
                   <span>•</span>
                   <span><i class="fa-solid fa-user-shield"></i> ${hs.Chuc_Vu}</span>
                 </p>
@@ -1206,7 +1263,7 @@
           </div>
           <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/20 text-center">
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-emerald-200">Tổng điểm cộng</span>
+              <span class="text-[10px] block text-emerald-200">Tổng điểm thưởng</span>
               <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
@@ -1216,10 +1273,9 @@
           </div>
         </div>
 
-        <!-- DANH SÁCH HOẠT ĐỘNG THAM GIA -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã đăng ký</span>
+            <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã tham gia</span>
             <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myHoatDong.length}</span>
           </h4>
           <div class="space-y-1.5">
@@ -1227,15 +1283,15 @@
               <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex justify-between items-center text-xs">
                 <div>
                   <span class="font-bold text-slate-800">${h.Ten_HoatDong}</span>
-                  <span class="text-[10px] text-slate-400 block">Hạn: ${h.Han_Chot}</span>
+                  ${h.Co_Giai_X2 ? '<span class="bg-amber-100 text-amber-800 font-extrabold text-[9px] px-1.5 py-0.2 rounded ml-1">🏆 Giải thi đua</span>' : ''}
+                  <span class="text-[10px] text-slate-400 block">Hạn: ${formatDisplayDate(h.Han_Chot)}</span>
                 </div>
-                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">+${h.Diem_Cong}đ</span>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">+${h.Co_Giai_X2 ? (h.Diem_Cong * 2) : h.Diem_Cong}đ</span>
               </div>
-            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa đăng ký tham gia hoạt động nào.</div>'}
+            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa tham gia hoạt động nào.</div>'}
           </div>
         </div>
 
-        <!-- DANH SÁCH ĐIỂM CỘNG -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Lịch sử điểm cộng</span>
@@ -1249,7 +1305,7 @@
                   <span class="font-black text-emerald-600">+${d.Diem_Cong}đ</span>
                 </div>
                 <div class="text-[10px] text-slate-400 flex justify-between mt-1">
-                  <span>${d.Ngay} • Ghi: ${d.Nguoi_Ghi || 'GV'}</span>
+                  <span>${formatDisplayDate(d.Ngay)} • Ghi: ${d.Nguoi_Ghi || 'GV'}</span>
                   <span>${d.Ghi_Chu || ''}</span>
                 </div>
               </div>
@@ -1257,7 +1313,6 @@
           </div>
         </div>
 
-        <!-- DANH SÁCH VI PHẠM -->
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lịch sử lỗi vi phạm & Trách nhiệm tập thể</span>
@@ -1284,7 +1339,7 @@
                   <span class="font-black text-rose-600">-${v.Diem_Tru}đ</span>
                 </div>
                 <div class="text-[10px] text-slate-400 flex justify-between mt-1">
-                  <span>${v.Ngay} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'}</span>
+                  <span>${formatDisplayDate(v.Ngay)} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'}</span>
                   <span class="text-rose-400">${v.Ghi_Chu || ''}</span>
                 </div>
               </div>
@@ -1294,9 +1349,6 @@
       `;
     }
 
-    // ==============================================================
-    // GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG
-    // ==============================================================
     function openAdminThamGiaModal(idHoatDong) {
       currentManagingActivityId = idHoatDong;
       const hd = (appData.hoatDong || []).find(h => String(h.ID_HoatDong) === String(idHoatDong));
@@ -1360,9 +1412,6 @@
       }
     }
 
-    // ==============================================================
-    // CHỌN AVATAR
-    // ==============================================================
     function initAvatarModalIcons() {
       const renderGroup = (id, list) => {
         const el = document.getElementById(id);
@@ -1415,9 +1464,6 @@
       }
     }
 
-    // ==============================================================
-    // SƠ ĐỒ LỚP HỌC 24 BÀN
-    // ==============================================================
     function initSeatingState() {
       const saved = localStorage.getItem("seating_state_lop10c5");
       if (saved) {
@@ -1536,7 +1582,6 @@
       }).join('');
     }
 
-    // KÉO THẢ VỊ TRÍ
     let dragData = null;
 
     function handleDragStart(e, stt, fromSeat) {
@@ -1669,7 +1714,6 @@
       }
     }
 
-    // THI ĐUA TỔ & LAO ĐỘNG CUỐI THÁNG
     function renderThiDuaTo() {
       const container = document.getElementById("rankingToContainer");
       if (!container || !appData.hocSinh) return;
@@ -1752,7 +1796,6 @@
       }).join('');
     }
 
-    // SINH NHẬT
     function parseDate(dateStr) {
       if (!dateStr) return null;
       const str = String(dateStr).trim();
@@ -1804,7 +1847,6 @@
         banner.classList.remove("hidden");
         nameBox.innerText = todayBirthdays.map(h => `${h.Avatar || '🎂'} ${h.Ho_Ten} (#${h.STT} - ${h.To})`).join("  •  ");
         
-        // CHỈ TỰ ĐỘNG BẮN PHÁO HOA 1 LẦN DUY NHẤT KHI MỚI VÀO WEB
         if (!hasTriggeredBirthdayConfetti) {
           setTimeout(() => triggerConfetti(), 800);
           hasTriggeredBirthdayConfetti = true;
@@ -1895,35 +1937,53 @@
       await sendPostRequest("addDiemCong", payload, "btnSubmitDC", "modalDiemCong");
     }
 
+    // ĐĂNG/SỬA BÁO BÀI VỚI HẠN NỘP BẰNG LỊCH
     async function submitBaoBai(e) {
       e.preventDefault();
       const editIndex = document.getElementById("bb_row_index").value;
       const isEditing = Boolean(editIndex);
+
+      // Chuyển ngày dạng YYYY-MM-DD từ input date sang DD/MM/YYYY
+      const rawDate = document.getElementById("bb_hannop").value;
+      let formattedDate = rawDate;
+      if (rawDate && rawDate.includes("-")) {
+        const parts = rawDate.split("-");
+        formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
 
       const payload = {
         rowIndex: editIndex,
         thuTiet: document.getElementById("bb_thutiet").value,
         monHoc: document.getElementById("bb_monhoc").value,
         noiDung: document.getElementById("bb_noidung").value,
-        hanNop: document.getElementById("bb_hannop").value
+        hanNop: formattedDate
       };
       await sendPostRequest(isEditing ? "editBaoBai" : "addBaoBai", payload, "btnSubmitBB", "modalBaoBai");
       document.getElementById("bb_row_index").value = "";
       document.getElementById("modalBaoBaiTitle").innerText = "Đăng báo bài mới";
     }
 
+    // TẠO/SỬA HOẠT ĐỘNG
     async function submitHoatDong(e) {
       e.preventDefault();
       const editId = document.getElementById("hd_edit_id").value;
       const isEditing = Boolean(editId);
 
+      const rawDate = document.getElementById("hd_hanchot").value;
+      let formattedDate = rawDate;
+      if (rawDate && rawDate.includes("-")) {
+        const parts = rawDate.split("-");
+        formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+
       const payload = {
         idHoatDong: editId,
         tenHoatDong: document.getElementById("hd_ten").value,
         noiDung: document.getElementById("hd_noidung").value,
-        hanChot: document.getElementById("hd_hanchot").value,
+        hanChot: formattedDate,
         diemCong: document.getElementById("hd_diemcong").value,
         gioiHan: Number(document.getElementById("hd_gioihan").value) || 0,
+        coGiaiX2: document.getElementById("hd_co_giai_x2").checked,
         hinhAnh: document.getElementById("hd_base64_image").value
       };
       await sendPostRequest(isEditing ? "editHoatDong" : "addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
