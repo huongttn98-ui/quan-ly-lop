@@ -61,13 +61,12 @@
       </div>
     </div>
 
-    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN & SINH NHẬT & ĐỔI AVATAR -->
+    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN -->
     <section id="tab-canhan" class="tab-content active space-y-3">
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện cá nhân</h2>
       </div>
 
-      <!-- KHUNG SINH NHẬT THÁNG NÀY -->
       <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
@@ -78,7 +77,6 @@
         <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
       
-      <!-- HỘP CHỌN HỌC SINH TRA CỨU -->
       <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
         <label class="text-xs font-bold text-slate-600 whitespace-nowrap"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu HS:</label>
         <select id="selectTraCuuHS" onchange="renderHoSoCaNhan(this.value)" class="w-full text-xs font-semibold border rounded-lg p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
@@ -147,7 +145,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng tham gia vệ sinh toàn trường:
+          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -173,9 +171,7 @@
         </button>
       </div>
 
-      <!-- KHUNG BẢNG SƠ ĐỒ LỚP HỌC -->
       <div class="bg-white rounded-2xl p-4 border border-slate-300 shadow-md space-y-4">
-        
         <div class="text-center border-b pb-3 border-slate-200">
           <h2 class="text-sm md:text-base font-black text-slate-800 tracking-wide uppercase">
             SƠ ĐỒ LỚP 10C5 – GVCN: TRẦN THỊ NGỌC HƯƠNG
@@ -190,38 +186,23 @@
           <div id="unassignedList" class="flex flex-wrap gap-1.5 min-h-[36px] p-1 bg-white/80 rounded-lg border border-dashed border-amber-300" ondragover="allowDrop(event)" ondrop="dropToUnassigned(event)"></div>
         </div>
 
-        <!-- 4 DÃY BÀN: TỔ 1 (CỬA VÀO) -> TỔ 2 -> TỔ 3 -> TỔ 4 (BÀN GV) -->
+        <!-- 4 DÃY BÀN -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
-          <!-- TỔ 1 -->
           <div class="space-y-2">
             <div id="to1_desks" class="space-y-1.5"></div>
-            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">
-              TỔ 1
-            </div>
+            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">TỔ 1</div>
           </div>
-
-          <!-- TỔ 2 -->
           <div class="space-y-2">
             <div id="to2_desks" class="space-y-1.5"></div>
-            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">
-              TỔ 2
-            </div>
+            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">TỔ 2</div>
           </div>
-
-          <!-- TỔ 3 -->
           <div class="space-y-2">
             <div id="to3_desks" class="space-y-1.5"></div>
-            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">
-              TỔ 3
-            </div>
+            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">TỔ 3</div>
           </div>
-
-          <!-- TỔ 4 -->
           <div class="space-y-2">
             <div id="to4_desks" class="space-y-1.5"></div>
-            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">
-              TỔ 4
-            </div>
+            <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">TỔ 4</div>
           </div>
         </div>
 
@@ -233,13 +214,9 @@
               <i class="fa-solid fa-arrow-right-long text-blue-600 text-sm"></i>
             </div>
           </div>
-
           <div class="text-center">
-            <div class="inline-block bg-slate-800 text-white font-black text-xs px-6 md:px-10 py-1.5 rounded-lg border-2 border-slate-700 shadow">
-              BẢNG
-            </div>
+            <div class="inline-block bg-slate-800 text-white font-black text-xs px-6 md:px-10 py-1.5 rounded-lg border-2 border-slate-700 shadow">BẢNG</div>
           </div>
-
           <div class="flex justify-end">
             <div class="bg-amber-50 border-2 border-amber-500 text-amber-900 font-black text-xs px-3 py-1 rounded text-center shadow-xs">
               <div>BÀN</div>
@@ -277,7 +254,7 @@
     </div>
   </nav>
 
-  <!-- MODAL ĐỔI AVATAR (100+ ICON DỄ THƯƠNG) -->
+  <!-- MODAL ĐỔI AVATAR -->
   <div id="modalAvatar" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-2">
@@ -288,22 +265,18 @@
       </div>
 
       <div class="overflow-y-auto space-y-3 pr-1 text-xs">
-        <!-- Nhóm 1: Thú cưng -->
         <div>
           <span class="font-bold text-indigo-600 text-[11px] block mb-1.5">🐱 Thú cưng & Động vật:</span>
           <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup1"></div>
         </div>
-        <!-- Nhóm 2: Đồ ăn & Trái cây -->
         <div>
-          <span class="font-bold text-pink-600 text-[11px] block mb-1.5">🍓 Đồ ăn & Trái cây ngọt ngào:</span>
+          <span class="font-bold text-pink-600 text-[11px] block mb-1.5">🍓 Đồ ăn & Trái cây:</span>
           <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup2"></div>
         </div>
-        <!-- Nhóm 3: Thiên nhiên & Vũ trụ -->
         <div>
           <span class="font-bold text-emerald-600 text-[11px] block mb-1.5">🌸 Thiên nhiên & Vũ trụ:</span>
           <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup3"></div>
         </div>
-        <!-- Nhóm 4: Biểu cảm & Hoạt hình -->
         <div>
           <span class="font-bold text-amber-600 text-[11px] block mb-1.5">😎 Biểu cảm & Nhân vật:</span>
           <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup4"></div>
@@ -312,6 +285,32 @@
       
       <div class="text-[10px] text-slate-400 italic text-center border-t pt-2">
         Nhấn vào icon yêu thích để chọn làm Avatar của bạn.
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MỚI: GVCN / BÍ THƯ / LỚP TRƯỞNG GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG -->
+  <div id="modalAdminThamGia" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-3 shadow-2xl max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-user-check text-indigo-600"></i> Quản lý danh sách tham gia
+        </h3>
+        <button onclick="closeModal('modalAdminThamGia')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="text-xs text-slate-600 font-semibold" id="adminThamGiaTitle"></div>
+
+      <!-- Danh sách học sinh dạng Checkbox -->
+      <div class="overflow-y-auto max-h-60 border rounded-xl p-2 bg-slate-50 space-y-1.5" id="adminThamGiaCheckboxList"></div>
+
+      <div class="flex justify-between items-center pt-2 border-t text-xs">
+        <button type="button" onclick="selectAllThamGia(true)" class="text-indigo-600 font-bold hover:underline">Chọn tất cả</button>
+        <button type="button" onclick="selectAllThamGia(false)" class="text-slate-500 font-medium hover:underline">Bỏ chọn hết</button>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeModal('modalAdminThamGia')" class="px-3 py-1.5 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="button" id="btnSubmitAdminThamGia" onclick="saveAdminThamGia()" class="px-4 py-1.5 bg-indigo-600 text-white rounded-lg font-bold">Lưu danh sách</button>
+        </div>
       </div>
     </div>
   </div>
@@ -489,8 +488,8 @@
     let seatingState = {};
     let selectedStudentForSwap = null;
     let currentEditingSTTForAvatar = null;
+    let currentManagingActivityId = null;
 
-    // BỘ 100+ ICON DỄ THƯƠNG
     const AVATAR_LIST_1 = ["🐱","🐶","🐰","🦊","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐧","🐥","🦆","🦉","🦄","🐝","🦋","🐢","🐙","🐬","🐳","🦖","🦕","🦔","🦦","🦥","🦝","🐿️"];
     const AVATAR_LIST_2 = ["🍓","🍒","🍑","🥑","🍉","🍇","🍊","🍋","🍌","🍎","🥝","🥐","🥞","🍩","🧁","🍦","🍧","🍨","🍰","🎂","🍫","🍭","🍮","🍯","🧋","☕","🥤","🍿","🍕","🍔"];
     const AVATAR_LIST_3 = ["🌸","🌺","🌻","🌼","🌷","🍀","🌿","🍄","🌵","🌴","🌈","☀️","⭐","🌟","✨","🌙","🪐","🚀","🎈","🎨","🎭","🎪","🎡","🎠"];
@@ -623,11 +622,12 @@
         }).join('');
       }
 
-      // 3. Hoạt động Đoàn
+      // 3. Hoạt động Đoàn (Có nút Đăng ký cho HS + Nút Gán DS cho GVCN/Bí thư/Lớp trưởng)
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
         const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
         const myLabel = currentUser ? `#${currentUser.STT} - ${currentUser.Ho_Ten}` : (currentUserRole === "GVCN" ? "Cô Hương (GVCN)" : "");
+        const canManageList = (currentUserRole === "GVCN" || currentUserRole === "Bí thư" || currentUserRole === "Lớp trưởng");
 
         listHD.innerHTML = appData.hoatDong.slice().reverse().map(hd => {
           const ds = String(hd.DS_Tham_Gia || "");
@@ -644,11 +644,16 @@
               <div class="text-[10px] text-rose-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn đăng ký: ${hd.Han_Chot}</div>
               
               <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] text-slate-600">
-                <div class="font-semibold text-slate-700 mb-0.5">
-                  <i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}):
+                <div class="font-semibold text-slate-700 mb-0.5 flex justify-between items-center">
+                  <span><i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}):</span>
+                  ${canManageList ? `
+                    <button onclick="openAdminThamGiaModal('${hd.ID_HoatDong}')" class="text-[10px] text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200 transition">
+                      <i class="fa-solid fa-user-pen mr-1"></i>Thêm / Sửa DS
+                    </button>
+                  ` : ''}
                 </div>
                 <div class="text-[10px] text-slate-500 italic">
-                  ${dsArray.length > 0 ? dsArray.join(", ") : "Chưa có ai đăng ký"}
+                  ${dsArray.length > 0 ? dsArray.join(", ") : "Chưa có ai tham gia"}
                 </div>
               </div>
 
@@ -716,7 +721,6 @@
       const today = new Date();
       const isBirthdayToday = birthDate && (birthDate.day === today.getDate() && birthDate.month === (today.getMonth() + 1));
 
-      // Kiểm tra có quyền đổi Avatar cho học sinh này không (Chính chủ hoặc GVCN)
       const isOwnerOrTeacher = (currentUserRole === "GVCN") || ((appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim())?.STT === hs.STT);
 
       container.innerHTML = `
@@ -733,7 +737,6 @@
         <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
           <div class="flex justify-between items-start">
             <div class="flex items-center gap-3">
-              <!-- KHUNG AVATAR CUTE -->
               <div class="relative group cursor-pointer" onclick="${isOwnerOrTeacher ? `openAvatarModal('${hs.STT}')` : ''}" title="Bấm để đổi Avatar">
                 <div class="text-4xl bg-white/20 hover:bg-white/30 p-2.5 rounded-2xl shadow-inner border border-white/30 transition flex items-center justify-center">
                   ${av}
@@ -830,6 +833,72 @@
     }
 
     // ==============================================================
+    // MODAL VÀ XỬ LÝ GÁN DANH SÁCH THAM GIA HOẠT ĐỘNG
+    // ==============================================================
+    function openAdminThamGiaModal(idHoatDong) {
+      currentManagingActivityId = idHoatDong;
+      const hd = (appData.hoatDong || []).find(h => String(h.ID_HoatDong) === String(idHoatDong));
+      if (!hd) return;
+
+      document.getElementById("adminThamGiaTitle").innerText = `Hoạt động: ${hd.Ten_HoatDong}`;
+      const dsCurrent = String(hd.DS_Tham_Gia || "").split(", ").map(s => s.trim());
+
+      const container = document.getElementById("adminThamGiaCheckboxList");
+      container.innerHTML = (appData.hocSinh || []).map(hs => {
+        const studentLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
+        const isChecked = dsCurrent.includes(studentLabel);
+        return `
+          <label class="flex items-center justify-between p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50/60 transition">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" value="${studentLabel}" class="thamgia-checkbox rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4" ${isChecked ? 'checked' : ''}>
+              <span class="text-xs font-bold text-slate-800">${hs.Avatar || '👤'} #${hs.STT} ${hs.Ho_Ten}</span>
+            </div>
+            <span class="text-[10px] text-slate-400">${hs.To}</span>
+          </label>
+        `;
+      }).join('');
+
+      openModal("modalAdminThamGia");
+    }
+
+    function selectAllThamGia(select) {
+      document.querySelectorAll('.thamgia-checkbox').forEach(cb => cb.checked = select);
+    }
+
+    async function saveAdminThamGia() {
+      if (!currentManagingActivityId) return;
+      const selected = Array.from(document.querySelectorAll('.thamgia-checkbox:checked')).map(cb => cb.value);
+
+      const btn = document.getElementById("btnSubmitAdminThamGia");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "adminUpdateThamGia",
+            userEmail: currentUserEmail,
+            payload: { idHoatDong: currentManagingActivityId, dsHocSinh: selected }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          closeModal("modalAdminThamGia");
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ khi lưu danh sách!");
+      } finally {
+        btn.innerText = "Lưu danh sách";
+        btn.disabled = false;
+      }
+    }
+
+    // ==============================================================
     // MODAL VÀ XỬ LÝ CHỌN AVATAR
     // ==============================================================
     function initAvatarModalIcons() {
@@ -858,7 +927,6 @@
       if (!currentEditingSTTForAvatar) return;
       closeModal("modalAvatar");
 
-      // Cập nhật giao diện tạm thời ngay lập tức
       const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(currentEditingSTTForAvatar));
       if (hs) hs.Avatar = icon;
       renderHoSoCaNhan(currentEditingSTTForAvatar);
