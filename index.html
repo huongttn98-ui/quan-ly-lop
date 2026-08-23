@@ -44,7 +44,7 @@
   <main class="max-w-5xl mx-auto p-3 space-y-4">
 
     <!-- ============================================================== -->
-    <!-- TAB 1: TRANG CHỦ -->
+    <!-- TAB 1: TRANG CHỦ (TỔNG HỢP CÁC HOẠT ĐỘNG TƯƠNG LAI GẦN) -->
     <!-- ============================================================== -->
     <section id="tab-trangchu" class="tab-content active space-y-3">
       
@@ -210,7 +210,7 @@
 
       <!-- DANH SÁCH RÈN LUYỆN TOÀN LỚP -->
       <div class="flex justify-between items-center pt-2">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-shield-halved text-rose-500 mr-1.5"></i> Danh sách Rèn Luyện Lớp 10C5</h2>
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-shield-halved text-rose-500 mr-1.5"></i> Điểm rèn Luyện Lớp 10C5</h2>
         <div class="flex gap-1.5">
           <button id="btnThemDiemCong" onclick="openModal('modalDiemCong')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
             <i class="fa-solid fa-plus"></i> Cộng điểm
@@ -250,7 +250,7 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- TAB 6: SƠ ĐỒ LỚP HỌC 10C5 -->
+    <!-- TAB 6: SƠ ĐỒ LỚP HỌC 10C5 (24 BÀN) -->
     <!-- ============================================================== -->
     <section id="tab-sodolop" class="tab-content space-y-3">
       <div class="flex justify-between items-center flex-wrap gap-2">
@@ -474,11 +474,11 @@
     </div>
   </div>
 
-  <!-- MODAL HOẠT ĐỘNG ĐOÀN (HỖ TRỢ DÁN ẢNH CTRL+V VÀ ĐÍNH KÈM FILE TRỰC TIẾP TRONG Ô NỘI DUNG) -->
+  <!-- MODAL HOẠT ĐỘNG ĐOÀN (DÁN ẢNH CTRL+V & ĐÍNH KÈM ẢNH) -->
   <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 class="font-bold text-slate-800 text-base flex items-center justify-between">
-        <span><i class="fa-solid fa-bullhorn text-amber-600 mr-1.5"></i> <span id="modalHoatDongTitle">Tạo hoạt động</span></span>
+        <span><i class="fa-solid fa-bullhorn text-amber-600 mr-1.5"></i> <span id="modalHoatDongTitle">Tạo hoạt động Đoàn</span></span>
         <button onclick="closeModal('modalHoatDong')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
       </h3>
       <form onsubmit="submitHoatDong(event)" class="space-y-3 text-xs">
@@ -504,7 +504,6 @@
 
           <input type="hidden" id="hd_base64_image" value="">
           
-          <!-- Xem trước ảnh đã dán/tải lên -->
           <div id="hd_image_preview_box" class="hidden relative pt-1 bg-slate-50 p-2 rounded-xl border border-dashed border-amber-300">
             <img id="hd_image_preview" src="" class="max-h-40 rounded-lg mx-auto shadow-xs object-cover">
             <button type="button" onclick="removeAttachedImage()" class="absolute top-2 right-2 bg-rose-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow" title="Xóa ảnh"><i class="fa-solid fa-xmark"></i></button>
@@ -522,7 +521,7 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1" title="Số lượng tối đa cần tuyển">Giới hạn HS:</label>
-            <input type="number" id="hd_gioihan" value="0" min="0" max="48" placeholder="0 = Tự do" class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-indigo-600">
+            <input type="number" id="hd_gioihan" value="0" min="0" max="60" placeholder="0 = Tự do" class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-indigo-600">
           </div>
         </div>
         <p class="text-[10px] text-slate-400 italic">💡 Mẹo: Nhập "Giới hạn HS" (ví dụ: 5 bạn). Khi đủ 5 bạn đăng ký, hệ thống sẽ tự đóng đăng ký.</p>
@@ -557,7 +556,7 @@
     </div>
   </div>
 
-  <!-- MODAL TRỰC NHẬT (CHỌN HỌC SINH THỰC HIỆN) -->
+  <!-- MODAL TRỰC NHẬT -->
   <div id="modalTrucNhat" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base flex items-center justify-between">
@@ -625,6 +624,9 @@
 
     let collectivePenaltyPerStudent = 0;
     let collectiveViolationsList = [];
+    
+    // BIẾN CỜ KIỂM SOÁT PHÁO HOA (CHỈ BẮN 1 LẦN KHI MỚI VÀO WEB)
+    let hasTriggeredBirthdayConfetti = false;
 
     const AVATAR_LIST_1 = ["🐱","🐶","🐰","🦊","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐧","🐥","🦆","🦉","🦄","🐝","🦋","🐢","🐙","🐬","🐳","🦖","🦕","🦔","🦦","🦥","🦝","🐿️"];
     const AVATAR_LIST_2 = ["🍓","🍒","🍑","🥑","🍉","🍇","🍊","🍋","🍌","🍎","🥝","🥐","🥞","🍩","🧁","🍦","🍧","🍨","🍰","🎂","🍫","🍭","🍮","🍯","🧋","☕","🥤","🍿","🍕","🍔"];
@@ -804,7 +806,7 @@
             </div>
           `).join('');
         } else {
-          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Chưa có hoạt động mới.</div>';
+          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Chưa có hoạt động Đoàn mới.</div>';
         }
       }
     }
@@ -841,7 +843,7 @@
         }).join('');
       }
 
-      // 2. Danh sách học sinh (ĐÃ SỬA LỖI DẤU CHẤM)
+      // 2. Danh sách học sinh
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
@@ -900,7 +902,7 @@
         collectiveBox.classList.add("hidden");
       }
 
-      // 3. Hoạt động Đoàn (Có hiển thị Hình ảnh và Giới hạn số lượng)
+      // 3. Hoạt động Đoàn
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
         const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
@@ -1081,7 +1083,7 @@
       const hd = (appData.hoatDong || []).find(h => String(h.ID_HoatDong) === String(idHoatDong));
       if (!hd) return;
 
-      document.getElementById("modalHoatDongTitle").innerText = "Chỉnh sửa Hoạt động";
+      document.getElementById("modalHoatDongTitle").innerText = "Chỉnh sửa Hoạt động Đoàn";
       document.getElementById("hd_edit_id").value = idHoatDong;
       document.getElementById("hd_ten").value = hd.Ten_HoatDong;
       document.getElementById("hd_noidung").value = hd.Noi_Dung;
@@ -1208,7 +1210,7 @@
               <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-rose-200">Tổng điểm trừ (gồm lỗi chung)</span>
+              <span class="text-[10px] block text-rose-200">Tổng điểm trừ</span>
               <span class="text-sm font-bold text-rose-300">-${hs.Tong_Diem_Tru || 0} đ</span>
             </div>
           </div>
@@ -1251,7 +1253,7 @@
                   <span>${d.Ghi_Chu || ''}</span>
                 </div>
               </div>
-            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm cộng nào.</div>'}
+            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng nào.</div>'}
           </div>
         </div>
 
@@ -1801,7 +1803,12 @@
       if (todayBirthdays.length > 0) {
         banner.classList.remove("hidden");
         nameBox.innerText = todayBirthdays.map(h => `${h.Avatar || '🎂'} ${h.Ho_Ten} (#${h.STT} - ${h.To})`).join("  •  ");
-        setTimeout(() => triggerConfetti(), 800);
+        
+        // CHỈ TỰ ĐỘNG BẮN PHÁO HOA 1 LẦN DUY NHẤT KHI MỚI VÀO WEB
+        if (!hasTriggeredBirthdayConfetti) {
+          setTimeout(() => triggerConfetti(), 800);
+          hasTriggeredBirthdayConfetti = true;
+        }
       } else {
         banner.classList.add("hidden");
       }
@@ -1922,7 +1929,7 @@
       await sendPostRequest(isEditing ? "editHoatDong" : "addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
       document.getElementById("hd_edit_id").value = "";
       removeAttachedImage();
-      document.getElementById("modalHoatDongTitle").innerText = "Tạo hoạt động";
+      document.getElementById("modalHoatDongTitle").innerText = "Tạo hoạt động Đoàn";
     }
 
     async function submitTrucNhat(e) {
