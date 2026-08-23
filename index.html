@@ -270,7 +270,7 @@
 
   <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
   <script>
-    // ⚠️ ĐẢM BẢO ĐÃ DÁN ĐÚNG URL WEB APP CỦA BẠN:
+    // ⚠️ HÃY THAY ĐÚNG LINK APPS SCRIPT CỦA BẠN VÀO DÒNG DƯỚI ĐÂY:
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzDcSFh6CE7aAVfK91bDe24UmCAGc6KOFfdNpAjLNqz0siH8QbVYZJHbSyu37bVvwG-xw/exec";
     const ADMIN_EMAIL = "ngochuong290798@gmail.com";
 
@@ -395,19 +395,49 @@
         }).join('');
       }
 
-      // 3. Render Hoạt động Đoàn
+      // 3. Render Hoạt động Đoàn kèm tính năng Đăng ký
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
-        listHD.innerHTML = appData.hoatDong.slice().reverse().map(hd => `
-          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
-            <div class="flex justify-between items-center mb-1">
-              <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
-              <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
+        const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+        const myLabel = currentUser ? `#${currentUser.STT} - ${currentUser.Ho_Ten}` : (currentUserRole === "GVCN" ? "Cô Hương (GVCN)" : "");
+
+        listHD.innerHTML = appData.hoatDong.slice().reverse().map(hd => {
+          const ds = String(hd.DS_Tham_Gia || "");
+          const dsArray = ds ? ds.split(", ").map(s => s.trim()).filter(Boolean) : [];
+          const isJoined = myLabel && dsArray.includes(myLabel);
+
+          return `
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+              <div class="flex justify-between items-center">
+                <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
+                <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
+              </div>
+              <p class="text-xs text-slate-600">${hd.Noi_Dung}</p>
+              <div class="text-[10px] text-rose-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn đăng ký: ${hd.Han_Chot}</div>
+              
+              <!-- Danh sách người đã tham gia -->
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] text-slate-600">
+                <div class="font-semibold text-slate-700 mb-0.5">
+                  <i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}):
+                </div>
+                <div class="text-[10px] text-slate-500 italic">
+                  ${dsArray.length > 0 ? dsArray.join(", ") : "Chưa có ai đăng ký"}
+                </div>
+              </div>
+
+              <!-- Nút Đăng ký / Hủy đăng ký -->
+              <div class="pt-1 flex justify-end">
+                <button onclick="toggleJoin('${hd.ID_HoatDong}')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border transition ${
+                  isJoined 
+                    ? 'bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100' 
+                    : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700'
+                }">
+                  ${isJoined ? '<i class="fa-solid fa-user-minus mr-1"></i> Hủy đăng ký' : '<i class="fa-solid fa-user-plus mr-1"></i> Đăng ký tham gia'}
+                </button>
+              </div>
             </div>
-            <p class="text-xs text-slate-600 mb-2">${hd.Noi_Dung}</p>
-            <div class="text-[10px] text-rose-500 font-medium">⏳ Hạn đăng ký: ${hd.Han_Chot}</div>
-          </div>
-        `).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
+          `;
+        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
       }
 
       // 4. Render Trực nhật
@@ -496,6 +526,39 @@
       await sendPostRequest("addTrucNhat", payload, "btnSubmitTN", "modalTrucNhat");
     }
 
+    async function toggleJoin(idHoatDong) {
+      if (!currentUserEmail) {
+        alert("Vui lòng nhấn nút 'Đăng nhập' ở góc trên để xác thực tên của bạn trước khi đăng ký!");
+        return;
+      }
+      const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+      if (!currentUser && currentUserRole !== "GVCN") {
+        alert("Email của bạn chưa có trong danh sách học sinh của lớp!");
+        return;
+      }
+
+      const studentLabel = currentUser ? `#${currentUser.STT} - ${currentUser.Ho_Ten}` : "Cô Hương (GVCN)";
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "toggleDangKyHoatDong",
+            userEmail: currentUserEmail,
+            payload: { idHoatDong: idHoatDong, studentLabel: studentLabel }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      }
+    }
+
     async function sendPostRequest(action, payload, btnId, modalId) {
       const btn = document.getElementById(btnId);
       btn.innerText = "Đang lưu...";
@@ -541,6 +604,7 @@
         localStorage.setItem("user_email", email.trim().toLowerCase());
         currentUserEmail = email.trim().toLowerCase();
         identifyUser();
+        renderUI();
       }
     }
 
