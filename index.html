@@ -12,13 +12,16 @@
     .tab-content.active { display: block; }
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .seat-slot { min-height: 48px; transition: all 0.2s ease; }
+    .seat-slot.drag-over { background-color: #e0e7ff; border-color: #6366f1; transform: scale(1.02); }
+    .student-badge.selected { ring: 2px solid #4f46e5; transform: scale(1.03); }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 pb-28 font-sans antialiased">
 
   <!-- HEADER -->
   <header class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-blue-600 text-white p-4 shadow-lg sticky top-0 z-40">
-    <div class="max-w-xl mx-auto flex justify-between items-center">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
       <div>
         <h1 class="text-base font-black tracking-wide flex items-center gap-1.5">
           <i class="fa-solid fa-graduation-cap text-yellow-300"></i> LỚP HỌC HẠNH PHÚC
@@ -32,7 +35,7 @@
   </header>
 
   <!-- CONTAINER CHÍNH -->
-  <main class="max-w-xl mx-auto p-4 space-y-4">
+  <main class="max-w-4xl mx-auto p-3 space-y-4">
 
     <!-- TAB 1: BÁO BÀI & THỜI KHÓA BIỂU -->
     <section id="tab-baobai" class="tab-content active space-y-3">
@@ -47,10 +50,8 @@
       </div>
     </section>
 
-    <!-- TAB 2: NỀ NẾP & RÈN LUYỆN & BẢNG XẾP HẠNG THI ĐUA TỔ -->
+    <!-- TAB 2: NỀ NẾP & RÈN LUYỆN & THI ĐUA TỔ -->
     <section id="tab-nenep" class="tab-content space-y-3">
-      
-      <!-- KHUNG BẢNG VÀNG THI ĐUA 4 TỔ -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
@@ -58,7 +59,7 @@
           </h3>
           <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded border border-amber-200">Tổng kết tháng</span>
         </div>
-        <div id="rankingToContainer" class="grid grid-cols-2 gap-2"></div>
+        <div id="rankingToContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
       </div>
 
       <div class="flex justify-between items-center pt-2">
@@ -89,25 +90,69 @@
       <div id="hoSoDetailContainer" class="space-y-3"></div>
     </section>
 
-    <!-- TAB 4: SƠ ĐỒ LỚP HỌC TRỰC QUAN -->
+    <!-- TAB 4: SƠ ĐỒ LỚP HỌC 24 BÀN (KÉO THẢ VỊ TRÍ) -->
     <section id="tab-sodolop" class="tab-content space-y-3">
-      <div class="flex justify-between items-center">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-chalkboard-user text-teal-600 mr-1.5"></i> Sơ đồ vị trí chỗ ngồi</h2>
-        <span class="text-[10px] text-slate-400 italic">Bấm vào ô để xem hồ sơ</span>
+      <div class="flex justify-between items-center flex-wrap gap-2">
+        <div>
+          <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-chalkboard-user text-teal-600 mr-1.5"></i> Sơ đồ lớp (24 Bàn - 48 Chỗ ngồi)</h2>
+          <p class="text-[10px] text-slate-400">💡 Kéo thả hoặc chạm 2 học sinh để hoán đổi chỗ ngồi.</p>
+        </div>
+        <button id="btnSaveSoDo" onclick="saveSoDoToServer()" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition">
+          <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu sơ đồ
+        </button>
       </div>
 
-      <div class="bg-slate-200/80 rounded-xl p-3 text-center border border-slate-300 shadow-inner">
-        <div class="inline-block bg-slate-700 text-white font-black text-[11px] px-8 py-1 rounded shadow">
-          <i class="fa-solid fa-person-chalkboard mr-1"></i> BẢNG ĐEN / BỤC GIẢNG
+      <!-- BỤC GIẢNG -->
+      <div class="bg-slate-200/90 rounded-2xl p-2.5 text-center border border-slate-300 shadow-inner">
+        <div class="inline-block bg-slate-800 text-white font-black text-xs px-10 py-1 rounded shadow">
+          <i class="fa-solid fa-person-chalkboard mr-1.5 text-yellow-300"></i> BẢNG ĐEN & BỤC GIẢNG
         </div>
-        <div class="mt-2 flex justify-end pr-4">
-          <div class="bg-amber-100 border border-amber-300 text-amber-800 text-[10px] font-bold px-3 py-1 rounded shadow-sm">
-            <i class="fa-solid fa-laptop mr-1"></i> Bàn GVCN
+        <div class="mt-1.5 flex justify-end pr-4">
+          <div class="bg-amber-100 border border-amber-300 text-amber-900 text-[10px] font-bold px-3 py-0.5 rounded shadow-xs">
+            <i class="fa-solid fa-laptop mr-1"></i> Bàn Giáo Viên
           </div>
         </div>
       </div>
 
-      <div id="gridSoDoLop" class="grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-2"></div>
+      <!-- KHU VỰC CHỜ XẾP CHỖ (NẾU CÓ HS CHƯA VÀO BÀN) -->
+      <div id="unassignedStudentsBox" class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 hidden">
+        <div class="text-[11px] font-bold text-amber-800 mb-1.5 flex items-center gap-1">
+          <i class="fa-solid fa-user-clock text-amber-600"></i> Học sinh chưa có chỗ ngồi (Kéo vào bàn):
+        </div>
+        <div id="unassignedList" class="flex flex-wrap gap-1.5 min-h-[36px] p-1 bg-white/80 rounded-lg border border-dashed border-amber-300" ondragover="allowDrop(event)" ondrop="dropToUnassigned(event)"></div>
+      </div>
+
+      <!-- SƠ ĐỒ 4 TỔ (MỖI TỔ 6 BÀN) -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 pt-1">
+        <!-- Tổ 1 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-2.5 shadow-sm space-y-2">
+          <div class="bg-indigo-50 text-indigo-700 text-center font-bold text-xs py-1.5 rounded-lg border border-indigo-100">
+            DÃY 1 (TỔ 1)
+          </div>
+          <div id="to1_desks" class="space-y-2"></div>
+        </div>
+        <!-- Tổ 2 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-2.5 shadow-sm space-y-2">
+          <div class="bg-indigo-50 text-indigo-700 text-center font-bold text-xs py-1.5 rounded-lg border border-indigo-100">
+            DÃY 2 (TỔ 2)
+          </div>
+          <div id="to2_desks" class="space-y-2"></div>
+        </div>
+        <!-- Tổ 3 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-2.5 shadow-sm space-y-2">
+          <div class="bg-indigo-50 text-indigo-700 text-center font-bold text-xs py-1.5 rounded-lg border border-indigo-100">
+            DÃY 3 (TỔ 3)
+          </div>
+          <div id="to3_desks" class="space-y-2"></div>
+        </div>
+        <!-- Tổ 4 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-2.5 shadow-sm space-y-2">
+          <div class="bg-indigo-50 text-indigo-700 text-center font-bold text-xs py-1.5 rounded-lg border border-indigo-100">
+            DÃY 4 (TỔ 4)
+          </div>
+          <div id="to4_desks" class="space-y-2"></div>
+        </div>
+      </div>
     </section>
 
     <!-- TAB 5: HOẠT ĐỘNG & ĐOÀN THỂ -->
@@ -121,10 +166,8 @@
       <div id="listHoatDong" class="space-y-2.5"></div>
     </section>
 
-    <!-- TAB 6: TRỰC NHẬT & LAO ĐỘNG CÔNG ÍCH CUỐI THÁNG -->
+    <!-- TAB 6: TRỰC NHẬT & LAO ĐỘNG CUỐI THÁNG -->
     <section id="tab-trucnhat" class="tab-content space-y-3">
-      
-      <!-- KHUNG LAO ĐỘNG VỆ SINH CUỐI THÁNG (DANH CHO HS VI PHẠM) -->
       <div class="bg-rose-50/80 rounded-2xl p-4 border border-rose-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-rose-800 flex items-center gap-1.5 uppercase">
@@ -133,13 +176,13 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng cần tham gia trực nhật, lao động công ích toàn trường vào chiều thứ Bảy cuối tháng để rèn luyện ý thức:
+          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
 
       <div class="flex justify-between items-center pt-2">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Phân công trực nhật thường nhật</h2>
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Phân công trực nhật tuần</h2>
         <button id="btnThemTrucNhat" onclick="openModal('modalTrucNhat')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
           <i class="fa-solid fa-plus"></i> Thêm lịch
         </button>
@@ -151,7 +194,7 @@
 
   <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 z-40 shadow-lg">
-    <div class="max-w-xl mx-auto grid grid-cols-6 text-center text-[10px] font-medium">
+    <div class="max-w-4xl mx-auto grid grid-cols-6 text-center text-[10px] font-medium">
       <button onclick="switchTab('tab-baobai', this)" class="nav-btn text-indigo-600 font-bold">
         <i class="fa-solid fa-book text-base block mb-0.5"></i> Báo bài
       </button>
@@ -173,7 +216,8 @@
     </div>
   </nav>
 
-  <!-- MODAL 1: GHI NHẬN VI PHẠM -->
+  <!-- MODALS NHẬP LIỆU -->
+  <!-- MODAL 1: VI PHẠM -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
@@ -204,7 +248,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: GHI NHẬN ĐIỂM CỘNG -->
+  <!-- MODAL 2: ĐIỂM CỘNG -->
   <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
@@ -235,7 +279,7 @@
     </div>
   </div>
 
-  <!-- MODAL 3: THÊM BÁO BÀI -->
+  <!-- MODAL 3: BÁO BÀI -->
   <div id="modalBaoBai" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-plus text-indigo-600"></i> Đăng báo bài mới</h3>
@@ -251,7 +295,7 @@
           </div>
         </div>
         <div>
-          <label class="block font-semibold text-slate-600 mb-1">Nội dung báo bài / Bài tập:</label>
+          <label class="block font-semibold text-slate-600 mb-1">Nội dung báo bài:</label>
           <textarea id="bb_noidung" rows="3" placeholder="Làm bài tập trang 45 SGK..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
         </div>
         <div>
@@ -266,26 +310,26 @@
     </div>
   </div>
 
-  <!-- MODAL 4: THÊM HOẠT ĐỘNG ĐOÀN -->
+  <!-- MODAL 4: HOẠT ĐỘNG ĐOÀN -->
   <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
-      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động Đoàn</h3>
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động</h3>
       <form onsubmit="submitHoatDong(event)" class="space-y-3 text-xs">
         <div>
-          <label class="block font-semibold text-slate-600 mb-1">Tên phong trào / Hoạt động:</label>
-          <input type="text" id="hd_ten" placeholder="Hội thi kéo co, Văn nghệ 26/3..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          <label class="block font-semibold text-slate-600 mb-1">Tên hoạt động:</label>
+          <input type="text" id="hd_ten" placeholder="Kéo co, Văn nghệ..." required class="w-full border rounded-lg p-2 bg-slate-50">
         </div>
         <div>
-          <label class="block font-semibold text-slate-600 mb-1">Nội dung chi tiết:</label>
-          <textarea id="hd_noidung" rows="2" placeholder="Yêu cầu tham gia, thời gian, địa điểm..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+          <label class="block font-semibold text-slate-600 mb-1">Nội dung:</label>
+          <textarea id="hd_noidung" rows="2" placeholder="Yêu cầu tham gia..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-semibold text-slate-600 mb-1">Hạn chót đăng ký:</label>
+            <label class="block font-semibold text-slate-600 mb-1">Hạn chót:</label>
             <input type="text" id="hd_hanchot" placeholder="20/08/2026" required class="w-full border rounded-lg p-2 bg-slate-50">
           </div>
           <div>
-            <label class="block font-semibold text-slate-600 mb-1">Điểm cộng rèn luyện:</label>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm cộng:</label>
             <input type="number" id="hd_diemcong" value="5" min="1" max="20" required class="w-full border rounded-lg p-2 bg-slate-50">
           </div>
         </div>
@@ -297,7 +341,7 @@
     </div>
   </div>
 
-  <!-- MODAL 5: THÊM LỊCH TRỰC NHẬT -->
+  <!-- MODAL 5: TRỰC NHẬT -->
   <div id="modalTrucNhat" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-broom text-emerald-600"></i> Phân công trực nhật</h3>
@@ -323,12 +367,12 @@
           </div>
         </div>
         <div>
-          <label class="block font-semibold text-slate-600 mb-1">Tổ / Người phụ trách:</label>
-          <input type="text" id="tn_totruc" placeholder="Tổ 1, Nam, Mai..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          <label class="block font-semibold text-slate-600 mb-1">Tổ phụ trách:</label>
+          <input type="text" id="tn_totruc" placeholder="Tổ 1..." required class="w-full border rounded-lg p-2 bg-slate-50">
         </div>
         <div>
-          <label class="block font-semibold text-slate-600 mb-1">Nhiệm vụ chi tiết:</label>
-          <input type="text" id="tn_nhiemvu" placeholder="Lau bảng, quét lớp, đổ rác..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          <label class="block font-semibold text-slate-600 mb-1">Nhiệm vụ:</label>
+          <input type="text" id="tn_nhiemvu" placeholder="Lau bảng, quét lớp..." required class="w-full border rounded-lg p-2 bg-slate-50">
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeModal('modalTrucNhat')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
@@ -340,13 +384,17 @@
 
   <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
   <script>
-    // URL WEB APP CỦA CÔ ĐÃ ĐƯỢC GẮN CHÍNH XÁC:
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzDcSFh6CE7aAVfK91bDe24UmCAGc6KOFfdNpAjLNqz0siH8QbVYZJHbSyu37bVvwG-xw/exec";
     const ADMIN_EMAIL = "ngochuong290798@gmail.com";
 
     let appData = { hocSinh: [], viPham: [], diemCong: [], baoBai: [], hoatDong: [], trucNhat: [] };
     let currentUserEmail = localStorage.getItem("user_email") || ADMIN_EMAIL;
     let currentUserRole = "HocSinh";
+
+    // Cấu trúc 48 chỗ ngồi: 4 Tổ x 6 Bàn x 2 Vị trí (L / R)
+    // seatingState: { "T1_B1_L": 1, "T1_B1_R": 2, ... }
+    let seatingState = {};
+    let selectedStudentForSwap = null;
 
     async function loadData() {
       identifyUser();
@@ -360,7 +408,8 @@
           renderUI();
           populateStudentSelects();
           setupPersonalTab();
-          renderSoDoLop();
+          initSeatingState();
+          renderSoDo24Ban();
           renderThiDuaTo();
           renderLaoDongCuoiThang();
         }
@@ -409,6 +458,9 @@
       if (currentUserRole === "GVCN" || currentUserRole === "Lớp trưởng" || currentUserRole === "Lớp phó Lao động") {
         document.getElementById("btnThemTrucNhat")?.classList.remove("hidden");
       }
+      if (currentUserRole === "GVCN" || currentUserRole === "Lớp trưởng") {
+        document.getElementById("btnSaveSoDo")?.classList.remove("hidden");
+      }
     }
 
     function renderUI() {
@@ -432,7 +484,7 @@
         `).join('');
       }
 
-      // 2. Render Danh sách học sinh ở tab Rèn luyện
+      // 2. Render Danh sách học sinh
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
@@ -441,7 +493,7 @@
                         score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
                         'text-slate-600 bg-slate-50 border-slate-200';
           return `
-            <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm cursor-pointer hover:border-indigo-300 transition">
+            <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm cursor-pointer hover:border-indigo-300 transition">
               <div>
                 <div class="text-xs font-bold text-slate-800">
                   <span class="inline-block bg-slate-100 text-slate-600 rounded px-1.5 py-0.5 text-[10px] mr-1">#${hs.STT}</span>
@@ -522,8 +574,270 @@
       }
     }
 
+    // ==============================================================
+    // LOGIC SƠ ĐỒ LỚP HỌC 24 BÀN & KÉO THẢ VỊ TRÍ
+    // ==============================================================
+    function initSeatingState() {
+      // Đọc vị trí từ localStorage đã lưu trước đó nếu có
+      const saved = localStorage.getItem("seating_state_lop");
+      if (saved) {
+        try {
+          seatingState = JSON.parse(saved);
+          return;
+        } catch(e) {}
+      }
+
+      // Nếu chưa có, xếp tự động theo cột Tổ trong Sheet
+      seatingState = {};
+      const toKeys = [
+        { toNum: 1, keys: ["tổ 1", "to 1", "t1", "1"] },
+        { toNum: 2, keys: ["tổ 2", "to 2", "t2", "2"] },
+        { toNum: 3, keys: ["tổ 3", "to 3", "t3", "3"] },
+        { toNum: 4, keys: ["tổ 4", "to 4", "t4", "4"] }
+      ];
+
+      toKeys.forEach(t => {
+        const members = (appData.hocSinh || []).filter(h => {
+          const val = String(h.To || "").trim().toLowerCase();
+          return t.keys.some(k => val === k || val.includes(k));
+        });
+
+        let seatIdx = 0;
+        members.forEach(hs => {
+          const deskNum = Math.floor(seatIdx / 2) + 1;
+          const pos = (seatIdx % 2 === 0) ? "L" : "R";
+          if (deskNum <= 6) {
+            seatingState[`T${t.toNum}_B${deskNum}_${pos}`] = hs.STT;
+            seatIdx++;
+          }
+        });
+      });
+    }
+
+    function renderSoDo24Ban() {
+      for (let t = 1; t <= 4; t++) {
+        const container = document.getElementById(`to${t}_desks`);
+        if (!container) continue;
+
+        let desksHtml = "";
+        for (let b = 1; b <= 6; b++) {
+          const seatIdL = `T${t}_B${b}_L`;
+          const seatIdR = `T${t}_B${b}_R`;
+          const sttL = seatingState[seatIdL];
+          const sttR = seatingState[seatIdR];
+
+          const hsL = (appData.hocSinh || []).find(h => String(h.STT) === String(sttL));
+          const hsR = (appData.hocSinh || []).find(h => String(h.STT) === String(sttR));
+
+          desksHtml += `
+            <div class="bg-slate-100/90 rounded-xl p-2 border border-slate-200 shadow-xs space-y-1">
+              <div class="flex justify-between items-center text-[10px] font-bold text-slate-500 px-1">
+                <span><i class="fa-solid fa-table-cells text-indigo-400 mr-1"></i>Bàn ${b}</span>
+                <span class="text-[9px] text-slate-400">2 chỗ</span>
+              </div>
+              <div class="grid grid-cols-2 gap-1.5">
+                <!-- Ghế Trái -->
+                <div id="slot_${seatIdL}" data-seat="${seatIdL}" 
+                     class="seat-slot rounded-lg border border-dashed border-slate-300 bg-white p-1.5 flex flex-col justify-center items-center text-center cursor-pointer hover:border-indigo-400"
+                     ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="handleDropSeat(event, '${seatIdL}')" onclick="handleSeatClick('${seatIdL}')">
+                  ${renderStudentCardInSeat(hsL, seatIdL)}
+                </div>
+                <!-- Ghế Phải -->
+                <div id="slot_${seatIdR}" data-seat="${seatIdR}" 
+                     class="seat-slot rounded-lg border border-dashed border-slate-300 bg-white p-1.5 flex flex-col justify-center items-center text-center cursor-pointer hover:border-indigo-400"
+                     ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="handleDropSeat(event, '${seatIdR}')" onclick="handleSeatClick('${seatIdR}')">
+                  ${renderStudentCardInSeat(hsR, seatIdR)}
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        container.innerHTML = desksHtml;
+      }
+
+      renderUnassignedBox();
+    }
+
+    function renderStudentCardInSeat(hs, seatId) {
+      if (!hs) {
+        return `<span class="text-[10px] text-slate-300 italic font-medium">Ghế trống</span>`;
+      }
+      const score = Number(hs.Diem_Hien_Tai) || 0;
+      const badgeColor = score > 0 ? 'bg-emerald-500' : score < 0 ? 'bg-rose-500' : 'bg-slate-400';
+
+      return `
+        <div id="drag_hs_${hs.STT}" draggable="true" ondragstart="handleDragStart(event, '${hs.STT}', '${seatId}')"
+             class="student-badge w-full bg-slate-50 hover:bg-indigo-50 border border-slate-200 rounded p-1 text-left transition select-none">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] font-black text-slate-800 truncate">#${hs.STT} ${hs.Ho_Ten.split(' ').pop()}</span>
+            <span class="${badgeColor} text-white text-[8px] font-bold px-1 rounded">${score > 0 ? '+' : ''}${score}</span>
+          </div>
+          <div class="text-[8px] text-indigo-600 truncate mt-0.5">${hs.Chuc_Vu}</div>
+        </div>
+      `;
+    }
+
+    function renderUnassignedBox() {
+      const box = document.getElementById("unassignedStudentsBox");
+      const list = document.getElementById("unassignedList");
+      if (!box || !list || !appData.hocSinh) return;
+
+      const seatedSTTs = Object.values(seatingState).map(String);
+      const unassigned = appData.hocSinh.filter(h => !seatedSTTs.includes(String(h.STT)));
+
+      if (unassigned.length === 0) {
+        box.classList.add("hidden");
+        return;
+      }
+
+      box.classList.remove("hidden");
+      list.innerHTML = unassigned.map(hs => `
+        <div id="drag_hs_${hs.STT}" draggable="true" ondragstart="handleDragStart(event, '${hs.STT}', 'UNASSIGNED')" onclick="handleStudentUnassignedClick('${hs.STT}')"
+             class="student-badge bg-white border border-amber-300 rounded px-2 py-1 text-xs font-bold text-slate-700 shadow-xs cursor-pointer hover:bg-amber-100 flex items-center gap-1">
+          <span>#${hs.STT} ${hs.Ho_Ten}</span>
+        </div>
+      `).join('');
+    }
+
     // ==========================================
-    // LOGIC TÍNH NĂNG MỚI: XẾP HẠNG THI ĐUA 4 TỔ
+    // SỰ KIỆN KÉO THẢ (DRAG & DROP)
+    // ==========================================
+    let dragData = null; // { stt, fromSeat }
+
+    function handleDragStart(e, stt, fromSeat) {
+      dragData = { stt: String(stt), fromSeat: fromSeat };
+      e.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+      const slot = e.currentTarget;
+      if (slot) slot.classList.add("drag-over");
+    }
+
+    function dragLeave(e) {
+      const slot = e.currentTarget;
+      if (slot) slot.classList.remove("drag-over");
+    }
+
+    function handleDropSeat(e, targetSeatId) {
+      e.preventDefault();
+      const slot = e.currentTarget;
+      if (slot) slot.classList.remove("drag-over");
+
+      if (!dragData) return;
+
+      const movingSTT = dragData.stt;
+      const sourceSeatId = dragData.fromSeat;
+      const currentTargetSTT = seatingState[targetSeatId];
+
+      if (sourceSeatId === targetSeatId) return;
+
+      // Đổi chỗ
+      if (sourceSeatId !== "UNASSIGNED") {
+        if (currentTargetSTT) {
+          seatingState[sourceSeatId] = currentTargetSTT;
+        } else {
+          delete seatingState[sourceSeatId];
+        }
+      }
+
+      seatingState[targetSeatId] = movingSTT;
+      dragData = null;
+
+      saveLocalSeating();
+      renderSoDo24Ban();
+    }
+
+    function dropToUnassigned(e) {
+      e.preventDefault();
+      if (!dragData || dragData.fromSeat === "UNASSIGNED") return;
+      delete seatingState[dragData.fromSeat];
+      dragData = null;
+      saveLocalSeating();
+      renderSoDo24Ban();
+    }
+
+    // Hỗ trợ cảm ứng trên điện thoại (Click để đổi chỗ)
+    function handleSeatClick(seatId) {
+      if (!selectedStudentForSwap) {
+        const stt = seatingState[seatId];
+        if (stt) {
+          selectedStudentForSwap = { stt: stt, fromSeat: seatId };
+          highlightSelected(seatId);
+        }
+      } else {
+        const sourceSeatId = selectedStudentForSwap.fromSeat;
+        const targetSTT = seatingState[seatId];
+
+        if (sourceSeatId !== "UNASSIGNED") {
+          if (targetSTT) {
+            seatingState[sourceSeatId] = targetSTT;
+          } else {
+            delete seatingState[sourceSeatId];
+          }
+        }
+        seatingState[seatId] = selectedStudentForSwap.stt;
+        selectedStudentForSwap = null;
+        saveLocalSeating();
+        renderSoDo24Ban();
+      }
+    }
+
+    function handleStudentUnassignedClick(stt) {
+      selectedStudentForSwap = { stt: stt, fromSeat: "UNASSIGNED" };
+      alert(`Đã chọn học sinh #${stt}. Hãy chạm vào một ghế trên sơ đồ để xếp bạn vào đó!`);
+    }
+
+    function highlightSelected(seatId) {
+      document.querySelectorAll('.seat-slot').forEach(el => el.classList.remove('ring-2', 'ring-indigo-500'));
+      const el = document.getElementById(`slot_${seatId}`);
+      if (el) el.classList.add('ring-2', 'ring-indigo-500');
+    }
+
+    function saveLocalSeating() {
+      localStorage.setItem("seating_state_lop", JSON.stringify(seatingState));
+    }
+
+    async function saveSoDoToServer() {
+      const btn = document.getElementById("btnSaveSoDo");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      const assignments = [];
+      for (const [seatId, stt] of Object.entries(seatingState)) {
+        if (stt) {
+          const toNum = seatId.charAt(1); // '1', '2', '3', '4'
+          assignments.push({ stt: stt, to: `Tổ ${toNum}`, gheId: seatId });
+        }
+      }
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "saveSoDoLop",
+            userEmail: currentUserEmail,
+            payload: { assignments: assignments }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ Đã lưu sơ đồ lớp học thành công!");
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối khi lưu sơ đồ!");
+      } finally {
+        btn.innerText = "Lưu sơ đồ";
+        btn.disabled = false;
+      }
+    }
+
+    // ==========================================
+    // THI ĐUA TỔ & LAO ĐỘNG CUỐI THÁNG
     // ==========================================
     function renderThiDuaTo() {
       const container = document.getElementById("rankingToContainer");
@@ -538,7 +852,6 @@
         return { tenTo, membersCount: members.length, tongCong, tongTru, diemThiDua };
       });
 
-      // Sắp xếp theo điểm thi đua giảm dần
       stats.sort((a, b) => b.diemThiDua - a.diemThiDua);
 
       const badges = [
@@ -567,17 +880,12 @@
       }).join('');
     }
 
-    // ==========================================
-    // LOGIC TÍNH NĂNG MỚI: LAO ĐỘNG VỆ SINH CUỐI THÁNG
-    // ==========================================
     function renderLaoDongCuoiThang() {
       const container = document.getElementById("listLaoDongCuoiThang");
       const badge = document.getElementById("countLaoDongBadge");
       if (!container || !appData.hocSinh) return;
 
-      // Lọc các bạn có điểm trừ > 0
       const hsViPham = appData.hocSinh.filter(h => (Number(h.Tong_Diem_Tru) || 0) > 0);
-      
       if (badge) badge.innerText = `${hsViPham.length} Học sinh`;
 
       if (hsViPham.length === 0) {
@@ -607,9 +915,7 @@
       `).join('');
     }
 
-    // ==========================================
-    // LOGIC TAB 3: TỔNG HỢP HỒ SƠ CÁ NHÂN
-    // ==========================================
+    // TAB CÁ NHÂN
     function setupPersonalTab() {
       const select = document.getElementById("selectTraCuuHS");
       if (!select || !appData.hocSinh) return;
@@ -722,45 +1028,6 @@
           </div>
         </div>
       `;
-    }
-
-    // ==========================================
-    // LOGIC TAB 4: SƠ ĐỒ LỚP HỌC
-    // ==========================================
-    function renderSoDoLop() {
-      const container = document.getElementById("gridSoDoLop");
-      if (!container || !appData.hocSinh) return;
-
-      const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
-
-      container.innerHTML = toList.map(tenTo => {
-        const members = appData.hocSinh.filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
-
-        return `
-          <div class="bg-white rounded-xl border border-slate-200 p-2 shadow-sm space-y-2">
-            <div class="bg-indigo-50 text-indigo-700 text-center font-bold text-xs py-1 rounded border border-indigo-100">
-              ${tenTo} (${members.length})
-            </div>
-            <div class="space-y-1.5">
-              ${members.map(hs => {
-                const score = Number(hs.Diem_Hien_Tai) || 0;
-                const badgeColor = score > 0 ? 'bg-emerald-500' : score < 0 ? 'bg-rose-500' : 'bg-slate-400';
-                return `
-                  <div onclick="viewStudentProfile('${hs.STT}')" class="bg-slate-50 hover:bg-indigo-50/70 p-2 rounded-lg border border-slate-200/80 cursor-pointer transition flex justify-between items-center">
-                    <div class="truncate pr-1">
-                      <div class="text-[11px] font-bold text-slate-800 truncate">#${hs.STT} ${hs.Ho_Ten}</div>
-                      <div class="text-[9px] text-indigo-600 font-medium truncate">${hs.Chuc_Vu}</div>
-                    </div>
-                    <span class="${badgeColor} text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-xs whitespace-nowrap">
-                      ${score > 0 ? '+' : ''}${score}
-                    </span>
-                  </div>
-                `;
-              }).join('') || '<div class="text-[10px] text-slate-300 italic text-center py-2">Trống</div>'}
-            </div>
-          </div>
-        `;
-      }).join('');
     }
 
     function viewStudentProfile(stt) {
