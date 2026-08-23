@@ -53,7 +53,7 @@
             <span class="text-xs font-bold text-pink-100">Hôm nay là sinh nhật của:</span>
           </div>
           <h3 id="todayBirthdayNames" class="text-lg font-black tracking-wide text-yellow-200"></h3>
-          <p class="text-xs text-pink-100 leading-tight">Chúc em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
+          <p class="text-xs text-pink-100 leading-tight">Chúc các em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
         </div>
         <button onclick="triggerConfetti()" class="bg-white text-pink-600 hover:bg-pink-50 font-black text-xs px-4 py-2 rounded-xl shadow transition shrink-0 animate-bounce-slow flex items-center gap-1.5">
           <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Bắn pháo hoa 🎊
@@ -61,8 +61,34 @@
       </div>
     </div>
 
-    <!-- TAB 1: BÁO BÀI & THỜI KHÓA BIỂU -->
-    <section id="tab-baobai" class="tab-content active space-y-3">
+    <!-- TAB 1: TRANG TỔNG HỢP CÁ NHÂN & SINH NHẬT & ĐỔI AVATAR -->
+    <section id="tab-canhan" class="tab-content active space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện cá nhân</h2>
+      </div>
+
+      <!-- KHUNG SINH NHẬT THÁNG NÀY -->
+      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          </h3>
+          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+        </div>
+        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
+      </div>
+      
+      <!-- HỘP CHỌN HỌC SINH TRA CỨU -->
+      <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
+        <label class="text-xs font-bold text-slate-600 whitespace-nowrap"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu HS:</label>
+        <select id="selectTraCuuHS" onchange="renderHoSoCaNhan(this.value)" class="w-full text-xs font-semibold border rounded-lg p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
+      </div>
+
+      <div id="hoSoDetailContainer" class="space-y-3"></div>
+    </section>
+
+    <!-- TAB 2: BÁO BÀI & THỜI KHÓA BIỂU -->
+    <section id="tab-baobai" class="tab-content space-y-3">
       <div class="flex justify-between items-center">
         <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-book-open text-indigo-600 mr-1.5"></i> Báo bài & Nhiệm vụ tuần</h2>
         <button id="btnThemBaoBai" onclick="openModal('modalBaoBai')" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
@@ -74,7 +100,18 @@
       </div>
     </section>
 
-    <!-- TAB 2: NỀ NẾP & RÈN LUYỆN & THI ĐUA TỔ -->
+    <!-- TAB 3: HOẠT ĐỘNG & PHONG TRÀO ĐOÀN THỂ -->
+    <section id="tab-hoatdong" class="tab-content space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-bullhorn text-amber-500 mr-1.5"></i> Hoạt động Đoàn & Sự kiện</h2>
+        <button id="btnThemHoatDong" onclick="openModal('modalHoatDong')" class="hidden text-xs bg-amber-600 hover:bg-amber-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm HĐ
+        </button>
+      </div>
+      <div id="listHoatDong" class="space-y-2.5"></div>
+    </section>
+
+    <!-- TAB 4: NỀ NẾP & RÈN LUYỆN & THI ĐUA TỔ -->
     <section id="tab-nenep" class="tab-content space-y-3">
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
@@ -100,31 +137,31 @@
       <div id="listHocSinh" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1"></div>
     </section>
 
-    <!-- TAB 3: TRANG TỔNG HỢP CÁ NHÂN & SINH NHẬT -->
-    <section id="tab-canhan" class="tab-content space-y-3">
-      <div class="flex justify-between items-center">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện & Sinh nhật</h2>
-      </div>
-
-      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+    <!-- TAB 5: TRỰC NHẬT & LAO ĐỘNG CUỐI THÁNG -->
+    <section id="tab-trucnhat" class="tab-content space-y-3">
+      <div class="bg-rose-50/80 rounded-2xl p-4 border border-rose-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          <h3 class="text-xs font-black text-rose-800 flex items-center gap-1.5 uppercase">
+            <i class="fa-solid fa-triangle-exclamation text-rose-600 text-sm"></i> Vệ Sinh Toàn Trường Cuối Tháng
           </h3>
-          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+          <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
-        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
-      </div>
-      
-      <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
-        <label class="text-xs font-bold text-slate-600 whitespace-nowrap"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu HS:</label>
-        <select id="selectTraCuuHS" onchange="renderHoSoCaNhan(this.value)" class="w-full text-xs font-semibold border rounded-lg p-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
+        <p class="text-[11px] text-rose-600 leading-relaxed">
+          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
+        </p>
+        <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
 
-      <div id="hoSoDetailContainer" class="space-y-3"></div>
+      <div class="flex justify-between items-center pt-2">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Phân công trực nhật tuần</h2>
+        <button id="btnThemTrucNhat" onclick="openModal('modalTrucNhat')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm lịch
+        </button>
+      </div>
+      <div id="listTrucNhat" class="space-y-2.5"></div>
     </section>
 
-    <!-- TAB 4: SƠ ĐỒ LỚP HỌC 10C5 -->
+    <!-- TAB 6: SƠ ĐỒ LỚP HỌC 10C5 -->
     <section id="tab-sodolop" class="tab-content space-y-3">
       <div class="flex justify-between items-center flex-wrap gap-2">
         <div>
@@ -139,7 +176,6 @@
       <!-- KHUNG BẢNG SƠ ĐỒ LỚP HỌC -->
       <div class="bg-white rounded-2xl p-4 border border-slate-300 shadow-md space-y-4">
         
-        <!-- TIÊU ĐỀ SƠ ĐỒ -->
         <div class="text-center border-b pb-3 border-slate-200">
           <h2 class="text-sm md:text-base font-black text-slate-800 tracking-wide uppercase">
             SƠ ĐỒ LỚP 10C5 – GVCN: TRẦN THỊ NGỌC HƯƠNG
@@ -215,68 +251,72 @@
       </div>
     </section>
 
-    <!-- TAB 5: HOẠT ĐỘNG & ĐOÀN THỂ -->
-    <section id="tab-hoatdong" class="tab-content space-y-3">
-      <div class="flex justify-between items-center">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-bullhorn text-amber-500 mr-1.5"></i> Hoạt động Đoàn & Sự kiện</h2>
-        <button id="btnThemHoatDong" onclick="openModal('modalHoatDong')" class="hidden text-xs bg-amber-600 hover:bg-amber-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
-          <i class="fa-solid fa-plus"></i> Thêm HĐ
-        </button>
-      </div>
-      <div id="listHoatDong" class="space-y-2.5"></div>
-    </section>
-
-    <!-- TAB 6: TRỰC NHẬT & LAO ĐỘNG CUỐI THÁNG -->
-    <section id="tab-trucnhat" class="tab-content space-y-3">
-      <div class="bg-rose-50/80 rounded-2xl p-4 border border-rose-200 shadow-sm space-y-2.5">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-black text-rose-800 flex items-center gap-1.5 uppercase">
-            <i class="fa-solid fa-triangle-exclamation text-rose-600 text-sm"></i> Vệ Sinh Toàn Trường Cuối Tháng
-          </h3>
-          <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
-        </div>
-        <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
-        </p>
-        <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
-      </div>
-
-      <div class="flex justify-between items-center pt-2">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Phân công trực nhật tuần</h2>
-        <button id="btnThemTrucNhat" onclick="openModal('modalTrucNhat')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
-          <i class="fa-solid fa-plus"></i> Thêm lịch
-        </button>
-      </div>
-      <div id="listTrucNhat" class="space-y-2.5"></div>
-    </section>
-
   </main>
 
   <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 z-40 shadow-lg">
     <div class="max-w-5xl mx-auto grid grid-cols-6 text-center text-[10px] font-medium">
-      <button onclick="switchTab('tab-baobai', this)" class="nav-btn text-indigo-600 font-bold">
-        <i class="fa-solid fa-book text-base block mb-0.5"></i> Báo bài
-      </button>
-      <button onclick="switchTab('tab-nenep', this)" class="nav-btn text-slate-400">
-        <i class="fa-solid fa-award text-base block mb-0.5"></i> Rèn luyện
-      </button>
-      <button onclick="switchTab('tab-canhan', this)" class="nav-btn text-slate-400">
+      <button onclick="switchTab('tab-canhan', this)" class="nav-btn text-indigo-600 font-bold">
         <i class="fa-solid fa-user-tag text-base block mb-0.5"></i> Cá nhân
       </button>
-      <button onclick="switchTab('tab-sodolop', this)" class="nav-btn text-slate-400">
-        <i class="fa-solid fa-border-all text-base block mb-0.5"></i> Sơ đồ
+      <button onclick="switchTab('tab-baobai', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-book text-base block mb-0.5"></i> Báo bài
       </button>
       <button onclick="switchTab('tab-hoatdong', this)" class="nav-btn text-slate-400">
         <i class="fa-solid fa-flag text-base block mb-0.5"></i> Phong trào
       </button>
+      <button onclick="switchTab('tab-nenep', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-award text-base block mb-0.5"></i> Rèn luyện
+      </button>
       <button onclick="switchTab('tab-trucnhat', this)" class="nav-btn text-slate-400">
         <i class="fa-solid fa-broom text-base block mb-0.5"></i> Trực nhật
+      </button>
+      <button onclick="switchTab('tab-sodolop', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-border-all text-base block mb-0.5"></i> Sơ đồ
       </button>
     </div>
   </nav>
 
-  <!-- MODALS NHẬP LIỆU -->
+  <!-- MODAL ĐỔI AVATAR (100+ ICON DỄ THƯƠNG) -->
+  <div id="modalAvatar" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="font-black text-slate-800 text-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-icons text-indigo-600"></i> Chọn Avatar Đại Diện Cute (100+)
+        </h3>
+        <button onclick="closeModal('modalAvatar')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="overflow-y-auto space-y-3 pr-1 text-xs">
+        <!-- Nhóm 1: Thú cưng -->
+        <div>
+          <span class="font-bold text-indigo-600 text-[11px] block mb-1.5">🐱 Thú cưng & Động vật:</span>
+          <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup1"></div>
+        </div>
+        <!-- Nhóm 2: Đồ ăn & Trái cây -->
+        <div>
+          <span class="font-bold text-pink-600 text-[11px] block mb-1.5">🍓 Đồ ăn & Trái cây ngọt ngào:</span>
+          <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup2"></div>
+        </div>
+        <!-- Nhóm 3: Thiên nhiên & Vũ trụ -->
+        <div>
+          <span class="font-bold text-emerald-600 text-[11px] block mb-1.5">🌸 Thiên nhiên & Vũ trụ:</span>
+          <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup3"></div>
+        </div>
+        <!-- Nhóm 4: Biểu cảm & Hoạt hình -->
+        <div>
+          <span class="font-bold text-amber-600 text-[11px] block mb-1.5">😎 Biểu cảm & Nhân vật:</span>
+          <div class="grid grid-cols-6 gap-2 text-2xl" id="avatarGroup4"></div>
+        </div>
+      </div>
+      
+      <div class="text-[10px] text-slate-400 italic text-center border-t pt-2">
+        Nhấn vào icon yêu thích để chọn làm Avatar của bạn.
+      </div>
+    </div>
+  </div>
+
+  <!-- CÁC MODALS KHÁC (VI PHẠM, ĐIỂM CỘNG, BÁO BÀI, HOẠT ĐỘNG, TRỰC NHẬT) -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
@@ -448,6 +488,13 @@
 
     let seatingState = {};
     let selectedStudentForSwap = null;
+    let currentEditingSTTForAvatar = null;
+
+    // BỘ 100+ ICON DỄ THƯƠNG
+    const AVATAR_LIST_1 = ["🐱","🐶","🐰","🦊","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐧","🐥","🦆","🦉","🦄","🐝","🦋","🐢","🐙","🐬","🐳","🦖","🦕","🦔","🦦","🦥","🦝","🐿️"];
+    const AVATAR_LIST_2 = ["🍓","🍒","🍑","🥑","🍉","🍇","🍊","🍋","🍌","🍎","🥝","🥐","🥞","🍩","🧁","🍦","🍧","🍨","🍰","🎂","🍫","🍭","🍮","🍯","🧋","☕","🥤","🍿","🍕","🍔"];
+    const AVATAR_LIST_3 = ["🌸","🌺","🌻","🌼","🌷","🍀","🌿","🍄","🌵","🌴","🌈","☀️","⭐","🌟","✨","🌙","🪐","🚀","🎈","🎨","🎭","🎪","🎡","🎠"];
+    const AVATAR_LIST_4 = ["🐱‍👓","🐱‍👤","🧙‍♂️","🧙‍♀️","🧚‍♂️","🧚‍♀️","🦸‍♂️","🦸‍♀️","🐱‍🚀","🥰","🤩","🥳","😎","😺","😸","😻","😽","👾","🤖","👻","🧸","🎀","👑","💎"];
 
     async function loadData() {
       identifyUser();
@@ -466,6 +513,7 @@
           renderThiDuaTo();
           renderLaoDongCuoiThang();
           checkAndRenderBirthdays();
+          initAvatarModalIcons();
         }
       } catch (err) {
         console.error("Lỗi tải dữ liệu:", err);
@@ -486,7 +534,8 @@
         const user = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
         if (user) {
           currentUserRole = user.Chuc_Vu;
-          document.getElementById("userRoleText").innerText = `👤 ${user.Ho_Ten} (${user.Chuc_Vu})`;
+          const av = user.Avatar || "👤";
+          document.getElementById("userRoleText").innerText = `${av} ${user.Ho_Ten} (${user.Chuc_Vu})`;
         } else {
           document.getElementById("userRoleText").innerText = `👤 ${currentUserEmail}`;
         }
@@ -518,7 +567,7 @@
     }
 
     function renderUI() {
-      // 1. Render Báo bài
+      // 1. Báo bài
       const listBB = document.getElementById("listBaoBai");
       if (!appData.baoBai || appData.baoBai.length === 0) {
         listBB.innerHTML = '<div class="text-xs text-slate-400 text-center py-6">Chưa có thông báo bài mới.</div>';
@@ -538,22 +587,26 @@
         `).join('');
       }
 
-      // 2. Render Danh sách học sinh
+      // 2. Danh sách học sinh
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
           const score = Number(hs.Diem_Hien_Tai) || 0;
+          const av = hs.Avatar || "👤";
           const color = score > 0 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 
                         score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
                         'text-slate-600 bg-slate-50 border-slate-200';
           return `
             <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm cursor-pointer hover:border-indigo-300 transition">
-              <div>
-                <div class="text-xs font-bold text-slate-800">
-                  <span class="inline-block bg-slate-100 text-slate-600 rounded px-1.5 py-0.5 text-[10px] mr-1">#${hs.STT}</span>
-                  ${hs.Ho_Ten}
+              <div class="flex items-center gap-2">
+                <span class="text-xl bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center">${av}</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-800">
+                    <span class="inline-block bg-slate-100 text-slate-600 rounded px-1 py-0.2 text-[10px] mr-1">#${hs.STT}</span>
+                    ${hs.Ho_Ten}
+                  </div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">${hs.To} • <span class="text-indigo-600 font-medium">${hs.Chuc_Vu}</span></div>
                 </div>
-                <div class="text-[11px] text-slate-400 mt-0.5">${hs.To} • <span class="text-indigo-600 font-medium">${hs.Chuc_Vu}</span></div>
               </div>
               <div class="text-right">
                 <span class="text-xs font-black px-2.5 py-1 rounded-lg border ${color}">
@@ -570,7 +623,7 @@
         }).join('');
       }
 
-      // 3. Render Hoạt động Đoàn
+      // 3. Hoạt động Đoàn
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
         const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
@@ -613,7 +666,7 @@
         }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
       }
 
-      // 4. Render Trực nhật
+      // 4. Trực nhật
       const listTN = document.getElementById("listTrucNhat");
       if (listTN && appData.trucNhat) {
         listTN.innerHTML = appData.trucNhat.map(tn => `
@@ -629,99 +682,209 @@
     }
 
     // ==============================================================
-    // CHÚC MỪNG SINH NHẬT & HIỆU ỨNG CONFETTI
+    // LOGIC TAB CÁ NHÂN & CHỌN AVATAR
     // ==============================================================
-    function parseDate(dateStr) {
-      if (!dateStr) return null;
-      const str = String(dateStr).trim();
-      let day, month;
+    function setupPersonalTab() {
+      const select = document.getElementById("selectTraCuuHS");
+      if (!select || !appData.hocSinh) return;
 
-      if (str.includes('/')) {
-        const parts = str.split('/');
-        day = parseInt(parts[0], 10);
-        month = parseInt(parts[1], 10);
-      } else if (str.includes('-')) {
-        const parts = str.split('-');
-        if (parts[0].length === 4) { // YYYY-MM-DD
-          month = parseInt(parts[1], 10);
-          day = parseInt(parts[2], 10);
-        } else { // DD-MM-YYYY
-          day = parseInt(parts[0], 10);
-          month = parseInt(parts[1], 10);
-        }
+      select.innerHTML = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+
+      const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+      const defaultSTT = currentUser ? currentUser.STT : (appData.hocSinh[0] ? appData.hocSinh[0].STT : "");
+      
+      if (defaultSTT) {
+        select.value = defaultSTT;
+        renderHoSoCaNhan(defaultSTT);
       }
-      return (day && month) ? { day, month, raw: str } : null;
     }
 
-    function checkAndRenderBirthdays() {
-      if (!appData.hocSinh) return;
+    function renderHoSoCaNhan(stt) {
+      const container = document.getElementById("hoSoDetailContainer");
+      const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(stt));
+      if (!hs || !container) return;
+
+      const score = Number(hs.Diem_Hien_Tai) || 0;
+      const av = hs.Avatar || "🐱";
+      const myLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
+
+      const myViPham = (appData.viPham || []).filter(v => String(v.STT) === String(stt));
+      const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt));
+      const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
+
+      const birthDate = parseDate(hs.Ngay_Sinh);
       const today = new Date();
-      const currentDay = today.getDate();
-      const currentMonth = today.getMonth() + 1;
+      const isBirthdayToday = birthDate && (birthDate.day === today.getDate() && birthDate.month === (today.getMonth() + 1));
 
-      document.getElementById("currentMonthText").innerText = `Tháng ${currentMonth}`;
+      // Kiểm tra có quyền đổi Avatar cho học sinh này không (Chính chủ hoặc GVCN)
+      const isOwnerOrTeacher = (currentUserRole === "GVCN") || ((appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim())?.STT === hs.STT);
 
-      const todayBirthdays = [];
-      const monthBirthdays = [];
-
-      appData.hocSinh.forEach(hs => {
-        const d = parseDate(hs.Ngay_Sinh);
-        if (d) {
-          if (d.month === currentMonth) {
-            monthBirthdays.push({ ...hs, birthDay: d.day, birthStr: d.raw });
-            if (d.day === currentDay) {
-              todayBirthdays.push(hs);
-            }
-          }
-        }
-      });
-
-      // 1. Banner Sinh nhật Hôm nay
-      const banner = document.getElementById("todayBirthdayBanner");
-      const nameBox = document.getElementById("todayBirthdayNames");
-      if (todayBirthdays.length > 0) {
-        banner.classList.remove("hidden");
-        nameBox.innerText = todayBirthdays.map(h => `${h.Ho_Ten} (#${h.STT} - ${h.To})`).join(" 🎂 ");
-        setTimeout(() => triggerConfetti(), 800);
-      } else {
-        banner.classList.add("hidden");
-      }
-
-      // 2. Danh sách Sinh nhật trong tháng
-      const monthList = document.getElementById("monthBirthdayList");
-      const monthBadge = document.getElementById("monthBirthdayCountBadge");
-      monthBadge.innerText = `${monthBirthdays.length} bạn`;
-
-      monthBirthdays.sort((a, b) => a.birthDay - b.birthDay);
-
-      if (monthBirthdays.length === 0) {
-        monthList.innerHTML = `<span class="text-[11px] text-pink-400 italic">Tháng này không có sinh nhật bạn nào.</span>`;
-      } else {
-        monthList.innerHTML = monthBirthdays.map(h => {
-          const isToday = (h.birthDay === currentDay);
-          return `
-            <div onclick="viewStudentProfile('${h.STT}')" class="bg-white border ${isToday ? 'border-pink-500 ring-2 ring-pink-300' : 'border-pink-200'} rounded-lg px-2 py-1 text-xs shadow-xs cursor-pointer hover:bg-pink-100/50 flex items-center gap-1.5 transition">
-              <span class="text-pink-600 font-black">${h.birthDay}/${currentMonth}</span>
-              <span class="font-bold text-slate-700 truncate">#${h.STT} ${h.Ho_Ten}</span>
-              ${isToday ? '<span class="text-xs">🎂</span>' : ''}
+      container.innerHTML = `
+        ${isBirthdayToday ? `
+          <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl p-4 shadow-md flex items-center justify-between border border-pink-300 animate-pulse">
+            <div>
+              <div class="text-xs font-black uppercase text-yellow-300 tracking-wide">🎉 CHÚC MỪNG SINH NHẬT HÔM NAY!</div>
+              <div class="text-sm font-bold mt-0.5">Chúc em tuổi mới luôn tỏa sáng và đạt nhiều thành tích cao cùng tập thể 10C5! 🎁</div>
             </div>
-          `;
-        }).join('');
-      }
+            <button onclick="triggerConfetti()" class="bg-white text-pink-600 text-xs font-black px-3 py-1.5 rounded-lg shadow">🎊 Pháo hoa</button>
+          </div>
+        ` : ''}
+
+        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <!-- KHUNG AVATAR CUTE -->
+              <div class="relative group cursor-pointer" onclick="${isOwnerOrTeacher ? `openAvatarModal('${hs.STT}')` : ''}" title="Bấm để đổi Avatar">
+                <div class="text-4xl bg-white/20 hover:bg-white/30 p-2.5 rounded-2xl shadow-inner border border-white/30 transition flex items-center justify-center">
+                  ${av}
+                </div>
+                ${isOwnerOrTeacher ? '<span class="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-900 rounded-full p-1 text-[8px] shadow"><i class="fa-solid fa-pen"></i></span>' : ''}
+              </div>
+              <div>
+                <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold">STT: #${hs.STT} • ${hs.To}</span>
+                <h3 class="text-lg font-black mt-0.5">${hs.Ho_Ten}</h3>
+                <p class="text-xs text-indigo-100 flex items-center gap-1.5 mt-0.5">
+                  <span><i class="fa-solid fa-cake-candles text-pink-300"></i> ${hs.Ngay_Sinh || 'Chưa có ngày sinh'}</span>
+                  <span>•</span>
+                  <span><i class="fa-solid fa-user-shield"></i> ${hs.Chuc_Vu}</span>
+                </p>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-black text-yellow-300">${score > 0 ? '+' : ''}${score} <span class="text-xs text-white">điểm</span></div>
+              <div class="text-[10px] text-indigo-100">Điểm hiện tại</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/20 text-center">
+            <div class="bg-white/10 rounded-lg p-1.5">
+              <span class="text-[10px] block text-emerald-200">Tổng điểm thưởng</span>
+              <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
+            </div>
+            <div class="bg-white/10 rounded-lg p-1.5">
+              <span class="text-[10px] block text-rose-200">Tổng điểm trừ</span>
+              <span class="text-sm font-bold text-rose-300">-${hs.Tong_Diem_Tru || 0} đ</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã đăng ký</span>
+            <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myHoatDong.length}</span>
+          </h4>
+          <div class="space-y-1.5">
+            ${myHoatDong.length > 0 ? myHoatDong.map(h => `
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex justify-between items-center text-xs">
+                <div>
+                  <span class="font-bold text-slate-800">${h.Ten_HoatDong}</span>
+                  <span class="text-[10px] text-slate-400 block">Hạn: ${h.Han_Chot}</span>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">+${h.Diem_Cong}đ</span>
+              </div>
+            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa đăng ký tham gia hoạt động nào.</div>'}
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Lịch sử điểm cộng</span>
+            <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myDiemCong.length}</span>
+          </h4>
+          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+            ${myDiemCong.length > 0 ? myDiemCong.slice().reverse().map(d => `
+              <div class="bg-emerald-50/50 p-2 rounded-lg border border-emerald-100 text-xs">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-slate-800">${d.Ly_Do}</span>
+                  <span class="font-black text-emerald-600">+${d.Diem_Cong}đ</span>
+                </div>
+                <div class="text-[10px] text-slate-400 flex justify-between mt-1">
+                  <span>${d.Ngay} • Ghi: ${d.Nguoi_Ghi || 'GV'}</span>
+                  <span>${d.Ghi_Chu || ''}</span>
+                </div>
+              </div>
+            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng nào.</div>'}
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lịch sử lỗi vi phạm</span>
+            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length}</span>
+          </h4>
+          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+            ${myViPham.length > 0 ? myViPham.slice().reverse().map(v => `
+              <div class="bg-rose-50/50 p-2 rounded-lg border border-rose-100 text-xs">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
+                  <span class="font-black text-rose-600">-${v.Diem_Tru}đ</span>
+                </div>
+                <div class="text-[10px] text-slate-400 flex justify-between mt-1">
+                  <span>${v.Ngay} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'}</span>
+                  <span class="text-rose-400">${v.Ghi_Chu || ''}</span>
+                </div>
+              </div>
+            `).join('') : '<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào.</div>'}
+          </div>
+        </div>
+      `;
     }
 
-    function triggerConfetti() {
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
+    // ==============================================================
+    // MODAL VÀ XỬ LÝ CHỌN AVATAR
+    // ==============================================================
+    function initAvatarModalIcons() {
+      const renderGroup = (id, list) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.innerHTML = list.map(icon => `
+            <button onclick="selectAvatarIcon('${icon}')" class="p-2 bg-slate-50 hover:bg-indigo-100 rounded-xl transition hover:scale-125 flex items-center justify-center">
+              ${icon}
+            </button>
+          `).join('');
+        }
+      };
+      renderGroup("avatarGroup1", AVATAR_LIST_1);
+      renderGroup("avatarGroup2", AVATAR_LIST_2);
+      renderGroup("avatarGroup3", AVATAR_LIST_3);
+      renderGroup("avatarGroup4", AVATAR_LIST_4);
+    }
+
+    function openAvatarModal(stt) {
+      currentEditingSTTForAvatar = stt;
+      openModal("modalAvatar");
+    }
+
+    async function selectAvatarIcon(icon) {
+      if (!currentEditingSTTForAvatar) return;
+      closeModal("modalAvatar");
+
+      // Cập nhật giao diện tạm thời ngay lập tức
+      const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(currentEditingSTTForAvatar));
+      if (hs) hs.Avatar = icon;
+      renderHoSoCaNhan(currentEditingSTTForAvatar);
+      renderUI();
+      renderSoDo24Ban();
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "updateAvatar",
+            userEmail: currentUserEmail,
+            payload: { stt: currentEditingSTTForAvatar, icon: icon }
+          })
         });
+        const json = await res.json();
+        if (json.success) {
+          alert(`Đã lưu Avatar ${icon} thành công!`);
+        }
+      } catch (err) {
+        console.error("Lỗi lưu Avatar:", err);
       }
     }
 
     // ==============================================================
-    // SƠ ĐỒ LỚP HỌC 24 BÀN (TỔ 1 SÁT CỬA VÀO -> TỔ 4 SÁT BÀN GV)
+    // SƠ ĐỒ LỚP HỌC 24 BÀN
     // ==============================================================
     function initSeatingState() {
       const saved = localStorage.getItem("seating_state_lop10c5");
@@ -801,13 +964,14 @@
         return `<span class="text-[9px] text-slate-300 italic font-medium">Trống</span>`;
       }
       const score = Number(hs.Diem_Hien_Tai) || 0;
+      const av = hs.Avatar || "🐱";
       const badgeColor = score > 0 ? 'bg-emerald-500' : score < 0 ? 'bg-rose-500' : 'bg-slate-400';
 
       return `
         <div id="drag_hs_${hs.STT}" draggable="true" ondragstart="handleDragStart(event, '${hs.STT}', '${seatId}')"
              class="student-badge w-full bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 rounded p-1 text-left transition select-none">
           <div class="flex justify-between items-center">
-            <span class="text-[10px] font-black text-slate-800 truncate">#${hs.STT} ${hs.Ho_Ten.split(' ').pop()}</span>
+            <span class="text-[10px] font-black text-slate-800 truncate">${av} #${hs.STT} ${hs.Ho_Ten.split(' ').pop()}</span>
             <span class="${badgeColor} text-white text-[7px] font-bold px-1 rounded">${score > 0 ? '+' : ''}${score}</span>
           </div>
           <div class="text-[8px] text-indigo-600 truncate mt-0.5">${hs.Chuc_Vu}</div>
@@ -829,12 +993,15 @@
       }
 
       box.classList.remove("hidden");
-      list.innerHTML = unassigned.map(hs => `
-        <div id="drag_hs_${hs.STT}" draggable="true" ondragstart="handleDragStart(event, '${hs.STT}', 'UNASSIGNED')" onclick="handleStudentUnassignedClick('${hs.STT}')"
-             class="student-badge bg-white border border-amber-300 rounded px-2 py-1 text-xs font-bold text-slate-700 shadow-xs cursor-pointer hover:bg-amber-100 flex items-center gap-1">
-          <span>#${hs.STT} ${hs.Ho_Ten}</span>
-        </div>
-      `).join('');
+      list.innerHTML = unassigned.map(hs => {
+        const av = hs.Avatar || "🐱";
+        return `
+          <div id="drag_hs_${hs.STT}" draggable="true" ondragstart="handleDragStart(event, '${hs.STT}', 'UNASSIGNED')" onclick="handleStudentUnassignedClick('${hs.STT}')"
+               class="student-badge bg-white border border-amber-300 rounded px-2 py-1 text-xs font-bold text-slate-700 shadow-xs cursor-pointer hover:bg-amber-100 flex items-center gap-1">
+            <span>${av} #${hs.STT} ${hs.Ho_Ten}</span>
+          </div>
+        `;
+      }).join('');
     }
 
     // KÉO THẢ VỊ TRÍ
@@ -1029,155 +1196,118 @@
         return;
       }
 
-      container.innerHTML = hsViPham.map(hs => `
-        <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-100 flex justify-between items-center shadow-xs cursor-pointer hover:border-rose-300 transition">
-          <div>
-            <div class="text-xs font-bold text-slate-800">
-              <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] mr-1">#${hs.STT}</span>
-              ${hs.Ho_Ten}
+      container.innerHTML = hsViPham.map(hs => {
+        const av = hs.Avatar || "👤";
+        return `
+          <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-100 flex justify-between items-center shadow-xs cursor-pointer hover:border-rose-300 transition">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">${av}</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">
+                  <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] mr-1">#${hs.STT}</span>
+                  ${hs.Ho_Ten}
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">${hs.To} • Cần bù đắp điểm rèn luyện</div>
+              </div>
             </div>
-            <div class="text-[10px] text-slate-400 mt-0.5">${hs.To} • Cần bù đắp điểm rèn luyện</div>
+            <div class="text-right">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                Bị trừ: -${hs.Tong_Diem_Tru}đ
+              </span>
+            </div>
           </div>
-          <div class="text-right">
-            <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
-              Bị trừ: -${hs.Tong_Diem_Tru}đ
-            </span>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    // TAB CÁ NHÂN & THIỆP CHÚC MỪNG SINH NHẬT
-    function setupPersonalTab() {
-      const select = document.getElementById("selectTraCuuHS");
-      if (!select || !appData.hocSinh) return;
+    // SINH NHẬT
+    function parseDate(dateStr) {
+      if (!dateStr) return null;
+      const str = String(dateStr).trim();
+      let day, month;
 
-      select.innerHTML = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      if (str.includes('/')) {
+        const parts = str.split('/');
+        day = parseInt(parts[0], 10);
+        month = parseInt(parts[1], 10);
+      } else if (str.includes('-')) {
+        const parts = str.split('-');
+        if (parts[0].length === 4) {
+          month = parseInt(parts[1], 10);
+          day = parseInt(parts[2], 10);
+        } else {
+          day = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+        }
+      }
+      return (day && month) ? { day, month, raw: str } : null;
+    }
 
-      const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
-      const defaultSTT = currentUser ? currentUser.STT : (appData.hocSinh[0] ? appData.hocSinh[0].STT : "");
-      
-      if (defaultSTT) {
-        select.value = defaultSTT;
-        renderHoSoCaNhan(defaultSTT);
+    function checkAndRenderBirthdays() {
+      if (!appData.hocSinh) return;
+      const today = new Date();
+      const currentDay = today.getDate();
+      const currentMonth = today.getMonth() + 1;
+
+      document.getElementById("currentMonthText").innerText = `Tháng ${currentMonth}`;
+
+      const todayBirthdays = [];
+      const monthBirthdays = [];
+
+      appData.hocSinh.forEach(hs => {
+        const d = parseDate(hs.Ngay_Sinh);
+        if (d) {
+          if (d.month === currentMonth) {
+            monthBirthdays.push({ ...hs, birthDay: d.day, birthStr: d.raw });
+            if (d.day === currentDay) {
+              todayBirthdays.push(hs);
+            }
+          }
+        }
+      });
+
+      const banner = document.getElementById("todayBirthdayBanner");
+      const nameBox = document.getElementById("todayBirthdayNames");
+      if (todayBirthdays.length > 0) {
+        banner.classList.remove("hidden");
+        nameBox.innerText = todayBirthdays.map(h => `${h.Avatar || '🎂'} ${h.Ho_Ten} (#${h.STT} - ${h.To})`).join("  •  ");
+        setTimeout(() => triggerConfetti(), 800);
+      } else {
+        banner.classList.add("hidden");
+      }
+
+      const monthList = document.getElementById("monthBirthdayList");
+      const monthBadge = document.getElementById("monthBirthdayCountBadge");
+      monthBadge.innerText = `${monthBirthdays.length} bạn`;
+
+      monthBirthdays.sort((a, b) => a.birthDay - b.birthDay);
+
+      if (monthBirthdays.length === 0) {
+        monthList.innerHTML = `<span class="text-[11px] text-pink-400 italic">Tháng này không có sinh nhật bạn nào.</span>`;
+      } else {
+        monthList.innerHTML = monthBirthdays.map(h => {
+          const isToday = (h.birthDay === currentDay);
+          const av = h.Avatar || "🎂";
+          return `
+            <div onclick="viewStudentProfile('${h.STT}')" class="bg-white border ${isToday ? 'border-pink-500 ring-2 ring-pink-300' : 'border-pink-200'} rounded-lg px-2 py-1 text-xs shadow-xs cursor-pointer hover:bg-pink-100/50 flex items-center gap-1.5 transition">
+              <span>${av}</span>
+              <span class="text-pink-600 font-black">${h.birthDay}/${currentMonth}</span>
+              <span class="font-bold text-slate-700 truncate">#${h.STT} ${h.Ho_Ten}</span>
+              ${isToday ? '<span class="text-xs">🎉</span>' : ''}
+            </div>
+          `;
+        }).join('');
       }
     }
 
-    function renderHoSoCaNhan(stt) {
-      const container = document.getElementById("hoSoDetailContainer");
-      const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(stt));
-      if (!hs || !container) return;
-
-      const score = Number(hs.Diem_Hien_Tai) || 0;
-      const myLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
-
-      const myViPham = (appData.viPham || []).filter(v => String(v.STT) === String(stt));
-      const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt));
-      const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
-
-      const birthDate = parseDate(hs.Ngay_Sinh);
-      const today = new Date();
-      const isBirthdayToday = birthDate && (birthDate.day === today.getDate() && birthDate.month === (today.getMonth() + 1));
-
-      container.innerHTML = `
-        ${isBirthdayToday ? `
-          <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl p-4 shadow-md flex items-center justify-between border border-pink-300 animate-pulse">
-            <div>
-              <div class="text-xs font-black uppercase text-yellow-300 tracking-wide">🎉 CHÚC MỪNG SINH NHẬT HÔM NAY!</div>
-              <div class="text-sm font-bold mt-0.5">Chúc em tuổi mới luôn tỏa sáng và đạt nhiều thành tích cao cùng tập thể 10C5! 🎁</div>
-            </div>
-            <button onclick="triggerConfetti()" class="bg-white text-pink-600 text-xs font-black px-3 py-1.5 rounded-lg shadow">🎊 Pháo hoa</button>
-          </div>
-        ` : ''}
-
-        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
-          <div class="flex justify-between items-start">
-            <div>
-              <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold">STT: #${hs.STT} • ${hs.To}</span>
-              <h3 class="text-lg font-black mt-1">${hs.Ho_Ten}</h3>
-              <p class="text-xs text-indigo-100 flex items-center gap-1.5 mt-0.5">
-                <span><i class="fa-solid fa-cake-candles text-pink-300"></i> ${hs.Ngay_Sinh || 'Chưa cập nhật'}</span>
-                <span>•</span>
-                <span><i class="fa-solid fa-user-shield"></i> ${hs.Chuc_Vu}</span>
-              </p>
-            </div>
-            <div class="text-right">
-              <div class="text-2xl font-black text-yellow-300">${score > 0 ? '+' : ''}${score} <span class="text-xs text-white">điểm</span></div>
-              <div class="text-[10px] text-indigo-100">Điểm hiện tại</div>
-            </div>
-          </div>
-          <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/20 text-center">
-            <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-emerald-200">Tổng điểm thưởng</span>
-              <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
-            </div>
-            <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-rose-200">Tổng điểm trừ</span>
-              <span class="text-sm font-bold text-rose-300">-${hs.Tong_Diem_Tru || 0} đ</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã đăng ký</span>
-            <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myHoatDong.length}</span>
-          </h4>
-          <div class="space-y-1.5">
-            ${myHoatDong.length > 0 ? myHoatDong.map(h => `
-              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex justify-between items-center text-xs">
-                <div>
-                  <span class="font-bold text-slate-800">${h.Ten_HoatDong}</span>
-                  <span class="text-[10px] text-slate-400 block">Hạn: ${h.Han_Chot}</span>
-                </div>
-                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">+${h.Diem_Cong}đ</span>
-              </div>
-            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa đăng ký tham gia hoạt động nào.</div>'}
-          </div>
-        </div>
-
-        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Lịch sử điểm cộng</span>
-            <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myDiemCong.length}</span>
-          </h4>
-          <div class="space-y-1.5 max-h-48 overflow-y-auto">
-            ${myDiemCong.length > 0 ? myDiemCong.slice().reverse().map(d => `
-              <div class="bg-emerald-50/50 p-2 rounded-lg border border-emerald-100 text-xs">
-                <div class="flex justify-between items-center">
-                  <span class="font-bold text-slate-800">${d.Ly_Do}</span>
-                  <span class="font-black text-emerald-600">+${d.Diem_Cong}đ</span>
-                </div>
-                <div class="text-[10px] text-slate-400 flex justify-between mt-1">
-                  <span>${d.Ngay} • Ghi: ${d.Nguoi_Ghi || 'GV'}</span>
-                  <span>${d.Ghi_Chu || ''}</span>
-                </div>
-              </div>
-            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng nào.</div>'}
-          </div>
-        </div>
-
-        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
-          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lịch sử lỗi vi phạm</span>
-            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length}</span>
-          </h4>
-          <div class="space-y-1.5 max-h-48 overflow-y-auto">
-            ${myViPham.length > 0 ? myViPham.slice().reverse().map(v => `
-              <div class="bg-rose-50/50 p-2 rounded-lg border border-rose-100 text-xs">
-                <div class="flex justify-between items-center">
-                  <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
-                  <span class="font-black text-rose-600">-${v.Diem_Tru}đ</span>
-                </div>
-                <div class="text-[10px] text-slate-400 flex justify-between mt-1">
-                  <span>${v.Ngay} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'}</span>
-                  <span class="text-rose-400">${v.Ghi_Chu || ''}</span>
-                </div>
-              </div>
-            `).join('') : '<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào.</div>'}
-          </div>
-        </div>
-      `;
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
     }
 
     function viewStudentProfile(stt) {
@@ -1185,7 +1315,7 @@
       if (select) select.value = stt;
       renderHoSoCaNhan(stt);
       
-      const btnCaNhan = document.querySelectorAll('.nav-btn')[2];
+      const btnCaNhan = document.querySelectorAll('.nav-btn')[0];
       switchTab('tab-canhan', btnCaNhan);
     }
 
