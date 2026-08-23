@@ -246,12 +246,24 @@
       }
     }
 
+    const ADMIN_EMAIL = "ngochuong290798@gmail.com"; // Thêm dòng này
+
     function identifyUser() {
       if (!currentUserEmail) {
         document.getElementById("userRoleText").innerText = "Chế độ: Học sinh (Chỉ xem)";
         document.getElementById("btnTextLogin").innerText = "Đăng nhập";
         return;
       }
+      
+      // Nếu là email GVCN
+      if (currentUserEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        currentUserRole = "GVCN";
+        document.getElementById("userRoleText").innerText = "👤 Cô Hương (GVCN)";
+        document.getElementById("btnTextLogin").innerText = "Đổi TK";
+        checkPermissions();
+        return;
+      }
+
       const user = appData.hocSinh.find(h => (h.Email || "").toLowerCase() === currentUserEmail.toLowerCase());
       if (user) {
         currentUserRole = user.Chuc_Vu;
