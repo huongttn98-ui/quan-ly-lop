@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sổ Tay Chủ Nhiệm 4.0</title>
+  <!-- Tailwind CSS & FontAwesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-24 font-sans">
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-4 shadow-md sticky top-0 z-40">
+    <div class="max-w-md mx-auto flex justify-between items-center">
+      <div>
+        <h1 class="text-base font-black tracking-wide flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-yellow-300"></i> LỚP HỌC HẠNH PHÚC
+        </h1>
+        <p id="userRoleText" class="text-xs text-indigo-100 font-medium mt-0.5">Chế độ: Đang tải...</p>
+      </div>
+      <button onclick="loginPrompt()" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/30 transition">
+        <i class="fa-solid fa-user-gear"></i> <span id="btnTextLogin">Đăng nhập</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTAINER CHÍNH -->
+  <main class="max-w-md mx-auto p-4 space-y-4">
+
+    <!-- TAB 1: BÁO BÀI & THỜI KHÓA BIỂU -->
+    <section id="tab-baobai" class="tab-content active space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-book-open text-indigo-600 mr-1.5"></i> Báo bài & Nhiệm vụ</h2>
+        <button id="btnThemBaoBai" onclick="openModal('modalBaoBai')" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm bài
+        </button>
+      </div>
+      <div id="listBaoBai" class="space-y-2.5">
+        <div class="text-center text-sm text-slate-400 py-8"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải dữ liệu...</div>
+      </div>
+    </section>
+
+    <!-- TAB 2: NỀ NẾP & ĐIỂM RÈN LUYỆN -->
+    <section id="tab-nenep" class="tab-content space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-shield-halved text-rose-500 mr-1.5"></i> Theo dõi Rèn luyện</h2>
+        <div class="flex gap-1.5">
+          <button id="btnThemDiemCong" onclick="openModal('modalDiemCong')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
+            <i class="fa-solid fa-plus"></i> Cộng điểm
+          </button>
+          <button id="btnThemViPham" onclick="openModal('modalViPham')" class="hidden text-xs bg-rose-600 hover:bg-rose-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
+            <i class="fa-solid fa-minus"></i> Ghi lỗi
+          </button>
+        </div>
+      </div>
+      <div id="listHocSinh" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1"></div>
+    </section>
+
+    <!-- TAB 3: HOẠT ĐỘNG & PHONG TRÀO ĐOÀN -->
+    <section id="tab-hoatdong" class="tab-content space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-bullhorn text-amber-500 mr-1.5"></i> Hoạt động Đoàn & Sự kiện</h2>
+        <button id="btnThemHoatDong" onclick="openModal('modalHoatDong')" class="hidden text-xs bg-amber-600 hover:bg-amber-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm HĐ
+        </button>
+      </div>
+      <div id="listHoatDong" class="space-y-2.5"></div>
+    </section>
+
+    <!-- TAB 4: PHÂN CÔNG TRỰC NHẬT -->
+    <section id="tab-trucnhat" class="tab-content space-y-3">
+      <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Lịch trực nhật tuần này</h2>
+      <div id="listTrucNhat" class="space-y-2.5"></div>
+    </section>
+
+  </main>
+
+  <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2.5 z-40 shadow-lg">
+    <div class="max-w-md mx-auto grid grid-cols-4 text-center text-xs">
+      <button onclick="switchTab('tab-baobai', this)" class="nav-btn text-indigo-600 font-bold">
+        <i class="fa-solid fa-book text-lg block mb-0.5"></i> Báo bài
+      </button>
+      <button onclick="switchTab('tab-nenep', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-award text-lg block mb-0.5"></i> Rèn luyện
+      </button>
+      <button onclick="switchTab('tab-hoatdong', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-flag text-lg block mb-0.5"></i> Phong trào
+      </button>
+      <button onclick="switchTab('tab-trucnhat', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-broom text-lg block mb-0.5"></i> Trực nhật
+      </button>
+    </div>
+  </nav>
+
+  <!-- MODAL 1: GHI NHẬN VI PHẠM (TRỪ ĐIỂM) -->
+  <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
+      <form onsubmit="submitViPham(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
+          <select id="vp_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Loại lỗi:</label>
+            <input type="text" id="vp_loailoi" placeholder="Đi trễ, Không làm bài..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm trừ:</label>
+            <input type="number" id="vp_diemtru" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Ghi chú thêm:</label>
+          <input type="text" id="vp_ghichu" placeholder="Tiết 2, không đồng phục..." class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalViPham')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitVP" class="px-4 py-2 bg-rose-600 text-white rounded-lg font-medium">Lưu vi phạm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: GHI NHẬN ĐIỂM CỘNG -->
+  <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
+      <form onsubmit="submitDiemCong(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
+          <select id="dc_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Lý do cộng:</label>
+            <input type="text" id="dc_lydo" placeholder="Phát biểu tốt, Nhặt được của rơi..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm cộng:</label>
+            <input type="number" id="dc_diemcong" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Ghi chú:</label>
+          <input type="text" id="dc_ghichu" placeholder="Tiết Toán, giúp bạn..." class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalDiemCong')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitDC" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium">Lưu điểm cộng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: THÊM BÁO BÀI -->
+  <div id="modalBaoBai" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-plus text-indigo-600"></i> Đăng báo bài mới</h3>
+      <form onsubmit="submitBaoBai(event)" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Thứ & Tiết:</label>
+            <input type="text" id="bb_thutiet" placeholder="Thứ 3 (Tiết 1-2)" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Môn học:</label>
+            <input type="text" id="bb_monhoc" placeholder="Toán, Văn..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nội dung báo bài / Bài tập:</label>
+          <textarea id="bb_noidung" rows="3" placeholder="Làm bài tập trang 45 SGK..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Hạn nộp / Kiểm tra:</label>
+          <input type="text" id="bb_hannop" placeholder="Thứ 5 tuần này" required class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalBaoBai')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitBB" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium">Đăng bài</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: THÊM HOẠT ĐỘNG ĐOÀN -->
+  <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động Đoàn</h3>
+      <form onsubmit="submitHoatDong(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Tên phong trào / Hoạt động:</label>
+          <input type="text" id="hd_ten" placeholder="Hội thi kéo co, Văn nghệ 26/3..." required class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nội dung chi tiết:</label>
+          <textarea id="hd_noidung" rows="2" placeholder="Yêu cầu tham gia, thời gian, địa điểm..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Hạn chót đăng ký:</label>
+            <input type="text" id="hd_hanchot" placeholder="20/08/2026" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm cộng rèn luyện:</label>
+            <input type="number" id="hd_diemcong" value="5" min="1" max="20" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalHoatDong')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitHD" class="px-4 py-2 bg-amber-600 text-white rounded-lg font-medium">Tạo hoạt động</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
+  <script>
+    // ⚠️ DÁN ĐÚNG URL WEB APP CỦA BẠN VÀO DƯỚI ĐÂY:
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzDcSFh6CE7aAVfK91bDe24UmCAGc6KOFfdNpAjLNqz0siH8QbVYZJHbSyu37bVvwG-xw/exec";
+
+    let appData = { hocSinh: [], viPham: [], diemCong: [], baoBai: [], hoatDong: [], trucNhat: [] };
+    let currentUserEmail = localStorage.getItem("user_email") || "";
+    let currentUserRole = "HocSinh";
+
+    async function loadData() {
+      try {
+        const res = await fetch(GAS_API_URL);
+        const json = await res.json();
+        if (json.success) {
+          appData = json.data;
+          identifyUser();
+          renderUI();
+          populateStudentSelects();
+        }
+      } catch (err) {
+        console.error("Lỗi tải dữ liệu:", err);
+      }
+    }
+
+    function identifyUser() {
+      if (!currentUserEmail) {
+        document.getElementById("userRoleText").innerText = "Chế độ: Học sinh (Chỉ xem)";
+        document.getElementById("btnTextLogin").innerText = "Đăng nhập";
+        return;
+      }
+      const user = appData.hocSinh.find(h => (h.Email || "").toLowerCase() === currentUserEmail.toLowerCase());
+      if (user) {
+        currentUserRole = user.Chuc_Vu;
+        document.getElementById("userRoleText").innerText = `👤 ${user.Ho_Ten} (${user.Chuc_Vu})`;
+      } else {
+        document.getElementById("userRoleText").innerText = `👤 ${currentUserEmail}`;
+      }
+      document.getElementById("btnTextLogin").innerText = "Đổi TK";
+      checkPermissions();
+    }
+
+    function checkPermissions() {
+      if (currentUserRole === "Lớp phó Học tập" || currentUserRole === "GVCN") {
+        document.getElementById("btnThemBaoBai")?.classList.remove("hidden");
+      }
+      if (currentUserRole === "Lớp trưởng" || currentUserRole === "Lớp phó Kỷ luật" || currentUserRole === "GVCN") {
+        document.getElementById("btnThemViPham")?.classList.remove("hidden");
+      }
+      if (currentUserRole !== "Thành viên" && currentUserRole !== "HocSinh") {
+        document.getElementById("btnThemDiemCong")?.classList.remove("hidden");
+      }
+      if (currentUserRole === "Bí thư" || currentUserRole === "GVCN") {
+        document.getElementById("btnThemHoatDong")?.classList.remove("hidden");
+      }
+    }
+
+    function renderUI() {
+      // 1. Render Báo bài
+      const listBB = document.getElementById("listBaoBai");
+      if (!appData.baoBai || appData.baoBai.length === 0) {
+        listBB.innerHTML = '<div class="text-xs text-slate-400 text-center py-6">Chưa có thông báo bài mới.</div>';
+      } else {
+        listBB.innerHTML = appData.baoBai.slice().reverse().map(bb => `
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex justify-between items-center mb-1">
+              <span class="bg-indigo-50 text-indigo-700 text-[11px] font-bold px-2 py-0.5 rounded border border-indigo-100">${bb.Mon_Hoc}</span>
+              <span class="text-[11px] text-rose-500 font-semibold"><i class="fa-regular fa-clock"></i> Hạn: ${bb.Han_Nop_Kiem_Tra}</span>
+            </div>
+            <p class="text-xs font-semibold text-slate-800 mt-1">${bb.Noi_Dung_Bao_Bai}</p>
+            <div class="text-[10px] text-slate-400 mt-2 flex justify-between">
+              <span>Tiết: ${bb.Thu_Tiet}</span>
+              <span>Đăng bởi: ${bb.Nguoi_Dang}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 2. Render Nề nếp & Điểm rèn luyện
+      const listHS = document.getElementById("listHocSinh");
+      listHS.innerHTML = appData.hocSinh.map(hs => {
+        const score = Number(hs.Diem_Hien_Tai) || 0;
+        const color = score > 0 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 
+                      score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
+                      'text-slate-600 bg-slate-50 border-slate-200';
+        return `
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm">
+            <div>
+              <div class="text-xs font-bold text-slate-800">
+                <span class="inline-block bg-slate-100 text-slate-600 rounded px-1.5 py-0.5 text-[10px] mr-1">#${hs.STT}</span>
+                ${hs.Ho_Ten}
+              </div>
+              <div class="text-[11px] text-slate-400 mt-0.5">${hs.To} • <span class="text-indigo-600 font-medium">${hs.Chuc_Vu}</span></div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-black px-2.5 py-1 rounded-lg border ${color}">
+                ${score > 0 ? '+' : ''}${score} đ
+              </span>
+              <div class="text-[10px] mt-1 space-x-1 font-medium">
+                <span class="text-emerald-600">+${hs.Tong_Diem_Cong || 0}</span>
+                <span class="text-slate-300">|</span>
+                <span class="text-rose-500">-${hs.Tong_Diem_Tru || 0}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // 3. Render Hoạt động Đoàn
+      const listHD = document.getElementById("listHoatDong");
+      listHD.innerHTML = appData.hoatDong.slice().reverse().map(hd => `
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
+            <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
+          </div>
+          <p class="text-xs text-slate-600 mb-2">${hd.Noi_Dung}</p>
+          <div class="text-[10px] text-rose-500 font-medium">⏳ Hạn đăng ký: ${hd.Han_Chot}</div>
+        </div>
+      `).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
+
+      // 4. Render Trực nhật
+      const listTN = document.getElementById("listTrucNhat");
+      listTN.innerHTML = appData.trucNhat.map(tn => `
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm">
+          <div>
+            <div class="text-xs font-bold text-slate-800">${tn.Thu} (${tn.Buoi}) - ${tn.To_Truc}</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">${tn.Nhiem_Vu}</div>
+          </div>
+          <span class="text-[11px] px-2 py-1 rounded bg-slate-100 text-slate-600 font-semibold">${tn.Trang_Thai}</span>
+        </div>
+      `).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có lịch trực nhật.</div>';
+    }
+
+    function populateStudentSelects() {
+      const options = appData.hocSinh.map(h => `<option value="${h.STT}" data-name="${h.Ho_Ten}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      if (document.getElementById("vp_hocsinh")) document.getElementById("vp_hocsinh").innerHTML = options;
+      if (document.getElementById("dc_hocsinh")) document.getElementById("dc_hocsinh").innerHTML = options;
+    }
+
+    // Gửi Vi phạm (Trừ điểm)
+    async function submitViPham(e) {
+      e.preventDefault();
+      const select = document.getElementById("vp_hocsinh");
+      const hoTen = select.options[select.selectedIndex].getAttribute("data-name");
+      const payload = {
+        stt: select.value,
+        hoTen: hoTen,
+        ngay: new Date().toLocaleDateString('vi-VN'),
+        loaiLoi: document.getElementById("vp_loailoi").value,
+        diemTru: document.getElementById("vp_diemtru").value,
+        ghiChu: document.getElementById("vp_ghichu").value
+      };
+      await sendPostRequest("addViPham", payload, "btnSubmitVP", "modalViPham");
+    }
+
+    // Gửi Điểm cộng
+    async function submitDiemCong(e) {
+      e.preventDefault();
+      const select = document.getElementById("dc_hocsinh");
+      const hoTen = select.options[select.selectedIndex].getAttribute("data-name");
+      const payload = {
+        stt: select.value,
+        hoTen: hoTen,
+        ngay: new Date().toLocaleDateString('vi-VN'),
+        lyDo: document.getElementById("dc_lydo").value,
+        diemCong: document.getElementById("dc_diemcong").value,
+        ghiChu: document.getElementById("dc_ghichu").value
+      };
+      await sendPostRequest("addDiemCong", payload, "btnSubmitDC", "modalDiemCong");
+    }
+
+    // Gửi Báo bài
+    async function submitBaoBai(e) {
+      e.preventDefault();
+      const payload = {
+        thuTiet: document.getElementById("bb_thutiet").value,
+        monHoc: document.getElementById("bb_monhoc").value,
+        noiDung: document.getElementById("bb_noidung").value,
+        hanNop: document.getElementById("bb_hannop").value
+      };
+      await sendPostRequest("addBaoBai", payload, "btnSubmitBB", "modalBaoBai");
+    }
+
+    // Gửi Hoạt động
+    async function submitHoatDong(e) {
+      e.preventDefault();
+      const payload = {
+        tenHoatDong: document.getElementById("hd_ten").value,
+        noiDung: document.getElementById("hd_noidung").value,
+        hanChot: document.getElementById("hd_hanchot").value,
+        diemCong: document.getElementById("hd_diemcong").value
+      };
+      await sendPostRequest("addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
+    }
+
+    async function sendPostRequest(action, payload, btnId, modalId) {
+      const btn = document.getElementById(btnId);
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: action, userEmail: currentUserEmail, payload: payload })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          closeModal(modalId);
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      } finally {
+        btn.innerText = "Lưu lại";
+        btn.disabled = false;
+      }
+    }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.remove('text-indigo-600', 'font-bold');
+        b.classList.add('text-slate-400');
+      });
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('text-indigo-600', 'font-bold');
+      btn.classList.remove('text-slate-400');
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+
+    function loginPrompt() {
+      const email = prompt("Nhập Email Google của bạn để xác thực chức vụ:", currentUserEmail);
+      if (email !== null) {
+        localStorage.setItem("user_email", email.trim().toLowerCase());
+        currentUserEmail = email.trim().toLowerCase();
+        identifyUser();
+      }
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>
