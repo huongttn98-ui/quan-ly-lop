@@ -7,6 +7,8 @@
   <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Thư viện hiệu ứng pháo hoa sinh nhật Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -14,6 +16,11 @@
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     .seat-slot { min-height: 46px; transition: all 0.2s ease; }
     .seat-slot.drag-over { background-color: #e0e7ff; border-color: #4f46e5; transform: scale(1.02); }
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(-3%); }
+      50% { transform: translateY(3%); }
+    }
+    .animate-bounce-slow { animation: bounce-slow 2.5s infinite ease-in-out; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 pb-28 font-sans antialiased">
@@ -35,6 +42,24 @@
 
   <!-- CONTAINER CHÍNH -->
   <main class="max-w-5xl mx-auto p-3 space-y-4">
+
+    <!-- KHUNG CHÚC MỪNG SINH NHẬT HÔM NAY -->
+    <div id="todayBirthdayBanner" class="hidden bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white rounded-2xl p-4 shadow-lg border border-pink-300 relative overflow-hidden">
+      <div class="absolute -right-4 -bottom-4 text-7xl opacity-20"><i class="fa-solid fa-cake-candles"></i></div>
+      <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="bg-yellow-300 text-slate-900 text-[10px] font-black uppercase px-2 py-0.5 rounded-full shadow-xs">🎉 HAPPY BIRTHDAY!</span>
+            <span class="text-xs font-bold text-pink-100">Hôm nay là sinh nhật của:</span>
+          </div>
+          <h3 id="todayBirthdayNames" class="text-lg font-black tracking-wide text-yellow-200"></h3>
+          <p class="text-xs text-pink-100 leading-tight">Chúc các em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
+        </div>
+        <button onclick="triggerConfetti()" class="bg-white text-pink-600 hover:bg-pink-50 font-black text-xs px-4 py-2 rounded-xl shadow transition shrink-0 animate-bounce-slow flex items-center gap-1.5">
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Bắn pháo hoa 🎊
+        </button>
+      </div>
+    </div>
 
     <!-- TAB 1: BÁO BÀI & THỜI KHÓA BIỂU -->
     <section id="tab-baobai" class="tab-content active space-y-3">
@@ -75,10 +100,20 @@
       <div id="listHocSinh" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1"></div>
     </section>
 
-    <!-- TAB 3: TRANG TỔNG HỢP CÁ NHÂN -->
+    <!-- TAB 3: TRANG TỔNG HỢP CÁ NHÂN & SINH NHẬT -->
     <section id="tab-canhan" class="tab-content space-y-3">
       <div class="flex justify-between items-center">
-        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện cá nhân</h2>
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-id-card text-indigo-600 mr-1.5"></i> Hồ sơ rèn luyện & Sinh nhật</h2>
+      </div>
+
+      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          </h3>
+          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+        </div>
+        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
       
       <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
@@ -89,7 +124,7 @@
       <div id="hoSoDetailContainer" class="space-y-3"></div>
     </section>
 
-    <!-- TAB 4: SƠ ĐỒ LỚP HỌC (THEO MẪU CHUẨN ẢNH) -->
+    <!-- TAB 4: SƠ ĐỒ LỚP HỌC 10C5 -->
     <section id="tab-sodolop" class="tab-content space-y-3">
       <div class="flex justify-between items-center flex-wrap gap-2">
         <div>
@@ -112,7 +147,6 @@
           <p class="text-xs font-bold text-slate-600 mt-0.5">NĂM HỌC: 2026 – 2027</p>
         </div>
 
-        <!-- KHU VỰC HỌC SINH CHƯA CÓ CHỖ (NẾU CÓ) -->
         <div id="unassignedStudentsBox" class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 hidden">
           <div class="text-[11px] font-bold text-amber-800 mb-1 flex items-center gap-1">
             <i class="fa-solid fa-user-clock text-amber-600"></i> Học sinh chưa vào bàn (Kéo thả vào ghế trống):
@@ -120,9 +154,9 @@
           <div id="unassignedList" class="flex flex-wrap gap-1.5 min-h-[36px] p-1 bg-white/80 rounded-lg border border-dashed border-amber-300" ondragover="allowDrop(event)" ondrop="dropToUnassigned(event)"></div>
         </div>
 
-        <!-- 4 DÃY BÀN THEO ĐÚNG THỨ TỰ: TỔ 1 (CỬA VÀO) -> TỔ 2 -> TỔ 3 -> TỔ 4 (BÀN GV) -->
+        <!-- 4 DÃY BÀN: TỔ 1 (CỬA VÀO) -> TỔ 2 -> TỔ 3 -> TỔ 4 (BÀN GV) -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
-          <!-- TỔ 1 (GẦN CỬA VÀO) -->
+          <!-- TỔ 1 -->
           <div class="space-y-2">
             <div id="to1_desks" class="space-y-1.5"></div>
             <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">
@@ -146,7 +180,7 @@
             </div>
           </div>
 
-          <!-- TỔ 4 (GẦN BÀN GV) -->
+          <!-- TỔ 4 -->
           <div class="space-y-2">
             <div id="to4_desks" class="space-y-1.5"></div>
             <div class="bg-slate-100 text-slate-800 text-center font-black text-xs py-2 rounded-lg border-2 border-slate-400 uppercase tracking-wide">
@@ -155,9 +189,8 @@
           </div>
         </div>
 
-        <!-- KHU VỰC CỬA VÀO - BẢNG - BÀN GIÁO VIÊN (DƯỚI CÙNG) -->
+        <!-- CỬA VÀO - BẢNG - BÀN GIÁO VIÊN -->
         <div class="grid grid-cols-3 items-center pt-3 border-t border-slate-200">
-          <!-- CỬA VÀO -->
           <div class="flex items-center">
             <div class="bg-blue-50 border-2 border-blue-500 text-blue-800 font-black text-xs px-3 py-1.5 rounded flex items-center gap-1 shadow-xs">
               <span>CỬA VÀO</span>
@@ -165,14 +198,12 @@
             </div>
           </div>
 
-          <!-- BẢNG ĐEN -->
           <div class="text-center">
             <div class="inline-block bg-slate-800 text-white font-black text-xs px-6 md:px-10 py-1.5 rounded-lg border-2 border-slate-700 shadow">
               BẢNG
             </div>
           </div>
 
-          <!-- BÀN GIÁO VIÊN -->
           <div class="flex justify-end">
             <div class="bg-amber-50 border-2 border-amber-500 text-amber-900 font-black text-xs px-3 py-1 rounded text-center shadow-xs">
               <div>BÀN</div>
@@ -205,7 +236,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng tham gia trực vệ sinh toàn trường:
+          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -434,6 +465,7 @@
           renderSoDo24Ban();
           renderThiDuaTo();
           renderLaoDongCuoiThang();
+          checkAndRenderBirthdays();
         }
       } catch (err) {
         console.error("Lỗi tải dữ liệu:", err);
@@ -597,6 +629,98 @@
     }
 
     // ==============================================================
+    // CHÚC MỪNG SINH NHẬT & HIỆU ỨNG CONFETTI
+    // ==============================================================
+    function parseDate(dateStr) {
+      if (!dateStr) return null;
+      const str = String(dateStr).trim();
+      let day, month;
+
+      if (str.includes('/')) {
+        const parts = str.split('/');
+        day = parseInt(parts[0], 10);
+        month = parseInt(parts[1], 10);
+      } else if (str.includes('-')) {
+        const parts = str.split('-');
+        if (parts[0].length === 4) { // YYYY-MM-DD
+          month = parseInt(parts[1], 10);
+          day = parseInt(parts[2], 10);
+        } else { // DD-MM-YYYY
+          day = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+        }
+      }
+      return (day && month) ? { day, month, raw: str } : null;
+    }
+
+    function checkAndRenderBirthdays() {
+      if (!appData.hocSinh) return;
+      const today = new Date();
+      const currentDay = today.getDate();
+      const currentMonth = today.getMonth() + 1;
+
+      document.getElementById("currentMonthText").innerText = `Tháng ${currentMonth}`;
+
+      const todayBirthdays = [];
+      const monthBirthdays = [];
+
+      appData.hocSinh.forEach(hs => {
+        const d = parseDate(hs.Ngay_Sinh);
+        if (d) {
+          if (d.month === currentMonth) {
+            monthBirthdays.push({ ...hs, birthDay: d.day, birthStr: d.raw });
+            if (d.day === currentDay) {
+              todayBirthdays.push(hs);
+            }
+          }
+        }
+      });
+
+      // 1. Banner Sinh nhật Hôm nay
+      const banner = document.getElementById("todayBirthdayBanner");
+      const nameBox = document.getElementById("todayBirthdayNames");
+      if (todayBirthdays.length > 0) {
+        banner.classList.remove("hidden");
+        nameBox.innerText = todayBirthdays.map(h => `${h.Ho_Ten} (#${h.STT} - ${h.To})`).join(" 🎂 ");
+        setTimeout(() => triggerConfetti(), 800);
+      } else {
+        banner.classList.add("hidden");
+      }
+
+      // 2. Danh sách Sinh nhật trong tháng
+      const monthList = document.getElementById("monthBirthdayList");
+      const monthBadge = document.getElementById("monthBirthdayCountBadge");
+      monthBadge.innerText = `${monthBirthdays.length} bạn`;
+
+      monthBirthdays.sort((a, b) => a.birthDay - b.birthDay);
+
+      if (monthBirthdays.length === 0) {
+        monthList.innerHTML = `<span class="text-[11px] text-pink-400 italic">Tháng này không có sinh nhật bạn nào.</span>`;
+      } else {
+        monthList.innerHTML = monthBirthdays.map(h => {
+          const isToday = (h.birthDay === currentDay);
+          return `
+            <div onclick="viewStudentProfile('${h.STT}')" class="bg-white border ${isToday ? 'border-pink-500 ring-2 ring-pink-300' : 'border-pink-200'} rounded-lg px-2 py-1 text-xs shadow-xs cursor-pointer hover:bg-pink-100/50 flex items-center gap-1.5 transition">
+              <span class="text-pink-600 font-black">${h.birthDay}/${currentMonth}</span>
+              <span class="font-bold text-slate-700 truncate">#${h.STT} ${h.Ho_Ten}</span>
+              ${isToday ? '<span class="text-xs">🎂</span>' : ''}
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    // ==============================================================
     // SƠ ĐỒ LỚP HỌC 24 BÀN (TỔ 1 SÁT CỬA VÀO -> TỔ 4 SÁT BÀN GV)
     // ==============================================================
     function initSeatingState() {
@@ -635,13 +759,11 @@
     }
 
     function renderSoDo24Ban() {
-      // 4 Dãy (Tổ 1 đến Tổ 4)
       for (let t = 1; t <= 4; t++) {
         const container = document.getElementById(`to${t}_desks`);
         if (!container) continue;
 
         let desksHtml = "";
-        // Bàn 6 (cuối lớp) xếp trên cùng -> Bàn 1 (sát bảng) ở dưới cùng
         for (let b = 6; b >= 1; b--) {
           const seatIdL = `T${t}_B${b}_L`;
           const seatIdR = `T${t}_B${b}_R`;
@@ -654,13 +776,11 @@
           desksHtml += `
             <div class="border-2 border-slate-700 rounded-lg p-1 bg-white shadow-2xs">
               <div class="grid grid-cols-2 gap-1">
-                <!-- Ghế Trái -->
                 <div id="slot_${seatIdL}" data-seat="${seatIdL}" 
                      class="seat-slot rounded border border-dashed border-slate-300 p-1 flex flex-col justify-center items-center text-center cursor-pointer hover:border-indigo-400"
                      ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="handleDropSeat(event, '${seatIdL}')" onclick="handleSeatClick('${seatIdL}')">
                   ${renderStudentCardInSeat(hsL, seatIdL)}
                 </div>
-                <!-- Ghế Phải -->
                 <div id="slot_${seatIdR}" data-seat="${seatIdR}" 
                      class="seat-slot rounded border border-dashed border-slate-300 p-1 flex flex-col justify-center items-center text-center cursor-pointer hover:border-indigo-400"
                      ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="handleDropSeat(event, '${seatIdR}')" onclick="handleSeatClick('${seatIdR}')">
@@ -773,7 +893,6 @@
       renderSoDo24Ban();
     }
 
-    // CHẠM CẢM ỨNG ĐỔI VỊ TRÍ
     function handleSeatClick(seatId) {
       if (!selectedStudentForSwap) {
         const stt = seatingState[seatId];
@@ -811,7 +930,7 @@
     }
 
     function saveLocalSeating() {
-      localStorage.setItem("seating_state_lop11b2", JSON.stringify(seatingState));
+      localStorage.setItem("seating_state_lop10c5", JSON.stringify(seatingState));
     }
 
     async function saveSoDoToServer() {
@@ -928,7 +1047,7 @@
       `).join('');
     }
 
-    // TAB CÁ NHÂN
+    // TAB CÁ NHÂN & THIỆP CHÚC MỪNG SINH NHẬT
     function setupPersonalTab() {
       const select = document.getElementById("selectTraCuuHS");
       if (!select || !appData.hocSinh) return;
@@ -956,13 +1075,31 @@
       const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt));
       const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
 
+      const birthDate = parseDate(hs.Ngay_Sinh);
+      const today = new Date();
+      const isBirthdayToday = birthDate && (birthDate.day === today.getDate() && birthDate.month === (today.getMonth() + 1));
+
       container.innerHTML = `
+        ${isBirthdayToday ? `
+          <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl p-4 shadow-md flex items-center justify-between border border-pink-300 animate-pulse">
+            <div>
+              <div class="text-xs font-black uppercase text-yellow-300 tracking-wide">🎉 CHÚC MỪNG SINH NHẬT HÔM NAY!</div>
+              <div class="text-sm font-bold mt-0.5">Chúc em tuổi mới luôn tỏa sáng và đạt nhiều thành tích cao cùng tập thể 10C5! 🎁</div>
+            </div>
+            <button onclick="triggerConfetti()" class="bg-white text-pink-600 text-xs font-black px-3 py-1.5 rounded-lg shadow">🎊 Pháo hoa</button>
+          </div>
+        ` : ''}
+
         <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
           <div class="flex justify-between items-start">
             <div>
               <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold">STT: #${hs.STT} • ${hs.To}</span>
               <h3 class="text-lg font-black mt-1">${hs.Ho_Ten}</h3>
-              <p class="text-xs text-indigo-100"><i class="fa-solid fa-user-shield mr-1"></i>Chức vụ: ${hs.Chuc_Vu}</p>
+              <p class="text-xs text-indigo-100 flex items-center gap-1.5 mt-0.5">
+                <span><i class="fa-solid fa-cake-candles text-pink-300"></i> ${hs.Ngay_Sinh || 'Chưa cập nhật'}</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-user-shield"></i> ${hs.Chuc_Vu}</span>
+              </p>
             </div>
             <div class="text-right">
               <div class="text-2xl font-black text-yellow-300">${score > 0 ? '+' : ''}${score} <span class="text-xs text-white">điểm</span></div>
