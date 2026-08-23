@@ -1,15 +1,284 @@
-<!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sổ Tay Chủ Nhiệm 4.0</title>
+  <!-- Tailwind CSS & FontAwesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-24 font-sans">
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-4 shadow-md sticky top-0 z-40">
+    <div class="max-w-md mx-auto flex justify-between items-center">
+      <div>
+        <h1 class="text-base font-black tracking-wide flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-yellow-300"></i> LỚP HỌC HẠNH PHÚC
+        </h1>
+        <p id="userRoleText" class="text-xs text-indigo-100 font-medium mt-0.5">Chế độ: Đang tải...</p>
+      </div>
+      <button onclick="loginPrompt()" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/30 transition">
+        <i class="fa-solid fa-user-gear"></i> <span id="btnTextLogin">Đăng nhập</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTAINER CHÍNH -->
+  <main class="max-w-md mx-auto p-4 space-y-4">
+
+    <!-- TAB 1: BÁO BÀI & THỜI KHÓA BIỂU -->
+    <section id="tab-baobai" class="tab-content active space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-book-open text-indigo-600 mr-1.5"></i> Báo bài & Nhiệm vụ</h2>
+        <button id="btnThemBaoBai" onclick="openModal('modalBaoBai')" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm bài
+        </button>
+      </div>
+      <div id="listBaoBai" class="space-y-2.5">
+        <div class="text-center text-sm text-slate-400 py-8"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang tải dữ liệu...</div>
+      </div>
+    </section>
+
+    <!-- TAB 2: NỀ NẾP & ĐIỂM RÈN LUYỆN -->
+    <section id="tab-nenep" class="tab-content space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-shield-halved text-rose-500 mr-1.5"></i> Theo dõi Rèn luyện</h2>
+        <div class="flex gap-1.5">
+          <button id="btnThemDiemCong" onclick="openModal('modalDiemCong')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
+            <i class="fa-solid fa-plus"></i> Cộng điểm
+          </button>
+          <button id="btnThemViPham" onclick="openModal('modalViPham')" class="hidden text-xs bg-rose-600 hover:bg-rose-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
+            <i class="fa-solid fa-minus"></i> Ghi lỗi
+          </button>
+        </div>
+      </div>
+      <div id="listHocSinh" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1"></div>
+    </section>
+
+    <!-- TAB 3: HOẠT ĐỘNG & PHONG TRÀO ĐOÀN -->
+    <section id="tab-hoatdong" class="tab-content space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-bullhorn text-amber-500 mr-1.5"></i> Hoạt động Đoàn & Sự kiện</h2>
+        <button id="btnThemHoatDong" onclick="openModal('modalHoatDong')" class="hidden text-xs bg-amber-600 hover:bg-amber-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm HĐ
+        </button>
+      </div>
+      <div id="listHoatDong" class="space-y-2.5"></div>
+    </section>
+
+    <!-- TAB 4: PHÂN CÔNG TRỰC NHẬT -->
+    <section id="tab-trucnhat" class="tab-content space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-broom text-emerald-600 mr-1.5"></i> Lịch trực nhật tuần này</h2>
+        <button id="btnThemTrucNhat" onclick="openModal('modalTrucNhat')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm">
+          <i class="fa-solid fa-plus"></i> Thêm lịch
+        </button>
+      </div>
+      <div id="listTrucNhat" class="space-y-2.5"></div>
+    </section>
+
+  </main>
+
+  <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2.5 z-40 shadow-lg">
+    <div class="max-w-md mx-auto grid grid-cols-4 text-center text-xs">
+      <button onclick="switchTab('tab-baobai', this)" class="nav-btn text-indigo-600 font-bold">
+        <i class="fa-solid fa-book text-lg block mb-0.5"></i> Báo bài
+      </button>
+      <button onclick="switchTab('tab-nenep', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-award text-lg block mb-0.5"></i> Rèn luyện
+      </button>
+      <button onclick="switchTab('tab-hoatdong', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-flag text-lg block mb-0.5"></i> Phong trào
+      </button>
+      <button onclick="switchTab('tab-trucnhat', this)" class="nav-btn text-slate-400">
+        <i class="fa-solid fa-broom text-lg block mb-0.5"></i> Trực nhật
+      </button>
+    </div>
+  </nav>
+
+  <!-- MODAL 1: GHI NHẬN VI PHẠM (TRỪ ĐIỂM) -->
+  <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
+      <form onsubmit="submitViPham(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
+          <select id="vp_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Loại lỗi:</label>
+            <input type="text" id="vp_loailoi" placeholder="Đi trễ, Quên bài..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm trừ:</label>
+            <input type="number" id="vp_diemtru" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Ghi chú thêm:</label>
+          <input type="text" id="vp_ghichu" placeholder="Tiết 2, không đồng phục..." class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalViPham')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitVP" class="px-4 py-2 bg-rose-600 text-white rounded-lg font-medium">Lưu vi phạm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: GHI NHẬN ĐIỂM CỘNG -->
+  <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
+      <form onsubmit="submitDiemCong(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
+          <select id="dc_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Lý do cộng:</label>
+            <input type="text" id="dc_lydo" placeholder="Phát biểu tốt, Nhặt của rơi..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm cộng:</label>
+            <input type="number" id="dc_diemcong" value="2" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Ghi chú:</label>
+          <input type="text" id="dc_ghichu" placeholder="Tiết Toán, giúp bạn..." class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalDiemCong')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitDC" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium">Lưu điểm cộng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: THÊM BÁO BÀI -->
+  <div id="modalBaoBai" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-plus text-indigo-600"></i> Đăng báo bài mới</h3>
+      <form onsubmit="submitBaoBai(event)" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Thứ & Tiết:</label>
+            <input type="text" id="bb_thutiet" placeholder="Thứ 3 (Tiết 1-2)" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Môn học:</label>
+            <input type="text" id="bb_monhoc" placeholder="Toán, Văn..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nội dung báo bài / Bài tập:</label>
+          <textarea id="bb_noidung" rows="3" placeholder="Làm bài tập trang 45 SGK..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Hạn nộp / Kiểm tra:</label>
+          <input type="text" id="bb_hannop" placeholder="Thứ 5 tuần này" required class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalBaoBai')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitBB" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium">Đăng bài</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: THÊM HOẠT ĐỘNG ĐOÀN -->
+  <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-bullhorn text-amber-600"></i> Tạo hoạt động Đoàn</h3>
+      <form onsubmit="submitHoatDong(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Tên phong trào / Hoạt động:</label>
+          <input type="text" id="hd_ten" placeholder="Hội thi kéo co, Văn nghệ 26/3..." required class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nội dung chi tiết:</label>
+          <textarea id="hd_noidung" rows="2" placeholder="Yêu cầu tham gia, thời gian, địa điểm..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Hạn chót đăng ký:</label>
+            <input type="text" id="hd_hanchot" placeholder="20/08/2026" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Điểm cộng rèn luyện:</label>
+            <input type="number" id="hd_diemcong" value="5" min="1" max="20" required class="w-full border rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalHoatDong')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitHD" class="px-4 py-2 bg-amber-600 text-white rounded-lg font-medium">Tạo hoạt động</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: THÊM LỊCH TRỰC NHẬT -->
+  <div id="modalTrucNhat" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-broom text-emerald-600"></i> Phân công trực nhật</h3>
+      <form onsubmit="submitTrucNhat(event)" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Thứ:</label>
+            <select id="tn_thu" required class="w-full border rounded-lg p-2 bg-slate-50">
+              <option value="Thứ 2">Thứ 2</option>
+              <option value="Thứ 3">Thứ 3</option>
+              <option value="Thứ 4">Thứ 4</option>
+              <option value="Thứ 5">Thứ 5</option>
+              <option value="Thứ 6">Thứ 6</option>
+              <option value="Thứ 7">Thứ 7</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Buổi:</label>
+            <select id="tn_buoi" required class="w-full border rounded-lg p-2 bg-slate-50">
+              <option value="Sáng">Sáng</option>
+              <option value="Chiều">Chiều</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Tổ / Người phụ trách:</label>
+          <input type="text" id="tn_totruc" placeholder="Tổ 1, Nam, Mai..." required class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-600 mb-1">Nhiệm vụ chi tiết:</label>
+          <input type="text" id="tn_nhiemvu" placeholder="Lau bảng, quét lớp, đổ rác..." required class="w-full border rounded-lg p-2 bg-slate-50">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modalTrucNhat')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
+          <button type="submit" id="btnSubmitTN" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium">Lưu lịch trực</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
   <script>
     // ⚠️ ĐẢM BẢO ĐÃ DÁN ĐÚNG URL WEB APP CỦA BẠN:
-    const GAS_API_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycb.../exec";
     const ADMIN_EMAIL = "ngochuong290798@gmail.com";
 
     let appData = { hocSinh: [], viPham: [], diemCong: [], baoBai: [], hoatDong: [], trucNhat: [] };
-    let currentUserEmail = localStorage.getItem("user_email") || ADMIN_EMAIL; // Mặc định nhận email nếu chưa lưu
+    let currentUserEmail = localStorage.getItem("user_email") || ADMIN_EMAIL;
     let currentUserRole = "HocSinh";
 
     async function loadData() {
-      // Nhận diện vai trò ngay từ đầu
       identifyUser();
 
       try {
@@ -33,7 +302,6 @@
         return;
       }
 
-      // Kiểm tra nếu là GVCN
       if (currentUserEmail.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
         currentUserRole = "GVCN";
         document.getElementById("userRoleText").innerText = "👤 Cô Hương (GVCN)";
@@ -52,21 +320,25 @@
     }
 
     function checkPermissions() {
-      // Mở nút Báo bài cho GVCN hoặc Lớp phó Học tập
+      // Báo bài
       if (currentUserRole === "GVCN" || currentUserRole === "Lớp phó Học tập") {
         document.getElementById("btnThemBaoBai")?.classList.remove("hidden");
       }
-      // Mở nút Ghi lỗi cho GVCN, Lớp trưởng, Lớp phó Kỷ luật
+      // Ghi vi phạm
       if (currentUserRole === "GVCN" || currentUserRole === "Lớp trưởng" || currentUserRole === "Lớp phó Kỷ luật") {
         document.getElementById("btnThemViPham")?.classList.remove("hidden");
       }
-      // Mở nút Cộng điểm
+      // Cộng điểm
       if (currentUserRole === "GVCN" || (currentUserRole !== "Thành viên" && currentUserRole !== "HocSinh")) {
         document.getElementById("btnThemDiemCong")?.classList.remove("hidden");
       }
-      // Mở nút Hoạt động Đoàn cho GVCN hoặc Bí thư
+      // Hoạt động Đoàn
       if (currentUserRole === "GVCN" || currentUserRole === "Bí thư") {
         document.getElementById("btnThemHoatDong")?.classList.remove("hidden");
+      }
+      // Trực nhật
+      if (currentUserRole === "GVCN" || currentUserRole === "Lớp trưởng" || currentUserRole === "Lớp phó Lao động") {
+        document.getElementById("btnThemTrucNhat")?.classList.remove("hidden");
       }
     }
 
@@ -91,7 +363,7 @@
         `).join('');
       }
 
-      // 2. Render Nề nếp
+      // 2. Render Nề nếp & Điểm rèn luyện
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
@@ -212,6 +484,18 @@
       await sendPostRequest("addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
     }
 
+    async function submitTrucNhat(e) {
+      e.preventDefault();
+      const payload = {
+        thu: document.getElementById("tn_thu").value,
+        buoi: document.getElementById("tn_buoi").value,
+        toTruc: document.getElementById("tn_totruc").value,
+        nhiemVu: document.getElementById("tn_nhiemvu").value,
+        trangThai: "Chưa hoàn thành"
+      };
+      await sendPostRequest("addTrucNhat", payload, "btnSubmitTN", "modalTrucNhat");
+    }
+
     async function sendPostRequest(action, payload, btnId, modalId) {
       const btn = document.getElementById(btnId);
       btn.innerText = "Đang lưu...";
@@ -262,3 +546,5 @@
 
     window.onload = loadData;
   </script>
+</body>
+</html>
