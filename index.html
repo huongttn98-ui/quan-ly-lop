@@ -104,6 +104,17 @@
         <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
 
+      <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
+      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-3.5 border border-emerald-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wide">
+            <i class="fa-solid fa-broom text-emerald-600"></i> Lịch Trực Nhật Gần Nhất
+          </h3>
+          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Hôm nay & Ngày mai</span>
+        </div>
+        <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
+      </div>
+
       <!-- BÁO BÀI & HẠN KIỂM TRA SẮP TỚI -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
@@ -124,17 +135,6 @@
           <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
         <div id="homeHoatDongList" class="space-y-2"></div>
-      </div>
-
-      <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
-      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-3.5 border border-emerald-200 shadow-sm space-y-2">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-broom text-emerald-600"></i> Lịch Trực Nhật Gần Nhất
-          </h3>
-          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Hôm nay & Ngày mai</span>
-        </div>
-        <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
       </div>
 
     </section>
@@ -235,7 +235,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
+          📌 Danh sách học sinh có vi phạm trong tháng tham gia tổng vệ sinh:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -474,9 +474,9 @@
     </div>
   </div>
 
-  <!-- MODAL HOẠT ĐỘNG ĐOÀN (CÓ THÊM TỆP / HÌNH ẢNH) -->
+  <!-- MODAL HOẠT ĐỘNG ĐOÀN (HỖ TRỢ DÁN ẢNH CTRL+V VÀ ĐÍNH KÈM FILE TRỰC TIẾP TRONG Ô NỘI DUNG) -->
   <div id="modalHoatDong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-white rounded-3xl p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <h3 class="font-bold text-slate-800 text-base flex items-center justify-between">
         <span><i class="fa-solid fa-bullhorn text-amber-600 mr-1.5"></i> <span id="modalHoatDongTitle">Tạo hoạt động</span></span>
         <button onclick="closeModal('modalHoatDong')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
@@ -485,32 +485,47 @@
         <input type="hidden" id="hd_edit_id" value="">
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Tên hoạt động:</label>
-          <input type="text" id="hd_ten" placeholder="Kéo co, Văn nghệ, Cuộc thi..." required class="w-full border rounded-lg p-2 bg-slate-50">
+          <input type="text" id="hd_ten" placeholder="Kéo co, Văn nghệ, Cuộc thi..." required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium">
         </div>
-        <div>
-          <label class="block font-semibold text-slate-600 mb-1">Nội dung chi tiết:</label>
-          <textarea id="hd_noidung" rows="2" placeholder="Yêu cầu tham gia, thời gian, địa điểm..." required class="w-full border rounded-lg p-2 bg-slate-50"></textarea>
+
+        <!-- Ô NỘI DUNG TÍCH HỢP ĐÍNH KÈM & DÁN ẢNH CTRL+V -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between items-center">
+            <label class="block font-semibold text-slate-600">Nội dung chi tiết & Hình ảnh thông báo:</label>
+            <label for="hd_file_input" class="cursor-pointer text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+              <i class="fa-solid fa-paperclip"></i> Đính kèm ảnh
+            </label>
+            <input type="file" id="hd_file_input" accept="image/*" onchange="previewActivityImage(this)" class="hidden">
+          </div>
+          
+          <div class="relative">
+            <textarea id="hd_noidung" rows="3" onpaste="handlePasteImage(event)" placeholder="Gõ nội dung hoặc bấm Ctrl+V để dán trực tiếp hình ảnh thông báo..." required class="w-full border rounded-xl p-2.5 bg-slate-50 focus:bg-white transition"></textarea>
+          </div>
+
+          <input type="hidden" id="hd_base64_image" value="">
+          
+          <!-- Xem trước ảnh đã dán/tải lên -->
+          <div id="hd_image_preview_box" class="hidden relative pt-1 bg-slate-50 p-2 rounded-xl border border-dashed border-amber-300">
+            <img id="hd_image_preview" src="" class="max-h-40 rounded-lg mx-auto shadow-xs object-cover">
+            <button type="button" onclick="removeAttachedImage()" class="absolute top-2 right-2 bg-rose-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] shadow" title="Xóa ảnh"><i class="fa-solid fa-xmark"></i></button>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-2">
+
+        <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Hạn chót:</label>
-            <input type="text" id="hd_hanchot" placeholder="20/08/2026" required class="w-full border rounded-lg p-2 bg-slate-50">
+            <input type="text" id="hd_hanchot" placeholder="23/8/2026" required class="w-full border rounded-lg p-2 bg-slate-50">
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Điểm cộng:</label>
-            <input type="number" id="hd_diemcong" value="5" min="1" max="20" required class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-emerald-600">
+            <input type="number" id="hd_diemcong" value="5" min="1" max="50" required class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-emerald-600">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1" title="Số lượng tối đa cần tuyển">Giới hạn HS:</label>
+            <input type="number" id="hd_gioihan" value="0" min="0" max="48" placeholder="0 = Tự do" class="w-full border rounded-lg p-2 bg-slate-50 font-bold text-indigo-600">
           </div>
         </div>
-        
-        <!-- Ô TẢI ẢNH / TỆP ĐÍNH KÈM -->
-        <div class="bg-amber-50/60 p-2.5 rounded-xl border border-amber-200 space-y-1.5">
-          <label class="block font-bold text-amber-900"><i class="fa-solid fa-image mr-1"></i> Tệp / Hình ảnh thông báo đính kèm:</label>
-          <input type="file" id="hd_file_input" accept="image/*" onchange="previewActivityImage(this)" class="block w-full text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer">
-          <input type="hidden" id="hd_base64_image" value="">
-          <div id="hd_image_preview_box" class="hidden pt-1">
-            <img id="hd_image_preview" src="" class="max-h-36 rounded-lg border border-slate-200 mx-auto shadow-xs">
-          </div>
-        </div>
+        <p class="text-[10px] text-slate-400 italic">💡 Mẹo: Nhập "Giới hạn HS" (ví dụ: 5 bạn). Khi đủ 5 bạn đăng ký, hệ thống sẽ tự đóng đăng ký.</p>
 
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeModal('modalHoatDong')" class="px-4 py-2 bg-slate-100 rounded-lg text-slate-600 font-medium">Hủy</button>
@@ -542,7 +557,7 @@
     </div>
   </div>
 
-  <!-- MODAL TRỰC NHẬT (ĐÃ BỎ NHIỆM VỤ, ĐỔI THÀNH CHỌN HỌC SINH) -->
+  <!-- MODAL TRỰC NHẬT (CHỌN HỌC SINH THỰC HIỆN) -->
   <div id="modalTrucNhat" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base flex items-center justify-between">
@@ -574,9 +589,8 @@
 
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Học sinh / Tổ thực hiện trực nhật:</label>
-          <input type="text" id="tn_nguoithuchien" placeholder="Ví dụ: #1 Quốc Anh, #2 Gia Bảo (hoặc Tổ 1)..." required class="w-full border rounded-lg p-2 bg-slate-50 font-medium">
-          <!-- Gợi ý chọn nhanh học sinh -->
-          <div class="flex gap-1.5 pt-1.5 overflow-x-auto text-[10px]" id="quickSelectStudentForTN"></div>
+          <input type="text" id="tn_nguoithuchien" placeholder="Ví dụ: #1 Quốc Anh, #2 Gia Bảo (hoặc Tổ 1)..." required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium">
+          <div class="flex flex-wrap gap-1.5 pt-1.5 text-[10px]" id="quickSelectStudentForTN"></div>
         </div>
 
         <div>
@@ -827,7 +841,7 @@
         }).join('');
       }
 
-      // 2. Danh sách học sinh (ĐÃ SỬA LỖI HIỂN THỊ DẤU CHẤM TRÒN)
+      // 2. Danh sách học sinh (ĐÃ SỬA LỖI DẤU CHẤM)
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
         listHS.innerHTML = appData.hocSinh.map(hs => {
@@ -837,7 +851,6 @@
                         score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
                         'text-slate-600 bg-slate-50 border-slate-200';
           
-          // Xử lý chuỗi thông tin Tổ và Chức vụ gọn gàng, không bị dấu chấm lẻ
           const subInfo = [hs.To, hs.Chuc_Vu].filter(Boolean).join(" • ");
 
           return `
@@ -887,7 +900,7 @@
         collectiveBox.classList.add("hidden");
       }
 
-      // 3. Hoạt động Đoàn (Có hiển thị Hình ảnh / Tệp đính kèm)
+      // 3. Hoạt động Đoàn (Có hiển thị Hình ảnh và Giới hạn số lượng)
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
         const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
@@ -899,11 +912,16 @@
           const dsArray = ds ? ds.split(", ").map(s => s.trim()).filter(Boolean) : [];
           const isJoined = myLabel && dsArray.includes(myLabel);
           const hasImage = hd.Hinh_Anh && hd.Hinh_Anh.startsWith("data:image");
+          const gioiHan = Number(hd.Gioi_Han) || 0;
+          const isFull = (gioiHan > 0 && dsArray.length >= gioiHan && !isJoined);
 
           return `
             <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2.5">
               <div class="flex justify-between items-center">
-                <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
+                <div class="flex items-center gap-1.5">
+                  <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
+                  ${gioiHan > 0 ? `<span class="bg-indigo-50 text-indigo-700 font-extrabold text-[9px] px-1.5 py-0.2 rounded border border-indigo-200">Chỉ tiêu: ${dsArray.length}/${gioiHan}</span>` : ''}
+                </div>
                 <div class="flex items-center gap-1.5">
                   <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
                   ${isGVCN ? `
@@ -913,7 +931,6 @@
                 </div>
               </div>
 
-              <!-- HÌNH ẢNH / POSTER ĐÍNH KÈM (NẾU CÓ) -->
               ${hasImage ? `
                 <div class="rounded-xl overflow-hidden border border-slate-200 cursor-pointer" onclick="viewFullImage('${hd.Hinh_Anh}')">
                   <img src="${hd.Hinh_Anh}" alt="Poster hoạt động" class="w-full max-h-56 object-cover hover:scale-102 transition duration-300">
@@ -925,7 +942,7 @@
               
               <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] text-slate-600">
                 <div class="font-semibold text-slate-700 mb-0.5 flex justify-between items-center">
-                  <span><i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}):</span>
+                  <span><i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}${gioiHan > 0 ? '/' + gioiHan : ''}):</span>
                   ${canManageList ? `
                     <button onclick="openAdminThamGiaModal('${hd.ID_HoatDong}')" class="text-[10px] text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200 transition">
                       <i class="fa-solid fa-user-pen mr-1"></i>Thêm / Sửa DS
@@ -938,12 +955,14 @@
               </div>
 
               <div class="pt-1 flex justify-end">
-                <button onclick="toggleJoin('${hd.ID_HoatDong}')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border transition ${
+                <button onclick="${isFull ? '' : `toggleJoin('${hd.ID_HoatDong}')`}" ${isFull ? 'disabled' : ''} class="text-xs font-semibold px-3 py-1.5 rounded-lg border transition ${
                   isJoined 
                     ? 'bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100' 
-                    : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700'
+                    : (isFull 
+                        ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed' 
+                        : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700')
                 }">
-                  ${isJoined ? '<i class="fa-solid fa-user-minus mr-1"></i> Hủy đăng ký' : '<i class="fa-solid fa-user-plus mr-1"></i> Đăng ký tham gia'}
+                  ${isJoined ? '<i class="fa-solid fa-user-minus mr-1"></i> Hủy đăng ký' : (isFull ? '<i class="fa-solid fa-lock mr-1"></i> Đã đủ số lượng' : '<i class="fa-solid fa-user-plus mr-1"></i> Đăng ký tham gia')}
                 </button>
               </div>
             </div>
@@ -976,8 +995,25 @@
     }
 
     // ==============================================================
-    // TIỆN ÍCH XỬ LÝ HÌNH ẢNH HOẠT ĐỘNG
+    // TIỆN ÍCH DÁN ẢNH (CTRL+V) & TẢI ẢNH ĐÍNH KÈM
     // ==============================================================
+    function handlePasteImage(event) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (let item of items) {
+        if (item.type.indexOf("image") !== -1) {
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("hd_base64_image").value = e.target.result;
+            document.getElementById("hd_image_preview").src = e.target.result;
+            document.getElementById("hd_image_preview_box").classList.remove("hidden");
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    }
+
     function previewActivityImage(input) {
       const file = input.files[0];
       if (!file) return;
@@ -991,17 +1027,24 @@
       reader.readAsDataURL(file);
     }
 
+    function removeAttachedImage() {
+      document.getElementById("hd_base64_image").value = "";
+      document.getElementById("hd_file_input").value = "";
+      document.getElementById("hd_image_preview").src = "";
+      document.getElementById("hd_image_preview_box").classList.add("hidden");
+    }
+
     function viewFullImage(src) {
       const w = window.open("");
       w.document.write(`<img src="${src}" style="max-width:100%;height:auto;margin:auto;display:block;">`);
     }
 
-    // GỢI Ý CHỌN NHANH HỌC SINH TRONG TRỰC NHẬT
+    // GỢI Ý CHỌN NHANH HỌC SINH / TỔ TRỰC
     function initQuickSelectTN() {
       const container = document.getElementById("quickSelectStudentForTN");
       if (!container || !appData.hocSinh) return;
 
-      let html = `<span class="text-slate-400 py-0.5">Gợi ý:</span>`;
+      let html = `<span class="text-slate-400 py-0.5">Chọn nhanh:</span>`;
       ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"].forEach(t => {
         html += `<button type="button" onclick="appendTNInput('${t}')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-100 rounded text-slate-700 font-bold border border-slate-200">${t}</button>`;
       });
@@ -1044,13 +1087,13 @@
       document.getElementById("hd_noidung").value = hd.Noi_Dung;
       document.getElementById("hd_hanchot").value = hd.Han_Chot;
       document.getElementById("hd_diemcong").value = hd.Diem_Cong;
+      document.getElementById("hd_gioihan").value = hd.Gioi_Han || 0;
       if (hd.Hinh_Anh) {
         document.getElementById("hd_base64_image").value = hd.Hinh_Anh;
         document.getElementById("hd_image_preview").src = hd.Hinh_Anh;
         document.getElementById("hd_image_preview_box").classList.remove("hidden");
       } else {
-        document.getElementById("hd_base64_image").value = "";
-        document.getElementById("hd_image_preview_box").classList.add("hidden");
+        removeAttachedImage();
       }
       openModal("modalHoatDong");
     }
@@ -1165,7 +1208,7 @@
               <span class="text-sm font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[10px] block text-rose-200">Tổng điểm trừ</span>
+              <span class="text-[10px] block text-rose-200">Tổng điểm trừ (gồm lỗi chung)</span>
               <span class="text-sm font-bold text-rose-300">-${hs.Tong_Diem_Tru || 0} đ</span>
             </div>
           </div>
@@ -1208,7 +1251,7 @@
                   <span>${d.Ghi_Chu || ''}</span>
                 </div>
               </div>
-            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng nào.</div>'}
+            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm cộng nào.</div>'}
           </div>
         </div>
 
@@ -1873,12 +1916,12 @@
         noiDung: document.getElementById("hd_noidung").value,
         hanChot: document.getElementById("hd_hanchot").value,
         diemCong: document.getElementById("hd_diemcong").value,
+        gioiHan: Number(document.getElementById("hd_gioihan").value) || 0,
         hinhAnh: document.getElementById("hd_base64_image").value
       };
       await sendPostRequest(isEditing ? "editHoatDong" : "addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
       document.getElementById("hd_edit_id").value = "";
-      document.getElementById("hd_base64_image").value = "";
-      document.getElementById("hd_image_preview_box").classList.add("hidden");
+      removeAttachedImage();
       document.getElementById("modalHoatDongTitle").innerText = "Tạo hoạt động";
     }
 
