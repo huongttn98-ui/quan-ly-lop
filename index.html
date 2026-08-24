@@ -1505,8 +1505,8 @@
                 <div class="flex items-center gap-2">
                   <span class="text-[11px] text-rose-500 font-semibold"><i class="fa-regular fa-clock"></i> Hạn: ${formatDisplayDate(bb.Han_Nop_Kiem_Tra)}</span>
                   ${isGVCN ? `
-                    <button onclick="openEditBaoBaiModal(${actualRowIndex})" class="text-indigo-600 hover:text-indigo-800 text-xs px-1.5 py-0.5 bg-indigo-50 rounded border border-indigo-200"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deleteBaoBaiItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
+                    <button onclick="openEditBaoBaiModal('${bb.ID_BaoBai}', ${actualRowIndex})" class="text-indigo-600 hover:text-indigo-800 text-xs px-1.5 py-0.5 bg-indigo-50 rounded border border-indigo-200"><i class="fa-solid fa-pen"></i></button>
+                    <button onclick="deleteBaoBaiItem('${bb.ID_BaoBai}', ${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
                   ` : ''}
                 </div>
               </div>
@@ -1861,14 +1861,14 @@
       switchTabDirect('tab-nenep', 4);
     }
 
-    function openEditBaoBaiModal(rowIndex) {
+    function openEditBaoBaiModal(idBaoBai, rowIndex) {
       // rowIndex là số dòng thật trên Google Sheet (dòng 1 là tiêu đề),
       // còn appData.baoBai bắt đầu từ phần tử 0 tương ứng với dòng 2.
-      const bb = appData.baoBai[rowIndex - 2];
+      const bb = (appData.baoBai || []).find(b => String(b.ID_BaoBai) === String(idBaoBai)) || appData.baoBai[rowIndex - 2];
       if (!bb) return;
 
       document.getElementById("modalBaoBaiTitle").innerText = "Chỉnh sửa Báo bài";
-      document.getElementById("bb_row_index").value = rowIndex;
+      document.getElementById("bb_row_index").value = idBaoBai;
       document.getElementById("bb_thutiet").value = bb.Thu_Tiet;
       document.getElementById("bb_monhoc").value = bb.Mon_Hoc;
       document.getElementById("bb_noidung").value = bb.Noi_Dung_Bao_Bai;
@@ -1884,9 +1884,9 @@
       openModal("modalBaoBai");
     }
 
-    async function deleteBaoBaiItem(rowIndex) {
+    async function deleteBaoBaiItem(idBaoBai, rowIndex) {
       if (!confirm("Cô có chắc chắn muốn xóa bài báo này?")) return;
-      await sendPostRequest("deleteBaoBai", { rowIndex: rowIndex }, "btnSubmitBB", "modalBaoBai");
+      await sendPostRequest("deleteBaoBai", { idBaoBai: idBaoBai, rowIndex: rowIndex }, "btnSubmitBB", "modalBaoBai");
     }
 
     function openEditHoatDongModal(idHoatDong) {
@@ -2399,7 +2399,8 @@
       }
 
       const payload = {
-        rowIndex: editIndex,
+        idBaoBai: editIndex,
+        rowIndex: (appData.baoBai || []).findIndex(b => String(b.ID_BaoBai) === String(editIndex)) + 2,
         thuTiet: document.getElementById("bb_thutiet").value,
         monHoc: document.getElementById("bb_monhoc").value,
         noiDung: document.getElementById("bb_noidung").value,
