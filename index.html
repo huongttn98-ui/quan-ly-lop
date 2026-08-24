@@ -833,7 +833,7 @@
       identifyUser();
 
       try {
-        const res = await fetch(GAS_API_URL);
+        const res = await fetch(`${GAS_API_URL}?t=${Date.now()}`, { cache: "no-store" });
         const json = await res.json();
         if (json.success) {
           appData = json.data;
@@ -1605,8 +1605,8 @@
               <div class="flex items-center gap-1.5">
                 <span class="text-[11px] px-2 py-1 rounded bg-slate-100 text-slate-600 font-semibold">${tn.Trang_Thai}</span>
                 ${isGVCN ? `
-                  <button onclick="openEditTrucNhatModal(${actualRowIndex})" class="text-emerald-600 hover:text-emerald-800 text-xs px-1.5 py-0.5 bg-emerald-50 rounded border border-emerald-200"><i class="fa-solid fa-pen"></i></button>
-                  <button onclick="deleteTrucNhatItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="openEditTrucNhatModal('${tn.ID_TrucNhat}', ${actualRowIndex})" class="text-emerald-600 hover:text-emerald-800 text-xs px-1.5 py-0.5 bg-emerald-50 rounded border border-emerald-200"><i class="fa-solid fa-pen"></i></button>
+                  <button onclick="deleteTrucNhatItem('${tn.ID_TrucNhat}', ${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
                 ` : ''}
               </div>
             </div>
@@ -1925,12 +1925,12 @@
       await sendPostRequest("deleteHoatDong", { idHoatDong: idHoatDong }, "btnSubmitHD", "modalHoatDong");
     }
 
-    function openEditTrucNhatModal(rowIndex) {
-      const tn = appData.trucNhat[rowIndex - 2];
+    function openEditTrucNhatModal(idTrucNhat, rowIndex) {
+      const tn = (appData.trucNhat || []).find(t => String(t.ID_TrucNhat) === String(idTrucNhat)) || appData.trucNhat[rowIndex - 2];
       if (!tn) return;
 
       document.getElementById("modalTrucNhatTitle").innerText = "Chỉnh sửa Lịch trực nhật";
-      document.getElementById("tn_row_index").value = rowIndex;
+      document.getElementById("tn_row_index").value = idTrucNhat;
       document.getElementById("tn_thu").value = tn.Thu;
       document.getElementById("tn_buoi").value = tn.Buoi;
       document.getElementById("tn_nguoithuchien").value = tn.To_Truc;
@@ -1938,9 +1938,9 @@
       openModal("modalTrucNhat");
     }
 
-    async function deleteTrucNhatItem(rowIndex) {
+    async function deleteTrucNhatItem(idTrucNhat, rowIndex) {
       if (!confirm("Cô có chắc chắn muốn xóa lịch trực nhật này?")) return;
-      await sendPostRequest("deleteTrucNhat", { rowIndex: rowIndex }, "btnSubmitTN", "modalTrucNhat");
+      await sendPostRequest("deleteTrucNhat", { idTrucNhat: idTrucNhat, rowIndex: rowIndex }, "btnSubmitTN", "modalTrucNhat");
     }
 
     function openAdminThamGiaModal(idHoatDong) {
@@ -2447,7 +2447,8 @@
       const isEditing = Boolean(editIndex);
 
       const payload = {
-        rowIndex: editIndex,
+        idTrucNhat: editIndex,
+        rowIndex: (appData.trucNhat || []).findIndex(t => String(t.ID_TrucNhat) === String(editIndex)) + 2,
         thu: document.getElementById("tn_thu").value,
         buoi: document.getElementById("tn_buoi").value,
         nguoiThucHien: document.getElementById("tn_nguoithuchien").value,
