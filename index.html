@@ -48,7 +48,7 @@
     <!-- ============================================================== -->
     <section id="tab-trangchu" class="tab-content active space-y-3">
       
-      <!-- CẢNH BÁO NGHỈ HỌC TRÊN 30 BUỔI (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN) -->
+      <!-- CẢNH BÁO BÁO ĐỘNG ĐỎ NGHỈ HỌC TRÊN 30 BUỔI (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN) -->
       <div id="homeWarningAbsenceBox" class="hidden bg-rose-600 text-white rounded-2xl p-4 shadow-lg border border-rose-400 animate-pulse space-y-1.5">
         <div class="flex items-center gap-2 font-black text-xs uppercase tracking-wide">
           <i class="fa-solid fa-triangle-exclamation text-yellow-300 text-base"></i> 🚨 CẢNH BÁO NGUY CƠ NGHỈ HỌC QUÁ 30 BUỔI
@@ -59,11 +59,11 @@
         <div id="homeWarningAbsenceList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
 
-      <!-- NHẮC NHỞ NỘP ĐƠN PHÉP (CHỈ HIỆN VỚI CHÍNH HỌC SINH VẮNG KP & GVCN) -->
+      <!-- NHẮC NHỞ HỌC SINH VẮNG KHÔNG PHÉP CẦN NỘP ĐƠN VÀO NGÀY HÔM SAU -->
       <div id="homeReminderUnexcusedBox" class="hidden bg-amber-50 rounded-2xl p-3.5 border border-amber-300 shadow-xs space-y-1.5">
         <div class="flex justify-between items-center text-xs font-bold text-amber-900">
-          <span class="flex items-center gap-1.5"><i class="fa-solid fa-bell text-amber-600"></i> Nhắc nhở nộp Đơn xin phép (Vắng KP gần nhất):</span>
-          <span class="bg-amber-200 text-amber-900 text-[10px] px-2 py-0.5 rounded-full font-black" id="reminderUnexcusedCount">0 Buổi</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-bell text-amber-600"></i> Nhắc nhở nộp Đơn xin phép (Vắng KP hôm trước):</span>
+          <span class="bg-amber-200 text-amber-900 text-[10px] px-2 py-0.5 rounded-full font-black" id="reminderUnexcusedCount">0 HS</span>
         </div>
         <div id="homeReminderUnexcusedList" class="text-xs text-amber-800 space-y-1"></div>
       </div>
@@ -175,7 +175,7 @@
     <!-- ============================================================== -->
     <section id="tab-baobai" class="tab-content space-y-4">
       
-      <!-- KHUNG THỜI KHÓA BIỂU -->
+      <!-- KHUNG THỜI KHÓA BIỂU (TKB) -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
@@ -277,16 +277,7 @@
         <div id="diemDanhTableList" class="space-y-1.5 max-h-[50vh] overflow-y-auto pr-1"></div>
       </div>
 
-      <!-- NHẬT KÝ ĐIỂM DANH & SỬA TRẠNG THÁI KHI ĐÃ NỘP PHÉP -->
-      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5">
-        <h3 class="text-xs font-black text-slate-800 flex items-center justify-between uppercase tracking-wide">
-          <span><i class="fa-solid fa-list-check text-indigo-600 mr-1.5"></i> Danh Sách Vắng Gần Đây (Cập Nhật Phép)</span>
-          <span class="text-[10px] text-slate-400 font-normal">Chỉnh sang 'Có phép' khi HS nộp đơn</span>
-        </h3>
-        <div id="recentAbsenceEditList" class="space-y-1.5 max-h-56 overflow-y-auto text-xs"></div>
-      </div>
-
-      <!-- TỔNG HỢP VẮNG TOÀN KHÓA -->
+      <!-- TỔNG HỢP VẮNG CHỈ HIỆN VỚI GVCN & BAN CÁN SỰ -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5">
         <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
           <i class="fa-solid fa-chart-pie text-rose-500"></i> Tổng Hợp Số Buổi Nghỉ Học Toàn Khóa
@@ -492,7 +483,7 @@
     <div class="bg-white rounded-3xl p-5 w-full max-w-2xl space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b pb-2">
         <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-          <i class="fa-solid fa-pen-to-square text-indigo-600"></i> Chỉnh sửa Thời Khóa Biểu (Sáng 4 tiết, Chiều 5 tiết)
+          <i class="fa-solid fa-pen-to-square text-indigo-600"></i> Chỉnh sửa Thời Khóa Biểu Tuần
         </h3>
         <button onclick="closeModal('modalEditTKB')" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fa-solid fa-xmark"></i></button>
       </div>
@@ -535,7 +526,7 @@
     </div>
   </div>
 
-  <!-- MODAL GHI NHẬN VI PHẠM -->
+  <!-- MODAL GHI NHẬN VI PHẠM (ĐÃ CÓ Ô CHỌN NGÀY TÙY Ý) -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
@@ -570,7 +561,7 @@
     </div>
   </div>
 
-  <!-- MODAL ĐIỂM CỘNG -->
+  <!-- MODAL ĐIỂM CỘNG (ĐÃ CÓ Ô CHỌN NGÀY TÙY Ý) -->
   <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
@@ -795,7 +786,7 @@
     let currentEditingSTTForAvatar = null;
     let currentManagingActivityId = null;
 
-    let selectedMonth = new Date().getMonth() + 1;
+    let selectedMonth = new Date().getMonth() + 1; // Tháng lọc hiện tại
     let collectivePenaltyPerStudent = 0;
     let collectiveViolationsList = [];
     let hasTriggeredBirthdayConfetti = false;
@@ -838,34 +829,6 @@
       return null;
     }
 
-    function parseStudentBirth(dateStr) {
-      if (!dateStr) return null;
-      const str = String(dateStr).trim();
-      let day = null, month = null;
-
-      if (str.includes("T")) {
-        const d = new Date(str);
-        if (!isNaN(d.getTime())) {
-          day = d.getDate();
-          month = d.getMonth() + 1;
-        }
-      } else if (str.includes("/")) {
-        const parts = str.split("/");
-        day = parseInt(parts[0], 10);
-        month = parseInt(parts[1], 10);
-      } else if (str.includes("-")) {
-        const parts = str.split("-");
-        if (parts[0].length === 4) {
-          month = parseInt(parts[1], 10);
-          day = parseInt(parts[2], 10);
-        } else {
-          day = parseInt(parts[0], 10);
-          month = parseInt(parts[1], 10);
-        }
-      }
-      return (day && month) ? { day, month } : null;
-    }
-
     async function loadData() {
       identifyUser();
 
@@ -879,16 +842,13 @@
           identifyUser();
           renderUI();
           renderTrangChuDashboard();
-          renderThiDuaTo();
           renderTKBTable();
           initDiemDanhTab();
           renderAbsenceSummary();
-          renderRecentAbsenceEdit();
           populateStudentSelects();
           setupPersonalTab();
           initSeatingState();
           renderSoDo24Ban();
-          renderLaoDongCuoiThang();
           checkAndRenderBirthdays();
           initAvatarModalIcons();
           initQuickSelectTN();
@@ -898,6 +858,7 @@
       }
     }
 
+    // KHỞI TẠO BỘ LỌC THÁNG
     function initMonthFilter() {
       const select = document.getElementById("selectFilterMonth");
       if (!select) return;
@@ -919,9 +880,11 @@
       renderThiDuaTo();
     }
 
+    // TÍNH TOÁN ĐIỂM RÈN LUYỆN & XẾP HẠNG THEO THÁNG ĐƯỢC CHỌN
     function calculateScoreByMonth(targetMonth) {
       const totalStudents = (appData.hocSinh || []).length || 1;
       
+      // Lỗi tập thể trong tháng
       collectiveViolationsList = (appData.viPham || []).filter(v => {
         return String(v.STT).toUpperCase() === "ALL" && parseDateMonth(v.Ngay) === targetMonth;
       });
@@ -930,6 +893,7 @@
       collectivePenaltyPerStudent = totalStudents > 0 ? (totalCollectivePoints / totalStudents) : 0;
       collectivePenaltyPerStudent = Math.round(collectivePenaltyPerStudent * 10) / 10;
 
+      // Tính điểm cá nhân theo tháng
       (appData.hocSinh || []).forEach(hs => {
         const myMonthTru = (appData.viPham || []).filter(v => String(v.STT) === String(hs.STT) && parseDateMonth(v.Ngay) === targetMonth)
                                                 .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
@@ -993,7 +957,7 @@
     }
 
     // ==============================================================
-    // TRANG CHỦ DASHBOARD
+    // TRANG CHỦ: TÍNH NĂNG TKB NGÀY MAI & DASHBOARD
     // ==============================================================
     function renderTrangChuDashboard() {
       const now = new Date();
@@ -1007,13 +971,13 @@
       document.getElementById("homeTomorrowDayText").innerText = tomorrowName;
       const tkbContainer = document.getElementById("homeTomorrowTKBContent");
 
-      if (tomorrowIdx === 0) {
+      if (tomorrowIdx === 0) { // Chủ nhật
         tkbContainer.innerHTML = `<div class="bg-white p-3 rounded-xl border border-blue-100 text-center font-bold text-slate-500">🎉 Ngày mai là Chủ Nhật, lớp được nghỉ học!</div>`;
       } else {
         const tkbTomorrow = (appData.thoiKhoaBieu || []).find(t => t.Thu === tomorrowName);
         if (tkbTomorrow) {
-          const sangMon = [tkbTomorrow.Tiet1, tkbTomorrow.Tiet2, tkbTomorrow.Tiet3, tkbTomorrow.Tiet4].filter(Boolean);
-          const chieuMon = [tkbTomorrow.Chieu_Tiet1, tkbTomorrow.Chieu_Tiet2, tkbTomorrow.Chieu_Tiet3, tkbTomorrow.Chieu_Tiet4, tkbTomorrow.Chieu_Tiet5].filter(Boolean);
+          const sangMon = [tkbTomorrow.Tiet1, tkbTomorrow.Tiet2, tkbTomorrow.Tiet3, tkbTomorrow.Tiet4, tkbTomorrow.Tiet5].filter(Boolean);
+          const chieuMon = [tkbTomorrow.Chieu_Tiet1, tkbTomorrow.Chieu_Tiet2, tkbTomorrow.Chieu_Tiet3, tkbTomorrow.Chieu_Tiet4].filter(Boolean);
 
           tkbContainer.innerHTML = `
             <div class="bg-white p-2.5 rounded-xl border border-blue-100 space-y-1">
@@ -1037,10 +1001,7 @@
       // 2. Tổ dẫn đầu thi đua tháng
       const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
       const stats = toList.map(tenTo => {
-        const members = (appData.hocSinh || []).filter(h => {
-          const val = String(h.To || "").toLowerCase();
-          return val.includes(tenTo.toLowerCase().replace(" ", ""));
-        });
+        const members = (appData.hocSinh || []).filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
         const tongCong = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Cong) || 0), 0);
         const tongTru = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Tru) || 0), 0);
         const diemThiDua = Math.round((tongCong - tongTru) * 10) / 10;
@@ -1121,205 +1082,203 @@
     }
 
     // ==============================================================
-    // RENDER ĐIỂM DANH & NHẬT KÝ SỬA TRẠNG THÁI
+    // RENDER DANH SÁCH & BẢNG XẾP HẠNG CÁ NHÂN THEO THÁNG
     // ==============================================================
-    function initDiemDanhTab() {
-      const dateInput = document.getElementById("dd_ngay");
-      if (!dateInput.value) {
-        dateInput.value = new Date().toISOString().split('T')[0];
-      }
-      autoDetectBuoiHoc(dateInput.value);
-    }
+    function renderUI() {
+      const isGVCN = (currentUserRole === "GVCN");
 
-    function autoDetectBuoiHoc(selectedDateStr) {
-      if (!selectedDateStr) return;
-      const d = new Date(selectedDateStr);
-      const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-      const dayName = days[d.getDay()];
+      // 1. Danh sách học sinh xếp hạng theo điểm tháng được chọn
+      const listHS = document.getElementById("listHocSinh");
+      if (listHS && appData.hocSinh) {
+        // Sao chép và sắp xếp học sinh theo điểm rèn luyện tháng
+        const sortedStudents = [...appData.hocSinh].sort((a, b) => b.Thang_Diem_Hien_Tai - a.Thang_Diem_Hien_Tai);
 
-      const tkbDay = (appData.thoiKhoaBieu || []).find(t => t.Thu === dayName);
-      let hasAfternoon = false;
-      if (tkbDay) {
-        hasAfternoon = Boolean(tkbDay.Chieu_Tiet1 || tkbDay.Chieu_Tiet2 || tkbDay.Chieu_Tiet3 || tkbDay.Chieu_Tiet4 || tkbDay.Chieu_Tiet5);
-      }
+        listHS.innerHTML = sortedStudents.map((hs, index) => {
+          const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
+          const av = hs.Avatar || "👤";
+          const color = score > 0 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 
+                        score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
+                        'text-slate-600 bg-slate-50 border-slate-200';
+          
+          const subInfo = [hs.To, hs.Chuc_Vu].filter(Boolean).join(" • ");
+          
+          // Huy hiệu Top 3
+          let rankBadge = `<span class="inline-block bg-slate-100 text-slate-600 rounded px-1 py-0.2 text-[10px] font-bold mr-1">#${index + 1}</span>`;
+          if (index === 0) rankBadge = `<span class="text-sm mr-1">🥇</span>`;
+          else if (index === 1) rankBadge = `<span class="text-sm mr-1">🥈</span>`;
+          else if (index === 2) rankBadge = `<span class="text-sm mr-1">🥉</span>`;
 
-      const notice = document.getElementById("dd_schedule_notice");
-      if (notice) {
-        notice.innerHTML = `💡 ${dayName}: Hôm nay <b>${hasAfternoon ? 'học 2 buổi (Sáng & Chiều)' : 'chỉ học 1 buổi (Sáng)'}</b> theo TKB.`;
-      }
-
-      renderDiemDanhTable();
-    }
-
-    function renderDiemDanhTable() {
-      const container = document.getElementById("diemDanhTableList");
-      if (!container || !appData.hocSinh) return;
-
-      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
-      const buoiStr = document.getElementById("dd_buoi").value;
-
-      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
-      
-      currentAttendanceState = {};
-      existingAttendance.forEach(a => {
-        currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
-      });
-
-      document.getElementById("ddTotalCount").innerText = appData.hocSinh.length;
-
-      container.innerHTML = appData.hocSinh.map(hs => {
-        const current = currentAttendanceState[hs.STT] || { trangThai: "Có mặt", ghiChu: "" };
-        const status = current.trangThai;
-
-        return `
-          <div id="dd_card_${hs.STT}" class="p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs ${
-            status === 'Vắng không phép' ? 'bg-rose-50 border-rose-300' :
-            status === 'Vắng có phép' ? 'bg-amber-50 border-amber-300' :
-            'bg-white border-slate-200'
-          }">
-            <div class="flex items-center gap-2">
-              <span class="text-lg">${hs.Avatar || '👤'}</span>
-              <div>
-                <div class="text-xs font-bold text-slate-800">#${hs.STT} ${hs.Ho_Ten}</div>
-                <div class="text-[10px] text-slate-400">${hs.To}</div>
+          return `
+            <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm cursor-pointer hover:border-indigo-300 transition">
+              <div class="flex items-center gap-2">
+                <span class="text-xl bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center">${av}</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-800">
+                    ${rankBadge} ${hs.Ho_Ten}
+                  </div>
+                  ${subInfo ? `<div class="text-[11px] text-slate-400 mt-0.5">${subInfo}</div>` : ''}
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-black px-2.5 py-1 rounded-lg border ${color}">
+                  ${score > 0 ? '+' : ''}${score} đ
+                </span>
+                <div class="text-[10px] mt-1 space-x-1 font-medium">
+                  <span class="text-emerald-600">+${hs.Thang_Diem_Cong || 0}</span>
+                  <span class="text-slate-300">|</span>
+                  <span class="text-rose-500">-${hs.Thang_Diem_Tru || 0}</span>
+                </div>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <select id="dd_select_${hs.STT}" onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-bold border rounded-lg p-1.5 cursor-pointer ${
-                status === 'Vắng không phép' ? 'bg-rose-600 text-white border-rose-600' :
-                status === 'Vắng có phép' ? 'bg-amber-500 text-white border-amber-500' :
-                'bg-emerald-50 text-emerald-700 border-emerald-300'
-              }">
-                <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''} class="bg-white text-slate-800">P: Có mặt</option>
-                <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''} class="bg-white text-slate-800">CP: Vắng có phép</option>
-                <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''} class="bg-white text-slate-800">KP: Vắng không phép</option>
-              </select>
+          `;
+        }).join('');
+      }
+
+      // Khung lỗi tập thể trong tháng
+      const collectiveBox = document.getElementById("collectiveViolationBox");
+      const collectiveList = document.getElementById("collectiveViolationList");
+      const collectiveBadge = document.getElementById("collectivePerStudentBadge");
+      if (collectiveViolationsList.length > 0) {
+        collectiveBox.classList.remove("hidden");
+        collectiveBadge.innerText = `-${collectivePenaltyPerStudent} đ / mỗi HS`;
+        collectiveList.innerHTML = collectiveViolationsList.map(v => `
+          <div class="bg-white p-2 rounded-lg border border-rose-100 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
+              <span class="text-[10px] text-slate-400 block">${formatDisplayDate(v.Ngay)} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'} • ${v.Ghi_Chu || ''}</span>
             </div>
+            <span class="font-black text-rose-600">Tổng trừ: -${v.Diem_Tru}đ</span>
           </div>
-        `;
-      }).join('');
-    }
+        `).join('');
+      } else {
+        collectiveBox.classList.add("hidden");
+      }
 
-    function setStudentAttendance(stt, status) {
-      if (!currentAttendanceState[stt]) currentAttendanceState[stt] = {};
-      currentAttendanceState[stt].trangThai = status;
+      // 2. Báo bài
+      const listBB = document.getElementById("listBaoBai");
+      if (listBB && appData.baoBai) {
+        listBB.innerHTML = appData.baoBai.slice().reverse().map((bb, idx) => {
+          const actualRowIndex = appData.baoBai.length - idx + 1;
+          return `
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-1.5">
+              <div class="flex justify-between items-center">
+                <span class="bg-indigo-50 text-indigo-700 text-[11px] font-bold px-2 py-0.5 rounded border border-indigo-100">${bb.Mon_Hoc}</span>
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] text-rose-500 font-semibold"><i class="fa-regular fa-clock"></i> Hạn: ${formatDisplayDate(bb.Han_Nop_Kiem_Tra)}</span>
+                  ${isGVCN ? `
+                    <button onclick="openEditBaoBaiModal(${actualRowIndex})" class="text-indigo-600 hover:text-indigo-800 text-xs px-1.5 py-0.5 bg-indigo-50 rounded border border-indigo-200"><i class="fa-solid fa-pen"></i></button>
+                    <button onclick="deleteBaoBaiItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
+                  ` : ''}
+                </div>
+              </div>
+              <p class="text-xs font-semibold text-slate-800">${bb.Noi_Dung_Bao_Bai}</p>
+              <div class="text-[10px] text-slate-400 flex justify-between pt-1 border-t border-slate-100">
+                <span>Tiết: ${bb.Thu_Tiet}</span>
+                <span>Đăng bởi: ${bb.Nguoi_Dang}</span>
+              </div>
+            </div>
+          `;
+        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có thông báo bài mới.</div>';
+      }
 
-      const card = document.getElementById(`dd_card_${stt}`);
-      const select = document.getElementById(`dd_select_${stt}`);
-      if (card && select) {
-        if (status === "Vắng không phép") {
-          card.className = "p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs bg-rose-50 border-rose-300";
-          select.className = "text-xs font-bold border rounded-lg p-1.5 cursor-pointer bg-rose-600 text-white border-rose-600";
-        } else if (status === "Vắng có phép") {
-          card.className = "p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs bg-amber-50 border-amber-300";
-          select.className = "text-xs font-bold border rounded-lg p-1.5 cursor-pointer bg-amber-500 text-white border-amber-500";
-        } else {
-          card.className = "p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs bg-white border-slate-200";
-          select.className = "text-xs font-bold border rounded-lg p-1.5 cursor-pointer bg-emerald-50 text-emerald-700 border-emerald-300";
-        }
+      // 3. Hoạt động phong trào
+      const listHD = document.getElementById("listHoatDong");
+      if (listHD && appData.hoatDong) {
+        const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+        const myLabel = currentUser ? `#${currentUser.STT} - ${currentUser.Ho_Ten}` : (currentUserRole === "GVCN" ? "Cô Hương (GVCN)" : "");
+        const canManageList = (currentUserRole === "GVCN" || currentUserRole === "Bí thư" || currentUserRole === "Lớp trưởng");
+
+        listHD.innerHTML = appData.hoatDong.slice().reverse().map(hd => {
+          const ds = String(hd.DS_Tham_Gia || "");
+          const dsArray = ds ? ds.split(", ").map(s => s.trim()).filter(Boolean) : [];
+          const isJoined = myLabel && dsArray.includes(myLabel);
+          const hasImage = hd.Hinh_Anh && hd.Hinh_Anh.startsWith("data:image");
+          const gioiHan = Number(hd.Gioi_Han) || 0;
+          const isFull = (gioiHan > 0 && dsArray.length >= gioiHan && !isJoined);
+
+          return `
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2.5">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
+                  ${hd.Co_Giai_X2 ? '<span class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-black text-[9px] px-1.5 py-0.2 rounded shadow-2xs">🏆 THI ĐUA TRƯỜNG (X2 ĐIỂM)</span>' : ''}
+                  ${gioiHan > 0 ? `<span class="bg-indigo-50 text-indigo-700 font-extrabold text-[9px] px-1.5 py-0.2 rounded border border-indigo-200">Chỉ tiêu: ${dsArray.length}/${gioiHan}</span>` : ''}
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
+                  ${isGVCN ? `
+                    <button onclick="openEditHoatDongModal('${hd.ID_HoatDong}')" class="text-amber-600 hover:text-amber-800 text-xs px-1.5 py-0.5 bg-amber-50 rounded border border-amber-200"><i class="fa-solid fa-pen"></i></button>
+                    <button onclick="deleteHoatDongItem('${hd.ID_HoatDong}')" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
+                  ` : ''}
+                </div>
+              </div>
+
+              ${hasImage ? `
+                <div class="rounded-xl overflow-hidden border border-slate-200 cursor-pointer" onclick="viewFullImage('${hd.Hinh_Anh}')">
+                  <img src="${hd.Hinh_Anh}" alt="Poster hoạt động" class="w-full max-h-56 object-cover hover:scale-102 transition duration-300">
+                </div>
+              ` : ''}
+
+              <p class="text-xs text-slate-600 leading-relaxed">${hd.Noi_Dung}</p>
+              <div class="text-[10px] text-rose-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn đăng ký: ${formatDisplayDate(hd.Han_Chot)}</div>
+              
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] text-slate-600">
+                <div class="font-semibold text-slate-700 mb-0.5 flex justify-between items-center">
+                  <span><i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}${gioiHan > 0 ? '/' + gioiHan : ''}):</span>
+                  ${canManageList ? `
+                    <button onclick="openAdminThamGiaModal('${hd.ID_HoatDong}')" class="text-[10px] text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200 transition">
+                      <i class="fa-solid fa-user-pen mr-1"></i>Thêm / Sửa DS
+                    </button>
+                  ` : ''}
+                </div>
+                <div class="text-[10px] text-slate-500 italic">
+                  ${dsArray.length > 0 ? dsArray.join(", ") : "Chưa có ai tham gia"}
+                </div>
+              </div>
+
+              <div class="pt-1 flex justify-end">
+                <button onclick="${isFull ? '' : `toggleJoin('${hd.ID_HoatDong}')`}" ${isFull ? 'disabled' : ''} class="text-xs font-semibold px-3 py-1.5 rounded-lg border transition ${
+                  isJoined 
+                    ? 'bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100' 
+                    : (isFull 
+                        ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed' 
+                        : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700')
+                }">
+                  ${isJoined ? '<i class="fa-solid fa-user-minus mr-1"></i> Hủy đăng ký' : (isFull ? '<i class="fa-solid fa-lock mr-1"></i> Đã đủ số lượng' : '<i class="fa-solid fa-user-plus mr-1"></i> Đăng ký tham gia')}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
+      }
+
+      // 4. Trực nhật
+      const listTN = document.getElementById("listTrucNhat");
+      if (listTN && appData.trucNhat) {
+        listTN.innerHTML = appData.trucNhat.map((tn, idx) => {
+          const actualRowIndex = idx + 2;
+          return `
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm">
+              <div>
+                <div class="text-xs font-bold text-slate-800">${tn.Thu} (${tn.Buoi})</div>
+                <div class="text-xs text-slate-600 font-medium mt-0.5"><i class="fa-solid fa-user-check text-emerald-500 mr-1"></i>${tn.To_Truc}</div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[11px] px-2 py-1 rounded bg-slate-100 text-slate-600 font-semibold">${tn.Trang_Thai}</span>
+                ${isGVCN ? `
+                  <button onclick="openEditTrucNhatModal(${actualRowIndex})" class="text-emerald-600 hover:text-emerald-800 text-xs px-1.5 py-0.5 bg-emerald-50 rounded border border-emerald-200"><i class="fa-solid fa-pen"></i></button>
+                  <button onclick="deleteTrucNhatItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có lịch trực nhật.</div>';
       }
     }
 
-    async function submitDiemDanhServer() {
-      const btn = document.getElementById("btnSubmitDiemDanh");
-      btn.innerText = "Đang lưu...";
-      btn.disabled = true;
-
-      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
-      const buoiStr = document.getElementById("dd_buoi").value;
-
-      const danhSachVang = [];
-      for (const [stt, item] of Object.entries(currentAttendanceState)) {
-        if (item.trangThai && item.trangThai !== "Có mặt") {
-          const hs = appData.hocSinh.find(h => String(h.STT) === String(stt));
-          danhSachVang.push({
-            stt: stt,
-            hoTen: hs ? hs.Ho_Ten : "",
-            trangThai: item.trangThai,
-            ghiChu: item.ghiChu || ""
-          });
-        }
-      }
-
-      try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "saveDiemDanh",
-            userEmail: currentUserEmail,
-            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
-          })
-        });
-        const json = await res.json();
-        if (json.success) {
-          alert("✅ " + json.message);
-          await loadData();
-        } else {
-          alert("❌ " + json.message);
-        }
-      } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
-      } finally {
-        btn.innerText = "Lưu điểm danh";
-        btn.disabled = false;
-      }
-    }
-
-    function renderRecentAbsenceEdit() {
-      const container = document.getElementById("recentAbsenceEditList");
-      if (!container || !appData.diemDanh) return;
-
-      const isManager = (currentUserRole === "GVCN" || currentUserRole === "Lớp trưởng" || currentUserRole === "Lớp phó Kỷ luật");
-      const list = appData.diemDanh.slice().reverse().slice(0, 15);
-
-      if (list.length === 0) {
-        container.innerHTML = `<div class="text-slate-400 italic text-center py-2">Không có ghi nhận vắng học gần đây.</div>`;
-        return;
-      }
-
-      container.innerHTML = list.map(item => `
-        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex justify-between items-center">
-          <div>
-            <div class="font-bold text-slate-800">#${item.STT} ${item.Ho_Ten}</div>
-            <div class="text-[10px] text-slate-400">${item.Ngay} (${item.Buoi}) • Ghi: ${item.Nguoi_Diem_Danh || 'Cán bộ'}</div>
-          </div>
-          <div class="flex items-center gap-1.5">
-            ${isManager ? `
-              <select onchange="updateSingleAbsenceStatus('${item.Ngay}', '${item.Buoi}', '${item.STT}', this.value)" class="text-[11px] font-bold border rounded-lg px-2 py-1 ${
-                item.Trang_Thai === 'Vắng không phép' ? 'bg-rose-50 text-rose-700 border-rose-300' : 'bg-amber-50 text-amber-700 border-amber-300'
-              }">
-                <option value="Vắng không phép" ${item.Trang_Thai === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
-                <option value="Vắng có phép" ${item.Trang_Thai === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép (Đã nộp đơn)</option>
-                <option value="Có mặt">Đã có mặt (Xóa)</option>
-              </select>
-            ` : `<span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.Trang_Thai === 'Vắng có phép' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'}">${item.Trang_Thai}</span>`}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    async function updateSingleAbsenceStatus(ngay, buoi, stt, newStatus) {
-      try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "updateSingleAttendance",
-            userEmail: currentUserEmail,
-            payload: { ngay, buoi, stt, newStatus }
-          })
-        });
-        const json = await res.json();
-        if (json.success) {
-          alert("✅ " + json.message);
-          await loadData();
-        } else {
-          alert("❌ " + json.message);
-        }
-      } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
-      }
-    }
-
+    // ==============================================================
+    // BẢO MẬT BÁO ĐỘNG VẮNG > 30 BUỔI
+    // ==============================================================
     function renderAbsenceSummary() {
       const container = document.getElementById("absenceSummaryList");
       const warningBox = document.getElementById("homeWarningAbsenceBox");
@@ -1330,9 +1289,6 @@
 
       if (!container || !appData.hocSinh) return;
 
-      const isGVCN = (currentUserRole === "GVCN");
-      const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
-
       const absenceStats = appData.hocSinh.map(hs => {
         const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(hs.STT));
         const coPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng có phép").length;
@@ -1341,7 +1297,10 @@
         return { ...hs, coPhep, khongPhep, tongNghi };
       });
 
-      // 1. Cảnh báo > 30 buổi
+      // 1. Cảnh báo > 30 buổi (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN)
+      const isGVCN = (currentUserRole === "GVCN");
+      const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+
       const dangerStudents = absenceStats.filter(s => s.tongNghi >= 30);
       let visibleDangerStudents = [];
 
@@ -1364,25 +1323,17 @@
       }
 
       // 2. Nhắc nhở nộp đơn xin phép
-      const unexcusedList = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép");
-      let visibleUnexcused = [];
-
-      if (isGVCN) {
-        visibleUnexcused = unexcusedList.slice(-5).reverse();
-      } else if (currentLoggedInHS) {
-        visibleUnexcused = unexcusedList.filter(d => String(d.STT) === String(currentLoggedInHS.STT)).slice(-5).reverse();
-      }
-
-      if (visibleUnexcused.length > 0) {
+      const recentUnexcused = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép").slice(-5).reverse();
+      if (recentUnexcused.length > 0) {
         reminderBox.classList.remove("hidden");
-        reminderCountBadge.innerText = `${visibleUnexcused.length} Buổi`;
-        reminderList.innerHTML = visibleUnexcused.map(u => `
+        reminderCountBadge.innerText = `${recentUnexcused.length} HS`;
+        reminderList.innerHTML = recentUnexcused.map(u => `
           <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-amber-200">
             <div>
               <span class="font-black text-slate-800">#${u.STT} ${u.Ho_Ten}</span>
               <span class="text-[10px] text-slate-400 ml-1">(${u.Ngay} - Buổi ${u.Buoi})</span>
             </div>
-            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Cần nộp đơn phép cho GVCN</span>
+            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Cần nộp đơn hôm nay</span>
           </div>
         `).join('');
       } else {
@@ -1413,7 +1364,7 @@
     }
 
     // ==============================================================
-    // GHI NHẬN VI PHẠM & ĐIỂM CỘNG
+    // GHI NHẬN VI PHẠM & ĐIỂM CỘNG (CHỌN NGÀY TÙY Ý)
     // ==============================================================
     function populateStudentSelects() {
       if (!appData.hocSinh) return;
@@ -1425,6 +1376,7 @@
       const dcOptions = appData.hocSinh.map(h => `<option value="${h.STT}" data-name="${h.Ho_Ten}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
       if (document.getElementById("dc_hocsinh")) document.getElementById("dc_hocsinh").innerHTML = dcOptions;
 
+      // Đặt ngày mặc định cho ô chọn ngày
       const todayISO = new Date().toISOString().split('T')[0];
       if (document.getElementById("vp_ngay")) document.getElementById("vp_ngay").value = todayISO;
       if (document.getElementById("dc_ngay")) document.getElementById("dc_ngay").value = todayISO;
@@ -1477,7 +1429,7 @@
     }
 
     // ==============================================================
-    // THỜI KHÓA BIỂU
+    // THỜI KHÓA BIỂU & ĐIỂM DANH
     // ==============================================================
     const DEFAULT_TKB_DAYS = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
 
@@ -1486,13 +1438,13 @@
       if (!tbody) return;
 
       const tkbMap = {};
-      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"", Chieu_Tiet5:"" });
+      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Tiet5:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"" });
       (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
 
       let html = "";
-      for (let tiet = 1; tiet <= 4; tiet++) {
+      for (let tiet = 1; tiet <= 5; tiet++) {
         html += `<tr>`;
-        if (tiet === 1) html += `<td rowspan="4" class="bg-indigo-50 font-bold text-indigo-800 p-1 border border-slate-300 text-[10px]">SÁNG</td>`;
+        if (tiet === 1) html += `<td rowspan="5" class="bg-indigo-50 font-bold text-indigo-800 p-1 border border-slate-300 text-[10px]">SÁNG</td>`;
         DEFAULT_TKB_DAYS.forEach(d => {
           const mon = tkbMap[d][`Tiet${tiet}`] || "-";
           html += `<td class="p-1.5 border border-slate-200 text-slate-700 text-xs font-semibold ${mon !== '-' ? 'bg-white font-bold text-indigo-900' : 'text-slate-300'}">${mon}</td>`;
@@ -1500,9 +1452,9 @@
         html += `</tr>`;
       }
 
-      for (let tiet = 1; tiet <= 5; tiet++) {
+      for (let tiet = 1; tiet <= 4; tiet++) {
         html += `<tr>`;
-        if (tiet === 1) html += `<td rowspan="5" class="bg-amber-50 font-bold text-amber-800 p-1 border border-slate-300 text-[10px]">CHIỀU</td>`;
+        if (tiet === 1) html += `<td rowspan="4" class="bg-amber-50 font-bold text-amber-800 p-1 border border-slate-300 text-[10px]">CHIỀU</td>`;
         DEFAULT_TKB_DAYS.forEach(d => {
           const mon = tkbMap[d][`Chieu_Tiet${tiet}`] || "-";
           html += `<td class="p-1.5 border border-slate-200 text-slate-700 text-xs font-semibold ${mon !== '-' ? 'bg-amber-50/50 font-bold text-amber-900' : 'text-slate-300'}">${mon}</td>`;
@@ -1517,7 +1469,7 @@
       if (!container) return;
 
       const tkbMap = {};
-      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"", Chieu_Tiet5:"" });
+      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Tiet5:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"" });
       (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
 
       container.innerHTML = DEFAULT_TKB_DAYS.map(day => `
@@ -1526,17 +1478,17 @@
             <i class="fa-solid fa-calendar-day"></i> ${day}
           </div>
           <div>
-            <span class="text-[10px] font-bold text-slate-500 block mb-1">Buổi Sáng (Tiết 1 -> 4):</span>
-            <div class="grid grid-cols-4 gap-1.5">
-              ${[1,2,3,4].map(i => `
+            <span class="text-[10px] font-bold text-slate-500 block mb-1">Buổi Sáng (Tiết 1 -> 5):</span>
+            <div class="grid grid-cols-5 gap-1.5">
+              ${[1,2,3,4,5].map(i => `
                 <input type="text" id="tkb_${day}_Tiet${i}" value="${tkbMap[day][`Tiet${i}`] || ''}" placeholder="T${i}" class="border rounded p-1 text-center bg-white text-xs font-semibold">
               `).join('')}
             </div>
           </div>
           <div>
-            <span class="text-[10px] font-bold text-amber-600 block mb-1">Buổi Chiều (Tiết 1 -> 5):</span>
-            <div class="grid grid-cols-5 gap-1.5">
-              ${[1,2,3,4,5].map(i => `
+            <span class="text-[10px] font-bold text-amber-600 block mb-1">Buổi Chiều (Tiết 1 -> 4):</span>
+            <div class="grid grid-cols-4 gap-1.5">
+              ${[1,2,3,4].map(i => `
                 <input type="text" id="tkb_${day}_Chieu_Tiet${i}" value="${tkbMap[day][`Chieu_Tiet${i}`] || ''}" placeholder="T${i}" class="border rounded p-1 text-center bg-white text-xs font-semibold">
               `).join('')}
             </div>
@@ -1558,11 +1510,11 @@
         Tiet2: document.getElementById(`tkb_${day}_Tiet2`).value.trim(),
         Tiet3: document.getElementById(`tkb_${day}_Tiet3`).value.trim(),
         Tiet4: document.getElementById(`tkb_${day}_Tiet4`).value.trim(),
+        Tiet5: document.getElementById(`tkb_${day}_Tiet5`).value.trim(),
         Chieu_Tiet1: document.getElementById(`tkb_${day}_Chieu_Tiet1`).value.trim(),
         Chieu_Tiet2: document.getElementById(`tkb_${day}_Chieu_Tiet2`).value.trim(),
         Chieu_Tiet3: document.getElementById(`tkb_${day}_Chieu_Tiet3`).value.trim(),
-        Chieu_Tiet4: document.getElementById(`tkb_${day}_Chieu_Tiet4`).value.trim(),
-        Chieu_Tiet5: document.getElementById(`tkb_${day}_Chieu_Tiet5`).value.trim()
+        Chieu_Tiet4: document.getElementById(`tkb_${day}_Chieu_Tiet4`).value.trim()
       }));
 
       try {
@@ -1590,9 +1542,642 @@
       }
     }
 
+    function initDiemDanhTab() {
+      const dateInput = document.getElementById("dd_ngay");
+      if (!dateInput.value) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+      }
+      autoDetectBuoiHoc(dateInput.value);
+    }
+
+    function autoDetectBuoiHoc(selectedDateStr) {
+      if (!selectedDateStr) return;
+      const d = new Date(selectedDateStr);
+      const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+      const dayName = days[d.getDay()];
+
+      const tkbDay = (appData.thoiKhoaBieu || []).find(t => t.Thu === dayName);
+      let hasAfternoon = false;
+      if (tkbDay) {
+        hasAfternoon = Boolean(tkbDay.Chieu_Tiet1 || tkbDay.Chieu_Tiet2 || tkbDay.Chieu_Tiet3 || tkbDay.Chieu_Tiet4);
+      }
+
+      const notice = document.getElementById("dd_schedule_notice");
+      if (notice) {
+        notice.innerHTML = `💡 ${dayName}: Hôm nay <b>${hasAfternoon ? 'học 2 buổi (Sáng & Chiều)' : 'chỉ học 1 buổi (Sáng)'}</b> theo TKB.`;
+      }
+
+      renderDiemDanhTable();
+    }
+
+    function renderDiemDanhTable() {
+      const container = document.getElementById("diemDanhTableList");
+      if (!container || !appData.hocSinh) return;
+
+      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
+      const buoiStr = document.getElementById("dd_buoi").value;
+
+      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
+      
+      currentAttendanceState = {};
+      existingAttendance.forEach(a => {
+        currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
+      });
+
+      document.getElementById("ddTotalCount").innerText = appData.hocSinh.length;
+
+      container.innerHTML = appData.hocSinh.map(hs => {
+        const current = currentAttendanceState[hs.STT] || { trangThai: "Có mặt", ghiChu: "" };
+        const status = current.trangThai;
+
+        return `
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">${hs.Avatar || '👤'}</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">#${hs.STT} ${hs.Ho_Ten}</div>
+                <div class="text-[10px] text-slate-400">${hs.To}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <select onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-bold border rounded-lg p-1.5 ${
+                status === 'Vắng không phép' ? 'bg-rose-50 text-rose-700 border-rose-300' :
+                status === 'Vắng có phép' ? 'bg-amber-50 text-amber-700 border-amber-300' :
+                'bg-emerald-50 text-emerald-700 border-emerald-300'
+              }">
+                <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''}>P: Có mặt</option>
+                <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép</option>
+                <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setStudentAttendance(stt, status) {
+      if (!currentAttendanceState[stt]) currentAttendanceState[stt] = {};
+      currentAttendanceState[stt].trangThai = status;
+      renderDiemDanhTable();
+    }
+
+    async function submitDiemDanhServer() {
+      const btn = document.getElementById("btnSubmitDiemDanh");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
+      const buoiStr = document.getElementById("dd_buoi").value;
+
+      const danhSachVang = [];
+      for (const [stt, item] of Object.entries(currentAttendanceState)) {
+        if (item.trangThai && item.trangThai !== "Có mặt") {
+          const hs = appData.hocSinh.find(h => String(h.STT) === String(stt));
+          danhSachVang.push({
+            stt: stt,
+            hoTen: hs ? hs.Ho_Ten : "",
+            trangThai: item.trangThai,
+            ghiChu: item.ghiChu || ""
+          });
+        }
+      }
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "saveDiemDanh",
+            userEmail: currentUserEmail,
+            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      } finally {
+        btn.innerText = "Lưu điểm danh";
+        btn.disabled = false;
+      }
+    }
+
     // ==============================================================
-    // SƠ ĐỒ LỚP HỌC 24 BÀN
+    // HỒ SƠ CÁ NHÂN & THI ĐUA TỔ
     // ==============================================================
+    function setupPersonalTab() {
+      const select = document.getElementById("selectTraCuuHS");
+      if (!select || !appData.hocSinh) return;
+
+      const defaultOption = `<option value="">-- Chọn học sinh để xem hồ sơ --</option>`;
+      const studentOptions = appData.hocSinh.map(h => `<option value="${h.STT}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
+      select.innerHTML = defaultOption + studentOptions;
+
+      const currentUser = appData.hocSinh.find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+      if (currentUser) {
+        select.value = currentUser.STT;
+        renderHoSoCaNhan(currentUser.STT);
+      } else {
+        select.value = "";
+        renderHoSoCaNhan("");
+      }
+    }
+
+    function renderHoSoCaNhan(stt) {
+      const container = document.getElementById("hoSoDetailContainer");
+      if (!container) return;
+
+      if (!stt) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-6 border border-dashed border-slate-300 text-center space-y-2 shadow-xs">
+            <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto text-lg">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="space-y-0.5">
+              <h3 class="text-xs font-bold text-slate-700">Chưa chọn học sinh tra cứu</h3>
+              <p class="text-[11px] text-slate-400 max-w-xs mx-auto">Vui lòng chọn học sinh ở trên hoặc bấm vào tên học sinh từ sơ đồ lớp để xem chi tiết.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(stt));
+      if (!hs) return;
+
+      // Điểm tính theo tháng được chọn
+      const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
+      const av = hs.Avatar || "🐱";
+      const myLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
+
+      const myViPham = (appData.viPham || []).filter(v => String(v.STT) === String(stt) && parseDateMonth(v.Ngay) === selectedMonth);
+      const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt) && parseDateMonth(d.Ngay) === selectedMonth);
+      const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
+
+      const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(stt));
+      const tongNghi = myAbsences.length;
+
+      const loggedInStudent = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+      const isExactOwner = loggedInStudent && (String(loggedInStudent.STT) === String(hs.STT));
+
+      container.innerHTML = `
+        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white shadow-md">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <div class="relative group ${isExactOwner ? 'cursor-pointer' : ''}" 
+                   onclick="${isExactOwner ? `openAvatarModal('${hs.STT}')` : ''}" 
+                   title="${isExactOwner ? 'Bấm để đổi Avatar của bạn' : ''}">
+                <div class="text-4xl bg-white/20 ${isExactOwner ? 'hover:bg-white/30 hover:scale-105' : ''} p-2.5 rounded-2xl shadow-inner border border-white/30 transition flex items-center justify-center">
+                  ${av}
+                </div>
+                ${isExactOwner ? '<span class="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-900 rounded-full p-1 text-[8px] shadow animate-bounce"><i class="fa-solid fa-pen"></i></span>' : ''}
+              </div>
+              <div>
+                <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold">STT: #${hs.STT} • ${hs.To}</span>
+                <h3 class="text-lg font-black mt-0.5">${hs.Ho_Ten}</h3>
+                <p class="text-xs text-indigo-100 flex items-center gap-1.5 mt-0.5">
+                  <span><i class="fa-solid fa-cake-candles text-pink-300"></i> ${formatDisplayDate(hs.Ngay_Sinh) || 'Chưa có ngày sinh'}</span>
+                  <span>•</span>
+                  <span><i class="fa-solid fa-user-shield"></i> ${hs.Chuc_Vu}</span>
+                </p>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-black text-yellow-300">${score > 0 ? '+' : ''}${score} <span class="text-xs text-white">điểm</span></div>
+              <div class="text-[10px] text-indigo-100">Điểm Tháng ${selectedMonth}</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-white/20 text-center">
+            <div class="bg-white/10 rounded-lg p-1.5">
+              <span class="text-[9px] block text-emerald-200">Thưởng T${selectedMonth}</span>
+              <span class="text-xs font-bold text-emerald-300">+${hs.Thang_Diem_Cong || 0} đ</span>
+            </div>
+            <div class="bg-white/10 rounded-lg p-1.5">
+              <span class="text-[9px] block text-rose-200">Phạt T${selectedMonth}</span>
+              <span class="text-xs font-bold text-rose-300">-${hs.Thang_Diem_Tru || 0} đ</span>
+            </div>
+            <div class="bg-white/10 rounded-lg p-1.5">
+              <span class="text-[9px] block text-amber-200">Tổng vắng</span>
+              <span class="text-xs font-bold ${tongNghi >= 30 ? 'text-rose-400 font-black' : 'text-amber-300'}">${tongNghi} buổi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-user-xmark text-rose-500 mr-1.5"></i>Lịch sử vắng chuyên cần</span>
+            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myAbsences.length} buổi</span>
+          </h4>
+          <div class="space-y-1.5 max-h-36 overflow-y-auto">
+            ${myAbsences.length > 0 ? myAbsences.slice().reverse().map(a => `
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex justify-between items-center text-xs">
+                <div>
+                  <span class="font-bold text-slate-800">${a.Ngay} (${a.Buoi})</span>
+                  <span class="text-[10px] text-slate-400 block">${a.Ghi_Chu ? `Ghi chú: ${a.Ghi_Chu}` : `Người ghi: ${a.Nguoi_Diem_Danh}`}</span>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${a.Trang_Thai === 'Vắng có phép' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'}">${a.Trang_Thai}</span>
+              </div>
+            `).join('') : '<div class="text-[11px] text-emerald-600 italic text-center py-1">Chuyên cần 100%, không vắng buổi nào!</div>'}
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Điểm thưởng trong Tháng ${selectedMonth}</span>
+            <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myDiemCong.length}</span>
+          </h4>
+          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+            ${myDiemCong.length > 0 ? myDiemCong.slice().reverse().map(d => `
+              <div class="bg-emerald-50/50 p-2 rounded-lg border border-emerald-100 text-xs">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-slate-800">${d.Ly_Do}</span>
+                  <span class="font-black text-emerald-600">+${d.Diem_Cong}đ</span>
+                </div>
+                <div class="text-[10px] text-slate-400 flex justify-between mt-1">
+                  <span>${formatDisplayDate(d.Ngay)} • Ghi: ${d.Nguoi_Ghi || 'GV'}</span>
+                  <span>${d.Ghi_Chu || ''}</span>
+                </div>
+              </div>
+            `).join('') : `<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng trong tháng ${selectedMonth}.</div>`}
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lỗi vi phạm trong Tháng ${selectedMonth}</span>
+            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length + (collectivePenaltyPerStudent > 0 ? 1 : 0)}</span>
+          </h4>
+          
+          <div class="space-y-1.5 max-h-56 overflow-y-auto">
+            ${collectivePenaltyPerStudent > 0 ? `
+              <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs space-y-1">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-amber-900"><i class="fa-solid fa-users-viewfinder mr-1"></i>Trách nhiệm lỗi tập thể Tháng ${selectedMonth}</span>
+                  <span class="font-black text-rose-600">-${collectivePenaltyPerStudent}đ</span>
+                </div>
+                <div class="text-[10px] text-amber-700 leading-tight">
+                  (Tổng cộng ${collectiveViolationsList.length} lỗi tập thể chung của lớp được chia đều cho từng thành viên).
+                </div>
+              </div>
+            ` : ''}
+
+            ${myViPham.length > 0 ? myViPham.slice().reverse().map(v => `
+              <div class="bg-rose-50/50 p-2 rounded-lg border border-rose-100 text-xs">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
+                  <span class="font-black text-rose-600">-${v.Diem_Tru}đ</span>
+                </div>
+                <div class="text-[10px] text-slate-400 flex justify-between mt-1">
+                  <span>${formatDisplayDate(v.Ngay)} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'}</span>
+                  <span class="text-rose-400">${v.Ghi_Chu || ''}</span>
+                </div>
+              </div>
+            `).join('') : (collectivePenaltyPerStudent === 0 ? `<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào trong tháng ${selectedMonth}.</div>` : '')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderThiDuaTo() {
+      const container = document.getElementById("rankingToContainer");
+      if (!container || !appData.hocSinh) return;
+
+      const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
+      const stats = toList.map(tenTo => {
+        const members = appData.hocSinh.filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
+        const tongCong = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Cong) || 0), 0);
+        const tongTru = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Tru) || 0), 0);
+        const diemThiDua = Math.round((tongCong - tongTru) * 10) / 10;
+        return { tenTo, membersCount: members.length, tongCong, tongTru: Math.round(tongTru * 10)/10, diemThiDua };
+      });
+
+      stats.sort((a, b) => b.diemThiDua - a.diemThiDua);
+
+      const badges = [
+        { rank: "Hạng 1", color: "from-amber-400 to-yellow-500 text-amber-900 border-amber-300", icon: "🥇" },
+        { rank: "Hạng 2", color: "from-slate-200 to-slate-400 text-slate-800 border-slate-300", icon: "🥈" },
+        { rank: "Hạng 3", color: "from-amber-600 to-orange-700 text-orange-100 border-amber-700", icon: "🥉" },
+        { rank: "Hạng 4", color: "from-slate-100 to-slate-200 text-slate-600 border-slate-200", icon: "🎖️" }
+      ];
+
+      container.innerHTML = stats.map((to, idx) => {
+        const b = badges[idx] || badges[3];
+        return `
+          <div class="bg-gradient-to-br ${b.color} rounded-xl p-2.5 border shadow-sm flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-black">${b.icon} ${to.tenTo}</span>
+              <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-black/10">${b.rank}</span>
+            </div>
+            <div class="mt-2 text-center">
+              <div class="text-base font-black">${to.diemThiDua > 0 ? '+' : ''}${to.diemThiDua} <span class="text-[10px]">điểm</span></div>
+              <div class="text-[9px] font-medium opacity-90 mt-0.5 space-x-1">
+                <span>+${to.tongCong}đ</span> | <span>-${to.tongTru}đ</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderLaoDongCuoiThang() {
+      const container = document.getElementById("listLaoDongCuoiThang");
+      const badge = document.getElementById("countLaoDongBadge");
+      if (!container || !appData.hocSinh) return;
+
+      const hsViPham = appData.hocSinh.filter(h => (Number(h.Thang_Diem_Tru) || 0) > 0);
+      if (badge) badge.innerText = `${hsViPham.length} Học sinh`;
+
+      if (hsViPham.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white/80 p-3 rounded-xl border border-emerald-200 text-center text-xs text-emerald-700 font-bold">
+            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Tháng này lớp không có học sinh nào bị phạt lao động!
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = hsViPham.map(hs => {
+        const av = hs.Avatar || "👤";
+        return `
+          <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-100 flex justify-between items-center shadow-xs cursor-pointer hover:border-rose-300 transition">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">${av}</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">
+                  <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] mr-1">#${hs.STT}</span>
+                  ${hs.Ho_Ten}
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">${hs.To} • Cần bù đắp điểm rèn luyện</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                Bị trừ: -${hs.Thang_Diem_Tru}đ
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==============================================================
+    // TIỆN ÍCH DÁN ẢNH & SƠ ĐỒ LỚP HỌC
+    // ==============================================================
+    function handlePasteImage(event) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (let item of items) {
+        if (item.type.indexOf("image") !== -1) {
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("hd_base64_image").value = e.target.result;
+            document.getElementById("hd_image_preview").src = e.target.result;
+            document.getElementById("hd_image_preview_box").classList.remove("hidden");
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    }
+
+    function previewActivityImage(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("hd_base64_image").value = e.target.result;
+        document.getElementById("hd_image_preview").src = e.target.result;
+        document.getElementById("hd_image_preview_box").classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeAttachedImage() {
+      document.getElementById("hd_base64_image").value = "";
+      document.getElementById("hd_file_input").value = "";
+      document.getElementById("hd_image_preview").src = "";
+      document.getElementById("hd_image_preview_box").classList.add("hidden");
+    }
+
+    function viewFullImage(src) {
+      const w = window.open("");
+      w.document.write(`<img src="${src}" style="max-width:100%;height:auto;margin:auto;display:block;">`);
+    }
+
+    function initQuickSelectTN() {
+      const container = document.getElementById("quickSelectStudentForTN");
+      if (!container || !appData.hocSinh) return;
+      let html = `<span class="text-slate-400 py-0.5">Chọn nhanh:</span>`;
+      ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"].forEach(t => {
+        html += `<button type="button" onclick="appendTNInput('${t}')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-100 rounded text-slate-700 font-bold border border-slate-200">${t}</button>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function appendTNInput(val) {
+      const input = document.getElementById("tn_nguoithuchien");
+      input.value = input.value ? (input.value + ", " + val) : val;
+    }
+
+    function openEditBaoBaiModal(rowIndex) {
+      const bb = appData.baoBai[appData.baoBai.length - (rowIndex - 1)];
+      if (!bb) return;
+
+      document.getElementById("modalBaoBaiTitle").innerText = "Chỉnh sửa Báo bài";
+      document.getElementById("bb_row_index").value = rowIndex;
+      document.getElementById("bb_thutiet").value = bb.Thu_Tiet;
+      document.getElementById("bb_monhoc").value = bb.Mon_Hoc;
+      document.getElementById("bb_noidung").value = bb.Noi_Dung_Bao_Bai;
+
+      let dateVal = "";
+      if (bb.Han_Nop_Kiem_Tra) {
+        const parts = String(bb.Han_Nop_Kiem_Tra).split("/");
+        if (parts.length === 3) dateVal = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+        else dateVal = bb.Han_Nop_Kiem_Tra;
+      }
+      document.getElementById("bb_hannop").value = dateVal;
+
+      openModal("modalBaoBai");
+    }
+
+    async function deleteBaoBaiItem(rowIndex) {
+      if (!confirm("Cô có chắc chắn muốn xóa bài báo này?")) return;
+      await sendPostRequest("deleteBaoBai", { rowIndex: rowIndex }, "btnSubmitBB", "modalBaoBai");
+    }
+
+    function openEditHoatDongModal(idHoatDong) {
+      const hd = (appData.hoatDong || []).find(h => String(h.ID_HoatDong) === String(idHoatDong));
+      if (!hd) return;
+
+      document.getElementById("modalHoatDongTitle").innerText = "Chỉnh sửa Hoạt động Đoàn";
+      document.getElementById("hd_edit_id").value = idHoatDong;
+      document.getElementById("hd_ten").value = hd.Ten_HoatDong;
+      document.getElementById("hd_noidung").value = hd.Noi_Dung;
+      
+      let dateVal = "";
+      if (hd.Han_Chot) {
+        const parts = String(hd.Han_Chot).split("/");
+        if (parts.length === 3) dateVal = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+        else dateVal = hd.Han_Chot;
+      }
+      document.getElementById("hd_hanchot").value = dateVal;
+
+      document.getElementById("hd_diemcong").value = hd.Diem_Cong;
+      document.getElementById("hd_gioihan").value = hd.Gioi_Han || 0;
+      document.getElementById("hd_co_giai_x2").checked = Boolean(hd.Co_Giai_X2);
+
+      if (hd.Hinh_Anh) {
+        document.getElementById("hd_base64_image").value = hd.Hinh_Anh;
+        document.getElementById("hd_image_preview").src = hd.Hinh_Anh;
+        document.getElementById("hd_image_preview_box").classList.remove("hidden");
+      } else {
+        removeAttachedImage();
+      }
+      openModal("modalHoatDong");
+    }
+
+    async function deleteHoatDongItem(idHoatDong) {
+      if (!confirm("Cô có chắc chắn muốn xóa hoạt động này?")) return;
+      await sendPostRequest("deleteHoatDong", { idHoatDong: idHoatDong }, "btnSubmitHD", "modalHoatDong");
+    }
+
+    function openEditTrucNhatModal(rowIndex) {
+      const tn = appData.trucNhat[rowIndex - 2];
+      if (!tn) return;
+
+      document.getElementById("modalTrucNhatTitle").innerText = "Chỉnh sửa Lịch trực nhật";
+      document.getElementById("tn_row_index").value = rowIndex;
+      document.getElementById("tn_thu").value = tn.Thu;
+      document.getElementById("tn_buoi").value = tn.Buoi;
+      document.getElementById("tn_nguoithuchien").value = tn.To_Truc;
+      document.getElementById("tn_trangthai").value = tn.Trang_Thai;
+      openModal("modalTrucNhat");
+    }
+
+    async function deleteTrucNhatItem(rowIndex) {
+      if (!confirm("Cô có chắc chắn muốn xóa lịch trực nhật này?")) return;
+      await sendPostRequest("deleteTrucNhat", { rowIndex: rowIndex }, "btnSubmitTN", "modalTrucNhat");
+    }
+
+    function openAdminThamGiaModal(idHoatDong) {
+      currentManagingActivityId = idHoatDong;
+      const hd = (appData.hoatDong || []).find(h => String(h.ID_HoatDong) === String(idHoatDong));
+      if (!hd) return;
+
+      document.getElementById("adminThamGiaTitle").innerText = `Hoạt động: ${hd.Ten_HoatDong}`;
+      const dsCurrent = String(hd.DS_Tham_Gia || "").split(", ").map(s => s.trim());
+
+      const container = document.getElementById("adminThamGiaCheckboxList");
+      container.innerHTML = (appData.hocSinh || []).map(hs => {
+        const studentLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
+        const isChecked = dsCurrent.includes(studentLabel);
+        return `
+          <label class="flex items-center justify-between p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50/60 transition">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" value="${studentLabel}" class="thamgia-checkbox rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4" ${isChecked ? 'checked' : ''}>
+              <span class="text-xs font-bold text-slate-800">${hs.Avatar || '👤'} #${hs.STT} ${hs.Ho_Ten}</span>
+            </div>
+            <span class="text-[10px] text-slate-400">${hs.To}</span>
+          </label>
+        `;
+      }).join('');
+
+      openModal("modalAdminThamGia");
+    }
+
+    function selectAllThamGia(select) {
+      document.querySelectorAll('.thamgia-checkbox').forEach(cb => cb.checked = select);
+    }
+
+    async function saveAdminThamGia() {
+      if (!currentManagingActivityId) return;
+      const selected = Array.from(document.querySelectorAll('.thamgia-checkbox:checked')).map(cb => cb.value);
+
+      const btn = document.getElementById("btnSubmitAdminThamGia");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "adminUpdateThamGia",
+            userEmail: currentUserEmail,
+            payload: { idHoatDong: currentManagingActivityId, dsHocSinh: selected }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          closeModal("modalAdminThamGia");
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      } finally {
+        btn.innerText = "Lưu danh sách";
+        btn.disabled = false;
+      }
+    }
+
+    function initAvatarModalIcons() {
+      const renderGroup = (id, list) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.innerHTML = list.map(icon => `
+            <button onclick="selectAvatarIcon('${icon}')" class="p-2 bg-slate-50 hover:bg-indigo-100 rounded-xl transition hover:scale-125 flex items-center justify-center">
+              ${icon}
+            </button>
+          `).join('');
+        }
+      };
+      renderGroup("avatarGroup1", AVATAR_LIST_1);
+      renderGroup("avatarGroup2", AVATAR_LIST_2);
+      renderGroup("avatarGroup3", AVATAR_LIST_3);
+      renderGroup("avatarGroup4", AVATAR_LIST_4);
+    }
+
+    function openAvatarModal(stt) {
+      currentEditingSTTForAvatar = stt;
+      openModal("modalAvatar");
+    }
+
+    async function selectAvatarIcon(icon) {
+      if (!currentEditingSTTForAvatar) return;
+      closeModal("modalAvatar");
+
+      const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(currentEditingSTTForAvatar));
+      if (hs) hs.Avatar = icon;
+      renderHoSoCaNhan(currentEditingSTTForAvatar);
+      renderUI();
+      renderSoDo24Ban();
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "updateAvatar",
+            userEmail: currentUserEmail,
+            payload: { stt: currentEditingSTTForAvatar, icon: icon }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert(`Đã lưu Avatar ${icon} thành công!`);
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        console.error("Lỗi lưu Avatar:", err);
+      }
+    }
+
     function initSeatingState() {
       const saved = localStorage.getItem("seating_state_lop10c5");
       if (saved) {
@@ -1836,8 +2421,95 @@
     }
 
     // ==============================================================
-    // TIỆN ÍCH CHUYỂN TAB & GỬI YÊU CẦU
+    // TIỆN ÍCH SINH NHẬT & ĐĂNG BÀI
     // ==============================================================
+    function parseDate(dateStr) {
+      if (!dateStr) return null;
+      const str = String(dateStr).trim();
+      let day, month;
+
+      if (str.includes('/')) {
+        const parts = str.split('/');
+        day = parseInt(parts[0], 10);
+        month = parseInt(parts[1], 10);
+      } else if (str.includes('-')) {
+        const parts = str.split('-');
+        if (parts[0].length === 4) {
+          month = parseInt(parts[1], 10);
+          day = parseInt(parts[2], 10);
+        } else {
+          day = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+        }
+      }
+      return (day && month) ? { day, month, raw: str } : null;
+    }
+
+    function checkAndRenderBirthdays() {
+      if (!appData.hocSinh) return;
+      const today = new Date();
+      const currentDay = today.getDate();
+      const currentMonth = today.getMonth() + 1;
+
+      document.getElementById("currentMonthText").innerText = `Tháng ${currentMonth}`;
+
+      const todayBirthdays = [];
+      const monthBirthdays = [];
+
+      appData.hocSinh.forEach(hs => {
+        const d = parseDate(hs.Ngay_Sinh);
+        if (d) {
+          if (d.month === currentMonth) {
+            monthBirthdays.push({ ...hs, birthDay: d.day, birthStr: d.raw });
+            if (d.day === currentDay) todayBirthdays.push(hs);
+          }
+        }
+      });
+
+      const banner = document.getElementById("todayBirthdayBanner");
+      const nameBox = document.getElementById("todayBirthdayNames");
+      if (todayBirthdays.length > 0) {
+        banner.classList.remove("hidden");
+        nameBox.innerText = todayBirthdays.map(h => `${h.Avatar || '🎂'} ${h.Ho_Ten} (#${h.STT} - ${h.To})`).join("  •  ");
+        
+        if (!hasTriggeredBirthdayConfetti) {
+          setTimeout(() => triggerConfetti(), 800);
+          hasTriggeredBirthdayConfetti = true;
+        }
+      } else {
+        banner.classList.add("hidden");
+      }
+
+      const monthList = document.getElementById("monthBirthdayList");
+      const monthBadge = document.getElementById("monthBirthdayCountBadge");
+      monthBadge.innerText = `${monthBirthdays.length} bạn`;
+
+      monthBirthdays.sort((a, b) => a.birthDay - b.birthDay);
+
+      if (monthBirthdays.length === 0) {
+        monthList.innerHTML = `<span class="text-[11px] text-pink-400 italic">Tháng này không có sinh nhật bạn nào.</span>`;
+      } else {
+        monthList.innerHTML = monthBirthdays.map(h => {
+          const isToday = (h.birthDay === currentDay);
+          const av = h.Avatar || "🎂";
+          return `
+            <div onclick="viewStudentProfile('${h.STT}')" class="bg-white border ${isToday ? 'border-pink-500 ring-2 ring-pink-300' : 'border-pink-200'} rounded-lg px-2 py-1 text-xs shadow-xs cursor-pointer hover:bg-pink-100/50 flex items-center gap-1.5 transition">
+              <span>${av}</span>
+              <span class="text-pink-600 font-black">${h.birthDay}/${currentMonth}</span>
+              <span class="font-bold text-slate-700 truncate">#${h.STT} ${h.Ho_Ten}</span>
+              ${isToday ? '<span class="text-xs">🎉</span>' : ''}
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+
     function viewStudentProfile(stt) {
       const select = document.getElementById("selectTraCuuHS");
       if (select) select.value = stt;
