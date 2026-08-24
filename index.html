@@ -1861,6 +1861,66 @@
       switchTabDirect('tab-nenep', 4);
     }
 
+    function removeAttachedImage() {
+      const imageInput = document.getElementById("hd_file_input");
+      const base64Input = document.getElementById("hd_base64_image");
+      const preview = document.getElementById("hd_image_preview");
+      const previewBox = document.getElementById("hd_image_preview_box");
+      if (imageInput) imageInput.value = "";
+      if (base64Input) base64Input.value = "";
+      if (preview) preview.src = "";
+      if (previewBox) previewBox.classList.add("hidden");
+    }
+
+    function setActivityImage(file) {
+      if (!file || !String(file.type || "").startsWith("image/")) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const imageData = event.target.result;
+        document.getElementById("hd_base64_image").value = imageData;
+        document.getElementById("hd_image_preview").src = imageData;
+        document.getElementById("hd_image_preview_box").classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewActivityImage(input) {
+      if (input && input.files && input.files[0]) setActivityImage(input.files[0]);
+    }
+
+    function handlePasteImage(event) {
+      const items = event.clipboardData && event.clipboardData.items;
+      if (!items) return;
+      for (const item of items) {
+        if (String(item.type || "").startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) {
+            event.preventDefault();
+            setActivityImage(file);
+          }
+          break;
+        }
+      }
+    }
+
+    function initQuickSelectTN() {
+      const container = document.getElementById("quickSelectStudentForTN");
+      if (!container) return;
+      container.innerHTML = (appData.hocSinh || []).map(h => `
+        <button type="button" onclick="appendStudentToTrucNhat('${String(h.Ho_Ten || "").replace(/'/g, "\\'")}')" class="px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100">
+          #${h.STT} ${h.Ho_Ten}
+        </button>
+      `).join('');
+    }
+
+    function appendStudentToTrucNhat(hoTen) {
+      const input = document.getElementById("tn_nguoithuchien");
+      if (!input || !hoTen) return;
+      const current = input.value.split(",").map(s => s.trim()).filter(Boolean);
+      if (!current.includes(hoTen)) current.push(hoTen);
+      input.value = current.join(", ");
+    }
+
     function openEditBaoBaiModal(idBaoBai, rowIndex) {
       // rowIndex là số dòng thật trên Google Sheet (dòng 1 là tiêu đề),
       // còn appData.baoBai bắt đầu từ phần tử 0 tương ứng với dòng 2.
