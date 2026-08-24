@@ -59,12 +59,13 @@
         <div id="homeWarningAbsenceList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
 
-      <!-- NHẮC NHỞ HỌC SINH VẮNG KHÔNG PHÉP CẦN NỘP ĐƠN VÀO NGÀY HÔM SAU -->
+      <!-- NHẮC NHỞ HỌC SINH VẮNG KHÔNG PHÉP CẦN NỘP ĐƠN (CHỈ HIỆN VỚI CHÍNH HỌC SINH ĐÓ & GVCN) -->
       <div id="homeReminderUnexcusedBox" class="hidden bg-amber-50 rounded-2xl p-3.5 border border-amber-300 shadow-xs space-y-1.5">
         <div class="flex justify-between items-center text-xs font-bold text-amber-900">
-          <span class="flex items-center gap-1.5"><i class="fa-solid fa-bell text-amber-600"></i> Nhắc nhở nộp Đơn xin phép (Vắng KP hôm trước):</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-bell text-amber-600"></i> Nhắc nhở nộp Đơn xin phép (Vắng KP buổi trước):</span>
           <span class="bg-amber-200 text-amber-900 text-[10px] px-2 py-0.5 rounded-full font-black" id="reminderUnexcusedCount">0 HS</span>
         </div>
+        <p class="text-[11px] text-amber-700">Em vui lòng nộp đơn xin phép có chữ ký của phụ huynh cho GVCN để được chuyển thành vắng có phép.</p>
         <div id="homeReminderUnexcusedList" class="text-xs text-amber-800 space-y-1"></div>
       </div>
 
@@ -113,7 +114,7 @@
         </div>
       </div>
 
-      <!-- THỜI KHÓA BIỂU NGÀY MAI -->
+      <!-- THỜI KHÓA BIỂU NGÀY MAI (SÁNG 4 TIẾT, CHIỀU 5 TIẾT) -->
       <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-3.5 border border-blue-200 shadow-sm space-y-2">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-indigo-900 flex items-center gap-1.5 uppercase tracking-wide">
@@ -175,11 +176,11 @@
     <!-- ============================================================== -->
     <section id="tab-baobai" class="tab-content space-y-4">
       
-      <!-- KHUNG THỜI KHÓA BIỂU (TKB) -->
+      <!-- KHUNG THỜI KHÓA BIỂU (SÁNG 4 TIẾT, CHIỀU 5 TIẾT) -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-table text-indigo-600"></i> Thời Khóa Biểu Lớp 10C5
+            <i class="fa-solid fa-table text-indigo-600"></i> Thời Khóa Biểu Lớp 10C5 (Sáng 4T, Chiều 5T)
           </h3>
           <button id="btnEditTKB" onclick="openModalEditTKB()" class="hidden text-[10px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-lg border border-indigo-200 transition">
             <i class="fa-solid fa-pen-to-square mr-1"></i> Chỉnh sửa TKB
@@ -277,7 +278,6 @@
         <div id="diemDanhTableList" class="space-y-1.5 max-h-[50vh] overflow-y-auto pr-1"></div>
       </div>
 
-      <!-- TỔNG HỢP VẮNG CHỈ HIỆN VỚI GVCN & BAN CÁN SỰ -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5">
         <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
           <i class="fa-solid fa-chart-pie text-rose-500"></i> Tổng Hợp Số Buổi Nghỉ Học Toàn Khóa
@@ -301,7 +301,7 @@
         <select id="selectFilterMonth" onchange="changeFilterMonth(this.value)" class="text-xs font-black bg-white border border-indigo-300 text-indigo-800 rounded-lg px-3 py-1 shadow-xs focus:ring-2 focus:ring-indigo-500"></select>
       </div>
 
-      <!-- BẢNG VÀNG THI ĐUA 4 TỔ THEO THÁNG ĐƯỢC CHỌN -->
+      <!-- BẢNG VÀNG THI ĐUA 4 TỔ THEO THÁNG -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
@@ -312,7 +312,7 @@
         <div id="rankingToContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
       </div>
 
-      <!-- LỖI TẬP THỂ LỚP TRONG THÁNG ĐƯỢC CHỌN -->
+      <!-- LỖI TẬP THỂ LỚP TRONG THÁNG -->
       <div id="collectiveViolationBox" class="hidden bg-rose-50/70 rounded-2xl p-3.5 border border-rose-200 space-y-2 shadow-xs">
         <div class="flex justify-between items-center">
           <h4 class="text-xs font-bold text-rose-800 flex items-center gap-1.5">
@@ -526,7 +526,7 @@
     </div>
   </div>
 
-  <!-- MODAL GHI NHẬN VI PHẠM (ĐÃ CÓ Ô CHỌN NGÀY TÙY Ý) -->
+  <!-- MODAL GHI NHẬN VI PHẠM -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
@@ -561,7 +561,7 @@
     </div>
   </div>
 
-  <!-- MODAL ĐIỂM CỘNG (ĐÃ CÓ Ô CHỌN NGÀY TÙY Ý) -->
+  <!-- MODAL ĐIỂM CỘNG -->
   <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
       <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
@@ -786,7 +786,7 @@
     let currentEditingSTTForAvatar = null;
     let currentManagingActivityId = null;
 
-    let selectedMonth = new Date().getMonth() + 1; // Tháng lọc hiện tại
+    let selectedMonth = new Date().getMonth() + 1;
     let collectivePenaltyPerStudent = 0;
     let collectiveViolationsList = [];
     let hasTriggeredBirthdayConfetti = false;
@@ -858,7 +858,6 @@
       }
     }
 
-    // KHỞI TẠO BỘ LỌC THÁNG
     function initMonthFilter() {
       const select = document.getElementById("selectFilterMonth");
       if (!select) return;
@@ -880,11 +879,9 @@
       renderThiDuaTo();
     }
 
-    // TÍNH TOÁN ĐIỂM RÈN LUYỆN & XẾP HẠNG THEO THÁNG ĐƯỢC CHỌN
     function calculateScoreByMonth(targetMonth) {
       const totalStudents = (appData.hocSinh || []).length || 1;
       
-      // Lỗi tập thể trong tháng
       collectiveViolationsList = (appData.viPham || []).filter(v => {
         return String(v.STT).toUpperCase() === "ALL" && parseDateMonth(v.Ngay) === targetMonth;
       });
@@ -893,7 +890,6 @@
       collectivePenaltyPerStudent = totalStudents > 0 ? (totalCollectivePoints / totalStudents) : 0;
       collectivePenaltyPerStudent = Math.round(collectivePenaltyPerStudent * 10) / 10;
 
-      // Tính điểm cá nhân theo tháng
       (appData.hocSinh || []).forEach(hs => {
         const myMonthTru = (appData.viPham || []).filter(v => String(v.STT) === String(hs.STT) && parseDateMonth(v.Ngay) === targetMonth)
                                                 .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
@@ -957,13 +953,10 @@
     }
 
     // ==============================================================
-    // TRANG CHỦ: TÍNH NĂNG TKB NGÀY MAI & DASHBOARD
+    // TRANG CHỦ: TKB NGÀY MAI (SÁNG 4T, CHIỀU 5T)
     // ==============================================================
     function renderTrangChuDashboard() {
       const now = new Date();
-      const currentMonth = now.getMonth() + 1;
-
-      // 1. TKB NGÀY MAI
       const daysOfWeek = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
       const tomorrowIdx = (now.getDay() + 1) % 7;
       const tomorrowName = daysOfWeek[tomorrowIdx];
@@ -971,23 +964,23 @@
       document.getElementById("homeTomorrowDayText").innerText = tomorrowName;
       const tkbContainer = document.getElementById("homeTomorrowTKBContent");
 
-      if (tomorrowIdx === 0) { // Chủ nhật
+      if (tomorrowIdx === 0) {
         tkbContainer.innerHTML = `<div class="bg-white p-3 rounded-xl border border-blue-100 text-center font-bold text-slate-500">🎉 Ngày mai là Chủ Nhật, lớp được nghỉ học!</div>`;
       } else {
         const tkbTomorrow = (appData.thoiKhoaBieu || []).find(t => t.Thu === tomorrowName);
         if (tkbTomorrow) {
-          const sangMon = [tkbTomorrow.Tiet1, tkbTomorrow.Tiet2, tkbTomorrow.Tiet3, tkbTomorrow.Tiet4, tkbTomorrow.Tiet5].filter(Boolean);
-          const chieuMon = [tkbTomorrow.Chieu_Tiet1, tkbTomorrow.Chieu_Tiet2, tkbTomorrow.Chieu_Tiet3, tkbTomorrow.Chieu_Tiet4].filter(Boolean);
+          const sangMon = [tkbTomorrow.Tiet1, tkbTomorrow.Tiet2, tkbTomorrow.Tiet3, tkbTomorrow.Tiet4].filter(Boolean);
+          const chieuMon = [tkbTomorrow.Chieu_Tiet1, tkbTomorrow.Chieu_Tiet2, tkbTomorrow.Chieu_Tiet3, tkbTomorrow.Chieu_Tiet4, tkbTomorrow.Chieu_Tiet5].filter(Boolean);
 
           tkbContainer.innerHTML = `
-            <div class="bg-white p-2.5 rounded-xl border border-blue-100 space-y-1">
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100 space-y-1.5">
               <div class="flex items-center gap-1 font-bold text-indigo-900">
-                <span class="bg-indigo-100 text-indigo-800 text-[10px] px-1.5 py-0.2 rounded">Sáng</span>
+                <span class="bg-indigo-100 text-indigo-800 text-[10px] px-1.5 py-0.2 rounded font-black">Sáng (4T)</span>
                 <span>${sangMon.length > 0 ? sangMon.join(" • ") : "Không có tiết"}</span>
               </div>
               ${chieuMon.length > 0 ? `
                 <div class="flex items-center gap-1 font-bold text-amber-900 pt-1 border-t border-slate-100">
-                  <span class="bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.2 rounded">Chiều</span>
+                  <span class="bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.2 rounded font-black">Chiều (5T)</span>
                   <span>${chieuMon.join(" • ")}</span>
                 </div>
               ` : '<div class="text-[10px] text-slate-400 italic">Buổi chiều: Nghỉ học</div>'}
@@ -998,7 +991,7 @@
         }
       }
 
-      // 2. Tổ dẫn đầu thi đua tháng
+      // Tổ dẫn đầu thi đua tháng
       const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
       const stats = toList.map(tenTo => {
         const members = (appData.hocSinh || []).filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
@@ -1018,7 +1011,7 @@
         document.getElementById("homeTopToDetail").innerHTML = `Thành tích: <b class="text-white">+${top1To.tongCong}đ thưởng</b> • <span class="opacity-90">-${top1To.tongTru}đ phạt</span> (${top1To.membersCount} thành viên)`;
       }
 
-      // 3. Trực nhật hôm nay & ngày mai
+      // Trực nhật hôm nay & ngày mai
       const todayName = daysOfWeek[now.getDay()];
       const homeTN = document.getElementById("homeTrucNhatList");
       if (homeTN && appData.trucNhat) {
@@ -1038,7 +1031,7 @@
         }
       }
 
-      // 4. Báo bài sắp tới
+      // Báo bài sắp tới
       const homeBB = document.getElementById("homeBaoBaiList");
       if (homeBB && appData.baoBai) {
         const recentBB = appData.baoBai.slice(-3).reverse();
@@ -1058,7 +1051,7 @@
         }
       }
 
-      // 5. Hoạt động phong trào sắp diễn ra
+      // Hoạt động phong trào sắp diễn ra
       const homeHD = document.getElementById("homeHoatDongList");
       if (homeHD && appData.hoatDong) {
         const recentHD = appData.hoatDong.slice(-2).reverse();
@@ -1082,15 +1075,362 @@
     }
 
     // ==============================================================
-    // RENDER DANH SÁCH & BẢNG XẾP HẠNG CÁ NHÂN THEO THÁNG
+    // RENDER THỜI KHÓA BIỂU (SÁNG 4 TIẾT, CHIỀU 5 TIẾT)
+    // ==============================================================
+    const DEFAULT_TKB_DAYS = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+
+    function renderTKBTable() {
+      const tbody = document.getElementById("tkbTableBody");
+      if (!tbody) return;
+
+      const tkbMap = {};
+      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"", Chieu_Tiet5:"" });
+      (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
+
+      let html = "";
+      // Buổi Sáng: 4 Tiết
+      for (let tiet = 1; tiet <= 4; tiet++) {
+        html += `<tr>`;
+        if (tiet === 1) html += `<td rowspan="4" class="bg-indigo-50 font-black text-indigo-800 p-1 border border-slate-300 text-[10px]">SÁNG<br>(4T)</td>`;
+        DEFAULT_TKB_DAYS.forEach(d => {
+          const mon = tkbMap[d][`Tiet${tiet}`] || "-";
+          html += `<td class="p-2 border border-slate-200 text-slate-700 text-xs font-semibold ${mon !== '-' ? 'bg-white font-bold text-indigo-900' : 'text-slate-300'}">${mon}</td>`;
+        });
+        html += `</tr>`;
+      }
+
+      // Buổi Chiều: 5 Tiết
+      for (let tiet = 1; tiet <= 5; tiet++) {
+        html += `<tr>`;
+        if (tiet === 1) html += `<td rowspan="5" class="bg-amber-50 font-black text-amber-800 p-1 border border-slate-300 text-[10px]">CHIỀU<br>(5T)</td>`;
+        DEFAULT_TKB_DAYS.forEach(d => {
+          const mon = tkbMap[d][`Chieu_Tiet${tiet}`] || "-";
+          html += `<td class="p-2 border border-slate-200 text-slate-700 text-xs font-semibold ${mon !== '-' ? 'bg-amber-50/50 font-bold text-amber-900' : 'text-slate-300'}">${mon}</td>`;
+        });
+        html += `</tr>`;
+      }
+      tbody.innerHTML = html;
+    }
+
+    function openModalEditTKB() {
+      const container = document.getElementById("editTKBInputsContainer");
+      if (!container) return;
+
+      const tkbMap = {};
+      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"", Chieu_Tiet5:"" });
+      (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
+
+      container.innerHTML = DEFAULT_TKB_DAYS.map(day => `
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+          <div class="font-black text-indigo-700 text-xs flex items-center gap-1">
+            <i class="fa-solid fa-calendar-day"></i> ${day}
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-slate-500 block mb-1">Buổi Sáng (Tiết 1 -> 4):</span>
+            <div class="grid grid-cols-4 gap-1.5">
+              ${[1,2,3,4].map(i => `
+                <input type="text" id="tkb_${day}_Tiet${i}" value="${tkbMap[day][`Tiet${i}`] || ''}" placeholder="T${i}" class="border rounded p-1.5 text-center bg-white text-xs font-semibold">
+              `).join('')}
+            </div>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-amber-600 block mb-1">Buổi Chiều (Tiết 1 -> 5):</span>
+            <div class="grid grid-cols-5 gap-1.5">
+              ${[1,2,3,4,5].map(i => `
+                <input type="text" id="tkb_${day}_Chieu_Tiet${i}" value="${tkbMap[day][`Chieu_Tiet${i}`] || ''}" placeholder="T${i}" class="border rounded p-1.5 text-center bg-white text-xs font-semibold">
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      openModal("modalEditTKB");
+    }
+
+    async function saveTKBToServer() {
+      const btn = document.getElementById("btnSaveTKB");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      const tkbPayload = DEFAULT_TKB_DAYS.map(day => ({
+        Thu: day,
+        Tiet1: document.getElementById(`tkb_${day}_Tiet1`).value.trim(),
+        Tiet2: document.getElementById(`tkb_${day}_Tiet2`).value.trim(),
+        Tiet3: document.getElementById(`tkb_${day}_Tiet3`).value.trim(),
+        Tiet4: document.getElementById(`tkb_${day}_Tiet4`).value.trim(),
+        Chieu_Tiet1: document.getElementById(`tkb_${day}_Chieu_Tiet1`).value.trim(),
+        Chieu_Tiet2: document.getElementById(`tkb_${day}_Chieu_Tiet2`).value.trim(),
+        Chieu_Tiet3: document.getElementById(`tkb_${day}_Chieu_Tiet3`).value.trim(),
+        Chieu_Tiet4: document.getElementById(`tkb_${day}_Chieu_Tiet4`).value.trim(),
+        Chieu_Tiet5: document.getElementById(`tkb_${day}_Chieu_Tiet5`).value.trim()
+      }));
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "saveThoiKhoaBieu",
+            userEmail: currentUserEmail,
+            payload: { tkb: tkbPayload }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          closeModal("modalEditTKB");
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      } finally {
+        btn.innerText = "Lưu Thời Khóa Biểu";
+        btn.disabled = false;
+      }
+    }
+
+    // ==============================================================
+    // LOGIC ĐIỂM DANH (ĐÃ SỬA CHUẨN XÁC TRẠNG THÁI VẮNG KP)
+    // ==============================================================
+    function initDiemDanhTab() {
+      const dateInput = document.getElementById("dd_ngay");
+      if (!dateInput.value) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+      }
+      autoDetectBuoiHoc(dateInput.value);
+    }
+
+    function autoDetectBuoiHoc(selectedDateStr) {
+      if (!selectedDateStr) return;
+      const d = new Date(selectedDateStr);
+      const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+      const dayName = days[d.getDay()];
+
+      const tkbDay = (appData.thoiKhoaBieu || []).find(t => t.Thu === dayName);
+      let hasAfternoon = false;
+      if (tkbDay) {
+        hasAfternoon = Boolean(tkbDay.Chieu_Tiet1 || tkbDay.Chieu_Tiet2 || tkbDay.Chieu_Tiet3 || tkbDay.Chieu_Tiet4 || tkbDay.Chieu_Tiet5);
+      }
+
+      const notice = document.getElementById("dd_schedule_notice");
+      if (notice) {
+        notice.innerHTML = `💡 ${dayName}: Hôm nay <b>${hasAfternoon ? 'học 2 buổi (Sáng 4T & Chiều 5T)' : 'chỉ học 1 buổi (Sáng 4T)'}</b> theo TKB.`;
+      }
+
+      // Đọc dữ liệu điểm danh đã lưu trước đó cho ngày & buổi này
+      loadCurrentAttendanceState();
+      renderDiemDanhTable();
+    }
+
+    function loadCurrentAttendanceState() {
+      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
+      const buoiStr = document.getElementById("dd_buoi").value;
+
+      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
+      currentAttendanceState = {};
+      
+      // Mặc định tất cả Có mặt
+      (appData.hocSinh || []).forEach(hs => {
+        currentAttendanceState[hs.STT] = { trangThai: "Có mặt", ghiChu: "" };
+      });
+
+      // Ghi đè trạng thái đã lưu
+      existingAttendance.forEach(a => {
+        currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
+      });
+    }
+
+    function renderDiemDanhTable() {
+      const container = document.getElementById("diemDanhTableList");
+      if (!container || !appData.hocSinh) return;
+
+      document.getElementById("ddTotalCount").innerText = appData.hocSinh.length;
+
+      container.innerHTML = appData.hocSinh.map(hs => {
+        const current = currentAttendanceState[hs.STT] || { trangThai: "Có mặt", ghiChu: "" };
+        const status = current.trangThai;
+
+        return `
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">${hs.Avatar || '👤'}</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">#${hs.STT} ${hs.Ho_Ten}</div>
+                <div class="text-[10px] text-slate-400">${hs.To}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <select onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-black border rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 cursor-pointer ${
+                status === 'Vắng không phép' ? 'bg-rose-100 text-rose-900 border-rose-400' :
+                status === 'Vắng có phép' ? 'bg-amber-100 text-amber-900 border-amber-400' :
+                'bg-emerald-50 text-emerald-800 border-emerald-300'
+              }">
+                <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''}>P: Có mặt</option>
+                <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép</option>
+                <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setStudentAttendance(stt, status) {
+      if (!currentAttendanceState[stt]) currentAttendanceState[stt] = {};
+      currentAttendanceState[stt].trangThai = status;
+      renderDiemDanhTable();
+    }
+
+    async function submitDiemDanhServer() {
+      const btn = document.getElementById("btnSubmitDiemDanh");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
+      const buoiStr = document.getElementById("dd_buoi").value;
+
+      const danhSachVang = [];
+      for (const [stt, item] of Object.entries(currentAttendanceState)) {
+        if (item.trangThai && item.trangThai !== "Có mặt") {
+          const hs = appData.hocSinh.find(h => String(h.STT) === String(stt));
+          danhSachVang.push({
+            stt: stt,
+            hoTen: hs ? hs.Ho_Ten : "",
+            trangThai: item.trangThai,
+            ghiChu: item.ghiChu || ""
+          });
+        }
+      }
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "saveDiemDanh",
+            userEmail: currentUserEmail,
+            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      } finally {
+        btn.innerText = "Lưu điểm danh";
+        btn.disabled = false;
+      }
+    }
+
+    // ==============================================================
+    // BẢO MẬT NHẮC NHỞ NỘP ĐƠN & BÁO ĐỘNG NGHỈ > 30 BUỔI
+    // ==============================================================
+    function renderAbsenceSummary() {
+      const container = document.getElementById("absenceSummaryList");
+      const warningBox = document.getElementById("homeWarningAbsenceBox");
+      const warningList = document.getElementById("homeWarningAbsenceList");
+      const reminderBox = document.getElementById("homeReminderUnexcusedBox");
+      const reminderList = document.getElementById("homeReminderUnexcusedList");
+      const reminderCountBadge = document.getElementById("reminderUnexcusedCount");
+
+      if (!container || !appData.hocSinh) return;
+
+      const isGVCN = (currentUserRole === "GVCN");
+      const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+
+      const absenceStats = appData.hocSinh.map(hs => {
+        const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(hs.STT));
+        const coPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng có phép").length;
+        const khongPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng không phép").length;
+        const tongNghi = coPhep + khongPhep;
+        return { ...hs, coPhep, khongPhep, tongNghi };
+      });
+
+      // 1. Cảnh báo > 30 buổi (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN)
+      const dangerStudents = absenceStats.filter(s => s.tongNghi >= 30);
+      let visibleDangerStudents = [];
+
+      if (isGVCN) {
+        visibleDangerStudents = dangerStudents;
+      } else if (currentLoggedInHS) {
+        visibleDangerStudents = dangerStudents.filter(s => String(s.STT) === String(currentLoggedInHS.STT));
+      }
+
+      if (visibleDangerStudents.length > 0) {
+        warningBox.classList.remove("hidden");
+        warningList.innerHTML = visibleDangerStudents.map(s => `
+          <div class="bg-white text-rose-700 rounded-lg px-2.5 py-1 text-xs font-black shadow-xs flex items-center gap-1">
+            <span>${s.Avatar || '⚠️'} #${s.STT} ${s.Ho_Ten}:</span>
+            <span class="bg-rose-100 text-rose-900 px-1.5 py-0.2 rounded font-black">${s.tongNghi} buổi (${s.khongPhep} KP)</span>
+          </div>
+        `).join('');
+      } else {
+        warningBox.classList.add("hidden");
+      }
+
+      // 2. Nhắc nhở nộp đơn xin phép (CHỈ HIỆN VỚI CHÍNH HỌC SINH VẮNG KP & GVCN)
+      const unexcusedList = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép");
+      let visibleUnexcused = [];
+
+      if (isGVCN) {
+        visibleUnexcused = unexcusedList.slice(-6).reverse();
+      } else if (currentLoggedInHS) {
+        visibleUnexcused = unexcusedList.filter(d => String(d.STT) === String(currentLoggedInHS.STT)).slice(-6).reverse();
+      }
+
+      if (visibleUnexcused.length > 0) {
+        reminderBox.classList.remove("hidden");
+        reminderCountBadge.innerText = `${visibleUnexcused.length} Buổi`;
+        reminderList.innerHTML = visibleUnexcused.map(u => `
+          <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-amber-200">
+            <div>
+              <span class="font-black text-slate-800">#${u.STT} ${u.Ho_Ten}</span>
+              <span class="text-[10px] text-slate-400 ml-1">(${u.Ngay} - Buổi ${u.Buoi})</span>
+            </div>
+            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Cần nộp đơn hôm nay</span>
+          </div>
+        `).join('');
+      } else {
+        reminderBox.classList.add("hidden");
+      }
+
+      // 3. Danh sách tổng kết số buổi nghỉ
+      absenceStats.sort((a, b) => b.tongNghi - a.tongNghi);
+      container.innerHTML = absenceStats.map(s => {
+        const isOver30 = s.tongNghi >= 30;
+        return `
+          <div class="p-2 rounded-xl border ${isOver30 ? 'bg-rose-50 border-rose-300 ring-1 ring-rose-400' : 'bg-slate-50 border-slate-200'} flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="text-base">${s.Avatar || '👤'}</span>
+              <div>
+                <span class="font-bold text-slate-800">#${s.STT} ${s.Ho_Ten}</span>
+                <span class="text-[10px] text-slate-400 block">${s.To} • CP: ${s.coPhep} | KP: ${s.khongPhep}</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-black px-2 py-0.5 rounded-lg border ${isOver30 ? 'bg-rose-600 text-white' : 'bg-white text-slate-700 border-slate-200'}">
+                Tổng: ${s.tongNghi} buổi
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==============================================================
+    // RENDER XẾP HẠNG THI ĐUA CÁ NHÂN THEO THÁNG
     // ==============================================================
     function renderUI() {
       const isGVCN = (currentUserRole === "GVCN");
 
-      // 1. Danh sách học sinh xếp hạng theo điểm tháng được chọn
+      // Danh sách học sinh xếp hạng theo tháng
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
-        // Sao chép và sắp xếp học sinh theo điểm rèn luyện tháng
         const sortedStudents = [...appData.hocSinh].sort((a, b) => b.Thang_Diem_Hien_Tai - a.Thang_Diem_Hien_Tai);
 
         listHS.innerHTML = sortedStudents.map((hs, index) => {
@@ -1102,7 +1442,6 @@
           
           const subInfo = [hs.To, hs.Chuc_Vu].filter(Boolean).join(" • ");
           
-          // Huy hiệu Top 3
           let rankBadge = `<span class="inline-block bg-slate-100 text-slate-600 rounded px-1 py-0.2 text-[10px] font-bold mr-1">#${index + 1}</span>`;
           if (index === 0) rankBadge = `<span class="text-sm mr-1">🥇</span>`;
           else if (index === 1) rankBadge = `<span class="text-sm mr-1">🥈</span>`;
@@ -1154,7 +1493,7 @@
         collectiveBox.classList.add("hidden");
       }
 
-      // 2. Báo bài
+      // Báo bài
       const listBB = document.getElementById("listBaoBai");
       if (listBB && appData.baoBai) {
         listBB.innerHTML = appData.baoBai.slice().reverse().map((bb, idx) => {
@@ -1181,7 +1520,7 @@
         }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có thông báo bài mới.</div>';
       }
 
-      // 3. Hoạt động phong trào
+      // Hoạt động phong trào
       const listHD = document.getElementById("listHoatDong");
       if (listHD && appData.hoatDong) {
         const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
@@ -1252,7 +1591,7 @@
         }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
       }
 
-      // 4. Trực nhật
+      // Trực nhật
       const listTN = document.getElementById("listTrucNhat");
       if (listTN && appData.trucNhat) {
         listTN.innerHTML = appData.trucNhat.map((tn, idx) => {
@@ -1277,93 +1616,6 @@
     }
 
     // ==============================================================
-    // BẢO MẬT BÁO ĐỘNG VẮNG > 30 BUỔI
-    // ==============================================================
-    function renderAbsenceSummary() {
-      const container = document.getElementById("absenceSummaryList");
-      const warningBox = document.getElementById("homeWarningAbsenceBox");
-      const warningList = document.getElementById("homeWarningAbsenceList");
-      const reminderBox = document.getElementById("homeReminderUnexcusedBox");
-      const reminderList = document.getElementById("homeReminderUnexcusedList");
-      const reminderCountBadge = document.getElementById("reminderUnexcusedCount");
-
-      if (!container || !appData.hocSinh) return;
-
-      const absenceStats = appData.hocSinh.map(hs => {
-        const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(hs.STT));
-        const coPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng có phép").length;
-        const khongPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng không phép").length;
-        const tongNghi = coPhep + khongPhep;
-        return { ...hs, coPhep, khongPhep, tongNghi };
-      });
-
-      // 1. Cảnh báo > 30 buổi (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN)
-      const isGVCN = (currentUserRole === "GVCN");
-      const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
-
-      const dangerStudents = absenceStats.filter(s => s.tongNghi >= 30);
-      let visibleDangerStudents = [];
-
-      if (isGVCN) {
-        visibleDangerStudents = dangerStudents;
-      } else if (currentLoggedInHS) {
-        visibleDangerStudents = dangerStudents.filter(s => String(s.STT) === String(currentLoggedInHS.STT));
-      }
-
-      if (visibleDangerStudents.length > 0) {
-        warningBox.classList.remove("hidden");
-        warningList.innerHTML = visibleDangerStudents.map(s => `
-          <div class="bg-white text-rose-700 rounded-lg px-2.5 py-1 text-xs font-black shadow-xs flex items-center gap-1">
-            <span>${s.Avatar || '⚠️'} #${s.STT} ${s.Ho_Ten}:</span>
-            <span class="bg-rose-100 text-rose-900 px-1.5 py-0.2 rounded font-black">${s.tongNghi} buổi (${s.khongPhep} KP)</span>
-          </div>
-        `).join('');
-      } else {
-        warningBox.classList.add("hidden");
-      }
-
-      // 2. Nhắc nhở nộp đơn xin phép
-      const recentUnexcused = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép").slice(-5).reverse();
-      if (recentUnexcused.length > 0) {
-        reminderBox.classList.remove("hidden");
-        reminderCountBadge.innerText = `${recentUnexcused.length} HS`;
-        reminderList.innerHTML = recentUnexcused.map(u => `
-          <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-amber-200">
-            <div>
-              <span class="font-black text-slate-800">#${u.STT} ${u.Ho_Ten}</span>
-              <span class="text-[10px] text-slate-400 ml-1">(${u.Ngay} - Buổi ${u.Buoi})</span>
-            </div>
-            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Cần nộp đơn hôm nay</span>
-          </div>
-        `).join('');
-      } else {
-        reminderBox.classList.add("hidden");
-      }
-
-      // 3. Bảng tổng kết vắng
-      absenceStats.sort((a, b) => b.tongNghi - a.tongNghi);
-      container.innerHTML = absenceStats.map(s => {
-        const isOver30 = s.tongNghi >= 30;
-        return `
-          <div class="p-2 rounded-xl border ${isOver30 ? 'bg-rose-50 border-rose-300 ring-1 ring-rose-400' : 'bg-slate-50 border-slate-200'} flex justify-between items-center">
-            <div class="flex items-center gap-2">
-              <span class="text-base">${s.Avatar || '👤'}</span>
-              <div>
-                <span class="font-bold text-slate-800">#${s.STT} ${s.Ho_Ten}</span>
-                <span class="text-[10px] text-slate-400 block">${s.To} • CP: ${s.coPhep} | KP: ${s.khongPhep}</span>
-              </div>
-            </div>
-            <div class="text-right">
-              <span class="text-xs font-black px-2 py-0.5 rounded-lg border ${isOver30 ? 'bg-rose-600 text-white' : 'bg-white text-slate-700 border-slate-200'}">
-                Tổng: ${s.tongNghi} buổi
-              </span>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // ==============================================================
     // GHI NHẬN VI PHẠM & ĐIỂM CỘNG (CHỌN NGÀY TÙY Ý)
     // ==============================================================
     function populateStudentSelects() {
@@ -1376,7 +1628,6 @@
       const dcOptions = appData.hocSinh.map(h => `<option value="${h.STT}" data-name="${h.Ho_Ten}">#${h.STT} - ${h.Ho_Ten} (${h.To})</option>`).join('');
       if (document.getElementById("dc_hocsinh")) document.getElementById("dc_hocsinh").innerHTML = dcOptions;
 
-      // Đặt ngày mặc định cho ô chọn ngày
       const todayISO = new Date().toISOString().split('T')[0];
       if (document.getElementById("vp_ngay")) document.getElementById("vp_ngay").value = todayISO;
       if (document.getElementById("dc_ngay")) document.getElementById("dc_ngay").value = todayISO;
@@ -1429,245 +1680,7 @@
     }
 
     // ==============================================================
-    // THỜI KHÓA BIỂU & ĐIỂM DANH
-    // ==============================================================
-    const DEFAULT_TKB_DAYS = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-
-    function renderTKBTable() {
-      const tbody = document.getElementById("tkbTableBody");
-      if (!tbody) return;
-
-      const tkbMap = {};
-      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Tiet5:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"" });
-      (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
-
-      let html = "";
-      for (let tiet = 1; tiet <= 5; tiet++) {
-        html += `<tr>`;
-        if (tiet === 1) html += `<td rowspan="5" class="bg-indigo-50 font-bold text-indigo-800 p-1 border border-slate-300 text-[10px]">SÁNG</td>`;
-        DEFAULT_TKB_DAYS.forEach(d => {
-          const mon = tkbMap[d][`Tiet${tiet}`] || "-";
-          html += `<td class="p-1.5 border border-slate-200 text-slate-700 text-xs font-semibold ${mon !== '-' ? 'bg-white font-bold text-indigo-900' : 'text-slate-300'}">${mon}</td>`;
-        });
-        html += `</tr>`;
-      }
-
-      for (let tiet = 1; tiet <= 4; tiet++) {
-        html += `<tr>`;
-        if (tiet === 1) html += `<td rowspan="4" class="bg-amber-50 font-bold text-amber-800 p-1 border border-slate-300 text-[10px]">CHIỀU</td>`;
-        DEFAULT_TKB_DAYS.forEach(d => {
-          const mon = tkbMap[d][`Chieu_Tiet${tiet}`] || "-";
-          html += `<td class="p-1.5 border border-slate-200 text-slate-700 text-xs font-semibold ${mon !== '-' ? 'bg-amber-50/50 font-bold text-amber-900' : 'text-slate-300'}">${mon}</td>`;
-        });
-        html += `</tr>`;
-      }
-      tbody.innerHTML = html;
-    }
-
-    function openModalEditTKB() {
-      const container = document.getElementById("editTKBInputsContainer");
-      if (!container) return;
-
-      const tkbMap = {};
-      DEFAULT_TKB_DAYS.forEach(d => tkbMap[d] = { Tiet1:"", Tiet2:"", Tiet3:"", Tiet4:"", Tiet5:"", Chieu_Tiet1:"", Chieu_Tiet2:"", Chieu_Tiet3:"", Chieu_Tiet4:"" });
-      (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
-
-      container.innerHTML = DEFAULT_TKB_DAYS.map(day => `
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-          <div class="font-black text-indigo-700 text-xs flex items-center gap-1">
-            <i class="fa-solid fa-calendar-day"></i> ${day}
-          </div>
-          <div>
-            <span class="text-[10px] font-bold text-slate-500 block mb-1">Buổi Sáng (Tiết 1 -> 5):</span>
-            <div class="grid grid-cols-5 gap-1.5">
-              ${[1,2,3,4,5].map(i => `
-                <input type="text" id="tkb_${day}_Tiet${i}" value="${tkbMap[day][`Tiet${i}`] || ''}" placeholder="T${i}" class="border rounded p-1 text-center bg-white text-xs font-semibold">
-              `).join('')}
-            </div>
-          </div>
-          <div>
-            <span class="text-[10px] font-bold text-amber-600 block mb-1">Buổi Chiều (Tiết 1 -> 4):</span>
-            <div class="grid grid-cols-4 gap-1.5">
-              ${[1,2,3,4].map(i => `
-                <input type="text" id="tkb_${day}_Chieu_Tiet${i}" value="${tkbMap[day][`Chieu_Tiet${i}`] || ''}" placeholder="T${i}" class="border rounded p-1 text-center bg-white text-xs font-semibold">
-              `).join('')}
-            </div>
-          </div>
-        </div>
-      `).join('');
-
-      openModal("modalEditTKB");
-    }
-
-    async function saveTKBToServer() {
-      const btn = document.getElementById("btnSaveTKB");
-      btn.innerText = "Đang lưu...";
-      btn.disabled = true;
-
-      const tkbPayload = DEFAULT_TKB_DAYS.map(day => ({
-        Thu: day,
-        Tiet1: document.getElementById(`tkb_${day}_Tiet1`).value.trim(),
-        Tiet2: document.getElementById(`tkb_${day}_Tiet2`).value.trim(),
-        Tiet3: document.getElementById(`tkb_${day}_Tiet3`).value.trim(),
-        Tiet4: document.getElementById(`tkb_${day}_Tiet4`).value.trim(),
-        Tiet5: document.getElementById(`tkb_${day}_Tiet5`).value.trim(),
-        Chieu_Tiet1: document.getElementById(`tkb_${day}_Chieu_Tiet1`).value.trim(),
-        Chieu_Tiet2: document.getElementById(`tkb_${day}_Chieu_Tiet2`).value.trim(),
-        Chieu_Tiet3: document.getElementById(`tkb_${day}_Chieu_Tiet3`).value.trim(),
-        Chieu_Tiet4: document.getElementById(`tkb_${day}_Chieu_Tiet4`).value.trim()
-      }));
-
-      try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "saveThoiKhoaBieu",
-            userEmail: currentUserEmail,
-            payload: { tkb: tkbPayload }
-          })
-        });
-        const json = await res.json();
-        if (json.success) {
-          alert("✅ " + json.message);
-          closeModal("modalEditTKB");
-          await loadData();
-        } else {
-          alert("❌ " + json.message);
-        }
-      } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
-      } finally {
-        btn.innerText = "Lưu Thời Khóa Biểu";
-        btn.disabled = false;
-      }
-    }
-
-    function initDiemDanhTab() {
-      const dateInput = document.getElementById("dd_ngay");
-      if (!dateInput.value) {
-        dateInput.value = new Date().toISOString().split('T')[0];
-      }
-      autoDetectBuoiHoc(dateInput.value);
-    }
-
-    function autoDetectBuoiHoc(selectedDateStr) {
-      if (!selectedDateStr) return;
-      const d = new Date(selectedDateStr);
-      const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-      const dayName = days[d.getDay()];
-
-      const tkbDay = (appData.thoiKhoaBieu || []).find(t => t.Thu === dayName);
-      let hasAfternoon = false;
-      if (tkbDay) {
-        hasAfternoon = Boolean(tkbDay.Chieu_Tiet1 || tkbDay.Chieu_Tiet2 || tkbDay.Chieu_Tiet3 || tkbDay.Chieu_Tiet4);
-      }
-
-      const notice = document.getElementById("dd_schedule_notice");
-      if (notice) {
-        notice.innerHTML = `💡 ${dayName}: Hôm nay <b>${hasAfternoon ? 'học 2 buổi (Sáng & Chiều)' : 'chỉ học 1 buổi (Sáng)'}</b> theo TKB.`;
-      }
-
-      renderDiemDanhTable();
-    }
-
-    function renderDiemDanhTable() {
-      const container = document.getElementById("diemDanhTableList");
-      if (!container || !appData.hocSinh) return;
-
-      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
-      const buoiStr = document.getElementById("dd_buoi").value;
-
-      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
-      
-      currentAttendanceState = {};
-      existingAttendance.forEach(a => {
-        currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
-      });
-
-      document.getElementById("ddTotalCount").innerText = appData.hocSinh.length;
-
-      container.innerHTML = appData.hocSinh.map(hs => {
-        const current = currentAttendanceState[hs.STT] || { trangThai: "Có mặt", ghiChu: "" };
-        const status = current.trangThai;
-
-        return `
-          <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-xs">
-            <div class="flex items-center gap-2">
-              <span class="text-lg">${hs.Avatar || '👤'}</span>
-              <div>
-                <div class="text-xs font-bold text-slate-800">#${hs.STT} ${hs.Ho_Ten}</div>
-                <div class="text-[10px] text-slate-400">${hs.To}</div>
-              </div>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <select onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-bold border rounded-lg p-1.5 ${
-                status === 'Vắng không phép' ? 'bg-rose-50 text-rose-700 border-rose-300' :
-                status === 'Vắng có phép' ? 'bg-amber-50 text-amber-700 border-amber-300' :
-                'bg-emerald-50 text-emerald-700 border-emerald-300'
-              }">
-                <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''}>P: Có mặt</option>
-                <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép</option>
-                <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
-              </select>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function setStudentAttendance(stt, status) {
-      if (!currentAttendanceState[stt]) currentAttendanceState[stt] = {};
-      currentAttendanceState[stt].trangThai = status;
-      renderDiemDanhTable();
-    }
-
-    async function submitDiemDanhServer() {
-      const btn = document.getElementById("btnSubmitDiemDanh");
-      btn.innerText = "Đang lưu...";
-      btn.disabled = true;
-
-      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
-      const buoiStr = document.getElementById("dd_buoi").value;
-
-      const danhSachVang = [];
-      for (const [stt, item] of Object.entries(currentAttendanceState)) {
-        if (item.trangThai && item.trangThai !== "Có mặt") {
-          const hs = appData.hocSinh.find(h => String(h.STT) === String(stt));
-          danhSachVang.push({
-            stt: stt,
-            hoTen: hs ? hs.Ho_Ten : "",
-            trangThai: item.trangThai,
-            ghiChu: item.ghiChu || ""
-          });
-        }
-      }
-
-      try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "saveDiemDanh",
-            userEmail: currentUserEmail,
-            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
-          })
-        });
-        const json = await res.json();
-        if (json.success) {
-          alert("✅ " + json.message);
-          await loadData();
-        } else {
-          alert("❌ " + json.message);
-        }
-      } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
-      } finally {
-        btn.innerText = "Lưu điểm danh";
-        btn.disabled = false;
-      }
-    }
-
-    // ==============================================================
-    // HỒ SƠ CÁ NHÂN & THI ĐUA TỔ
+    // TIỆN ÍCH KHÁC
     // ==============================================================
     function setupPersonalTab() {
       const select = document.getElementById("selectTraCuuHS");
@@ -1709,7 +1722,6 @@
       const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(stt));
       if (!hs) return;
 
-      // Điểm tính theo tháng được chọn
       const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
       const av = hs.Avatar || "🐱";
       const myLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
@@ -1842,145 +1854,11 @@
       `;
     }
 
-    function renderThiDuaTo() {
-      const container = document.getElementById("rankingToContainer");
-      if (!container || !appData.hocSinh) return;
-
-      const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
-      const stats = toList.map(tenTo => {
-        const members = appData.hocSinh.filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
-        const tongCong = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Cong) || 0), 0);
-        const tongTru = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Tru) || 0), 0);
-        const diemThiDua = Math.round((tongCong - tongTru) * 10) / 10;
-        return { tenTo, membersCount: members.length, tongCong, tongTru: Math.round(tongTru * 10)/10, diemThiDua };
-      });
-
-      stats.sort((a, b) => b.diemThiDua - a.diemThiDua);
-
-      const badges = [
-        { rank: "Hạng 1", color: "from-amber-400 to-yellow-500 text-amber-900 border-amber-300", icon: "🥇" },
-        { rank: "Hạng 2", color: "from-slate-200 to-slate-400 text-slate-800 border-slate-300", icon: "🥈" },
-        { rank: "Hạng 3", color: "from-amber-600 to-orange-700 text-orange-100 border-amber-700", icon: "🥉" },
-        { rank: "Hạng 4", color: "from-slate-100 to-slate-200 text-slate-600 border-slate-200", icon: "🎖️" }
-      ];
-
-      container.innerHTML = stats.map((to, idx) => {
-        const b = badges[idx] || badges[3];
-        return `
-          <div class="bg-gradient-to-br ${b.color} rounded-xl p-2.5 border shadow-sm flex flex-col justify-between">
-            <div class="flex justify-between items-start">
-              <span class="text-xs font-black">${b.icon} ${to.tenTo}</span>
-              <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-black/10">${b.rank}</span>
-            </div>
-            <div class="mt-2 text-center">
-              <div class="text-base font-black">${to.diemThiDua > 0 ? '+' : ''}${to.diemThiDua} <span class="text-[10px]">điểm</span></div>
-              <div class="text-[9px] font-medium opacity-90 mt-0.5 space-x-1">
-                <span>+${to.tongCong}đ</span> | <span>-${to.tongTru}đ</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderLaoDongCuoiThang() {
-      const container = document.getElementById("listLaoDongCuoiThang");
-      const badge = document.getElementById("countLaoDongBadge");
-      if (!container || !appData.hocSinh) return;
-
-      const hsViPham = appData.hocSinh.filter(h => (Number(h.Thang_Diem_Tru) || 0) > 0);
-      if (badge) badge.innerText = `${hsViPham.length} Học sinh`;
-
-      if (hsViPham.length === 0) {
-        container.innerHTML = `
-          <div class="bg-white/80 p-3 rounded-xl border border-emerald-200 text-center text-xs text-emerald-700 font-bold">
-            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Tháng này lớp không có học sinh nào bị phạt lao động!
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = hsViPham.map(hs => {
-        const av = hs.Avatar || "👤";
-        return `
-          <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-100 flex justify-between items-center shadow-xs cursor-pointer hover:border-rose-300 transition">
-            <div class="flex items-center gap-2">
-              <span class="text-lg">${av}</span>
-              <div>
-                <div class="text-xs font-bold text-slate-800">
-                  <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] mr-1">#${hs.STT}</span>
-                  ${hs.Ho_Ten}
-                </div>
-                <div class="text-[10px] text-slate-400 mt-0.5">${hs.To} • Cần bù đắp điểm rèn luyện</div>
-              </div>
-            </div>
-            <div class="text-right">
-              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
-                Bị trừ: -${hs.Thang_Diem_Tru}đ
-              </span>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // ==============================================================
-    // TIỆN ÍCH DÁN ẢNH & SƠ ĐỒ LỚP HỌC
-    // ==============================================================
-    function handlePasteImage(event) {
-      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-      for (let item of items) {
-        if (item.type.indexOf("image") !== -1) {
-          const blob = item.getAsFile();
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            document.getElementById("hd_base64_image").value = e.target.result;
-            document.getElementById("hd_image_preview").src = e.target.result;
-            document.getElementById("hd_image_preview_box").classList.remove("hidden");
-          };
-          reader.readAsDataURL(blob);
-          break;
-        }
-      }
-    }
-
-    function previewActivityImage(input) {
-      const file = input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById("hd_base64_image").value = e.target.result;
-        document.getElementById("hd_image_preview").src = e.target.result;
-        document.getElementById("hd_image_preview_box").classList.remove("hidden");
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function removeAttachedImage() {
-      document.getElementById("hd_base64_image").value = "";
-      document.getElementById("hd_file_input").value = "";
-      document.getElementById("hd_image_preview").src = "";
-      document.getElementById("hd_image_preview_box").classList.add("hidden");
-    }
-
-    function viewFullImage(src) {
-      const w = window.open("");
-      w.document.write(`<img src="${src}" style="max-width:100%;height:auto;margin:auto;display:block;">`);
-    }
-
-    function initQuickSelectTN() {
-      const container = document.getElementById("quickSelectStudentForTN");
-      if (!container || !appData.hocSinh) return;
-      let html = `<span class="text-slate-400 py-0.5">Chọn nhanh:</span>`;
-      ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"].forEach(t => {
-        html += `<button type="button" onclick="appendTNInput('${t}')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-100 rounded text-slate-700 font-bold border border-slate-200">${t}</button>`;
-      });
-      container.innerHTML = html;
-    }
-
-    function appendTNInput(val) {
-      const input = document.getElementById("tn_nguoithuchien");
-      input.value = input.value ? (input.value + ", " + val) : val;
+    function viewStudentProfile(stt) {
+      const select = document.getElementById("selectTraCuuHS");
+      if (select) select.value = stt;
+      renderHoSoCaNhan(stt);
+      switchTabDirect('tab-nenep', 4);
     }
 
     function openEditBaoBaiModal(rowIndex) {
@@ -2420,31 +2298,6 @@
       }
     }
 
-    // ==============================================================
-    // TIỆN ÍCH SINH NHẬT & ĐĂNG BÀI
-    // ==============================================================
-    function parseDate(dateStr) {
-      if (!dateStr) return null;
-      const str = String(dateStr).trim();
-      let day, month;
-
-      if (str.includes('/')) {
-        const parts = str.split('/');
-        day = parseInt(parts[0], 10);
-        month = parseInt(parts[1], 10);
-      } else if (str.includes('-')) {
-        const parts = str.split('-');
-        if (parts[0].length === 4) {
-          month = parseInt(parts[1], 10);
-          day = parseInt(parts[2], 10);
-        } else {
-          day = parseInt(parts[0], 10);
-          month = parseInt(parts[1], 10);
-        }
-      }
-      return (day && month) ? { day, month, raw: str } : null;
-    }
-
     function checkAndRenderBirthdays() {
       if (!appData.hocSinh) return;
       const today = new Date();
@@ -2510,11 +2363,25 @@
       }
     }
 
-    function viewStudentProfile(stt) {
-      const select = document.getElementById("selectTraCuuHS");
-      if (select) select.value = stt;
-      renderHoSoCaNhan(stt);
-      switchTabDirect('tab-nenep', 4);
+    function parseDate(dateStr) {
+      if (!dateStr) return null;
+      const str = String(dateStr).trim();
+      let day, month;
+      if (str.includes('/')) {
+        const parts = str.split('/');
+        day = parseInt(parts[0], 10);
+        month = parseInt(parts[1], 10);
+      } else if (str.includes('-')) {
+        const parts = str.split('-');
+        if (parts[0].length === 4) {
+          month = parseInt(parts[1], 10);
+          day = parseInt(parts[2], 10);
+        } else {
+          day = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+        }
+      }
+      return (day && month) ? { day, month, raw: str } : null;
     }
 
     async function submitBaoBai(e) {
