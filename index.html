@@ -48,7 +48,7 @@
     <!-- ============================================================== -->
     <section id="tab-trangchu" class="tab-content active space-y-3">
       
-      <!-- CẢNH BÁO BÁO ĐỘNG ĐỎ NGHỈ HỌC TRÊN 30 BUỔI (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN) -->
+      <!-- CẢNH BÁO NGHỈ HỌC TRÊN 30 BUỔI (BẢO MẬT: CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN) -->
       <div id="homeWarningAbsenceBox" class="hidden bg-rose-600 text-white rounded-2xl p-4 shadow-lg border border-rose-400 animate-pulse space-y-1.5">
         <div class="flex items-center gap-2 font-black text-xs uppercase tracking-wide">
           <i class="fa-solid fa-triangle-exclamation text-yellow-300 text-base"></i> 🚨 CẢNH BÁO NGUY CƠ NGHỈ HỌC QUÁ 30 BUỔI
@@ -59,10 +59,10 @@
         <div id="homeWarningAbsenceList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
 
-      <!-- NHẮC NHỞ HỌC SINH VẮNG KHÔNG PHÉP CẦN NỘP ĐƠN VÀO NGÀY HÔM SAU -->
+      <!-- NHẮC NHỞ NỘP ĐƠN PHÉP (BẢO MẬT: CHỈ HIỆN VỚI CHÍNH HỌC SINH VẮNG KP & GVCN) -->
       <div id="homeReminderUnexcusedBox" class="hidden bg-amber-50 rounded-2xl p-3.5 border border-amber-300 shadow-xs space-y-1.5">
         <div class="flex justify-between items-center text-xs font-bold text-amber-900">
-          <span class="flex items-center gap-1.5"><i class="fa-solid fa-bell text-amber-600"></i> Nhắc nhở nộp Đơn xin phép (Vắng KP hôm trước):</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-bell text-amber-600"></i> Nhắc nhở nộp Đơn xin phép (Vắng KP gần nhất):</span>
           <span class="bg-amber-200 text-amber-900 text-[10px] px-2 py-0.5 rounded-full font-black" id="reminderUnexcusedCount">0 HS</span>
         </div>
         <div id="homeReminderUnexcusedList" class="text-xs text-amber-800 space-y-1"></div>
@@ -84,6 +84,17 @@
             <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Bắn pháo hoa 🎊
           </button>
         </div>
+      </div>
+
+      <!-- KHUNG SINH NHẬT TRONG THÁNG -->
+      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          </h3>
+          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+        </div>
+        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
 
       <!-- BANNER TỔ ĐANG DẪN ĐẦU THI ĐUA THÁNG -->
@@ -124,15 +135,26 @@
         <div id="homeTomorrowTKBContent" class="text-xs space-y-1.5"></div>
       </div>
 
-      <!-- KHUNG SINH NHẬT TRONG THÁNG -->
-      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+      <!-- BÁO BÀI & HẠN KIỂM TRA SẮP TỚI -->
+      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
+            <i class="fa-solid fa-calendar-check text-indigo-600"></i> Bài Tập & Lịch Kiểm Tra Sắp Tới
           </h3>
-          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+          <button onclick="switchTabDirect('tab-baobai', 1)" class="text-[11px] text-indigo-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
-        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
+        <div id="homeBaoBaiList" class="space-y-2"></div>
+      </div>
+
+      <!-- HOẠT ĐỘNG ĐANG DIỄN RA -->
+      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
+            <i class="fa-solid fa-bullhorn text-amber-500"></i> Hoạt động đang diễn ra
+          </h3>
+          <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
+        </div>
+        <div id="homeHoatDongList" class="space-y-2"></div>
       </div>
 
       <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
@@ -146,28 +168,6 @@
         <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
       </div>
 
-      <!-- BÁO BÀI & HẠN KIỂM TRA SẮP TỚI -->
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-calendar-check text-indigo-600"></i> Bài Tập & Lịch Kiểm Tra Sắp Tới
-          </h3>
-          <button onclick="switchTabDirect('tab-baobai', 1)" class="text-[11px] text-indigo-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
-        </div>
-        <div id="homeBaoBaiList" class="space-y-2"></div>
-      </div>
-
-      <!-- HOẠT ĐỘNG PHONG TRÀO SẮP DIỄN RA -->
-      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-bullhorn text-amber-500"></i> Phong Trào & Sự Kiện Đang Mở Đăng Ký
-          </h3>
-          <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
-        </div>
-        <div id="homeHoatDongList" class="space-y-2"></div>
-      </div>
-
     </section>
 
     <!-- ============================================================== -->
@@ -175,7 +175,7 @@
     <!-- ============================================================== -->
     <section id="tab-baobai" class="tab-content space-y-4">
       
-      <!-- KHUNG THỜI KHÓA BIỂU (TKB SÁNG 4 TIẾT, CHIỀU 5 TIẾT) -->
+      <!-- KHUNG THỜI KHÓA BIỂU (SÁNG 4 TIẾT, CHIỀU 5 TIẾT) -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
@@ -236,6 +236,7 @@
     <!-- ============================================================== -->
     <section id="tab-diemdanh" class="tab-content space-y-3">
       
+      <!-- BẢNG ĐIỀU KHIỂN ĐIỂM DANH -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
         <div class="flex justify-between items-center flex-wrap gap-2">
           <div>
@@ -265,6 +266,7 @@
         <div id="dd_schedule_notice" class="text-[11px] font-bold text-indigo-600 italic"></div>
       </div>
 
+      <!-- DANH SÁCH LỚP ĐIỂM DANH (ĐÃ SỬA LỖI ĐỔI TRẠNG THÁI MƯỢT MÀ) -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2">
         <div class="flex justify-between items-center">
           <span class="text-xs font-bold text-slate-700">Danh sách lớp (<span id="ddTotalCount">40</span> HS):</span>
@@ -277,6 +279,16 @@
         <div id="diemDanhTableList" class="space-y-1.5 max-h-[50vh] overflow-y-auto pr-1"></div>
       </div>
 
+      <!-- NHẬT KÝ ĐIỂM DANH & SỬA TRẠNG THÁI KHI ĐÃ NỘP PHÉP -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5">
+        <h3 class="text-xs font-black text-slate-800 flex items-center justify-between uppercase tracking-wide">
+          <span><i class="fa-solid fa-list-check text-indigo-600 mr-1.5"></i> Danh Sách Vắng Gần Đây (Cập Nhật Phép)</span>
+          <span class="text-[10px] text-slate-400 font-normal">Chỉnh sang 'Có phép' khi HS nộp đơn</span>
+        </h3>
+        <div id="recentAbsenceEditList" class="space-y-1.5 max-h-56 overflow-y-auto text-xs"></div>
+      </div>
+
+      <!-- TỔNG HỢP VẮNG TOÀN KHÓA -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5">
         <h3 class="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
           <i class="fa-solid fa-chart-pie text-rose-500"></i> Tổng Hợp Số Buổi Nghỉ Học Toàn Khóa
@@ -365,7 +377,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng tham gia tổng vệ sinh cuối tháng:
+          📌 Danh sách học sinh có vi phạm trong tháng tham gia tổng vệ sinh:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -477,7 +489,7 @@
     </div>
   </nav>
 
-  <!-- MODAL CHỈNH SỬA THỜI KHÓA BIỂU (SÁNG 4 TIẾT, CHIỀU 5 TIẾT) -->
+  <!-- MODAL CHỈNH SỬA THỜI KHÓA BIỂU -->
   <div id="modalEditTKB" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-5 w-full max-w-2xl space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b pb-2">
@@ -828,6 +840,34 @@
       return null;
     }
 
+    function parseStudentBirth(dateStr) {
+      if (!dateStr) return null;
+      const str = String(dateStr).trim();
+      let day = null, month = null;
+
+      if (str.includes("T")) {
+        const d = new Date(str);
+        if (!isNaN(d.getTime())) {
+          day = d.getDate();
+          month = d.getMonth() + 1;
+        }
+      } else if (str.includes("/")) {
+        const parts = str.split("/");
+        day = parseInt(parts[0], 10);
+        month = parseInt(parts[1], 10);
+      } else if (str.includes("-")) {
+        const parts = str.split("-");
+        if (parts[0].length === 4) {
+          month = parseInt(parts[1], 10);
+          day = parseInt(parts[2], 10);
+        } else {
+          day = parseInt(parts[0], 10);
+          month = parseInt(parts[1], 10);
+        }
+      }
+      return (day && month) ? { day, month } : null;
+    }
+
     async function loadData() {
       identifyUser();
 
@@ -841,13 +881,16 @@
           identifyUser();
           renderUI();
           renderTrangChuDashboard();
+          renderThiDuaTo();
           renderTKBTable();
           initDiemDanhTab();
           renderAbsenceSummary();
+          renderRecentAbsenceEdit();
           populateStudentSelects();
           setupPersonalTab();
           initSeatingState();
           renderSoDo24Ban();
+          renderLaoDongCuoiThang();
           checkAndRenderBirthdays();
           initAvatarModalIcons();
           initQuickSelectTN();
@@ -952,7 +995,7 @@
     }
 
     // ==============================================================
-    // TRANG CHỦ: TÍNH NĂNG TKB NGÀY MAI & DASHBOARD
+    // TRANG CHỦ DASHBOARD
     // ==============================================================
     function renderTrangChuDashboard() {
       const now = new Date();
@@ -996,7 +1039,10 @@
       // 2. Tổ dẫn đầu thi đua tháng
       const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
       const stats = toList.map(tenTo => {
-        const members = (appData.hocSinh || []).filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
+        const members = (appData.hocSinh || []).filter(h => {
+          const val = String(h.To || "").toLowerCase();
+          return val.includes(tenTo.toLowerCase().replace(" ", ""));
+        });
         const tongCong = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Cong) || 0), 0);
         const tongTru = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Tru) || 0), 0);
         const diemThiDua = Math.round((tongCong - tongTru) * 10) / 10;
@@ -1033,7 +1079,7 @@
         }
       }
 
-      // 4. Hoạt động đang diễn ra
+      // 4. Hoạt động phong trào đang diễn ra
       const homeHD = document.getElementById("homeHoatDongList");
       if (homeHD && appData.hoatDong) {
         const recentHD = appData.hoatDong.slice(-2).reverse();
@@ -1051,10 +1097,9 @@
             </div>
           `).join('');
         } else {
-          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Chưa có hoạt động mới.</div>';
+          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Chưa có hoạt động Đoàn mới.</div>';
         }
       }
-
       // 5. Trực nhật hôm nay & ngày mai
       const todayName = daysOfWeek[now.getDay()];
       const homeTN = document.getElementById("homeTrucNhatList");
@@ -1077,200 +1122,209 @@
     }
 
     // ==============================================================
-    // RENDER DANH SÁCH & BẢNG XẾP HẠNG CÁ NHÂN THEO THÁNG
+    // RENDER ĐIỂM DANH & NHẬT KÝ SỬA TRẠNG THÁI
     // ==============================================================
-    function renderUI() {
-      const isGVCN = (currentUserRole === "GVCN");
+    function initDiemDanhTab() {
+      const dateInput = document.getElementById("dd_ngay");
+      if (!dateInput.value) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+      }
+      autoDetectBuoiHoc(dateInput.value);
+    }
 
-      // 1. Danh sách học sinh xếp hạng theo điểm tháng được chọn
-      const listHS = document.getElementById("listHocSinh");
-      if (listHS && appData.hocSinh) {
-        const sortedStudents = [...appData.hocSinh].sort((a, b) => b.Thang_Diem_Hien_Tai - a.Thang_Diem_Hien_Tai);
+    function autoDetectBuoiHoc(selectedDateStr) {
+      if (!selectedDateStr) return;
+      const d = new Date(selectedDateStr);
+      const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+      const dayName = days[d.getDay()];
 
-        listHS.innerHTML = sortedStudents.map((hs, index) => {
-          const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
-          const av = hs.Avatar || "👤";
-          const color = score > 0 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 
-                        score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
-                        'text-slate-600 bg-slate-50 border-slate-200';
-          
-          const subInfo = [hs.To, hs.Chuc_Vu].filter(Boolean).join(" • ");
-          
-          let rankBadge = `<span class="inline-block bg-slate-100 text-slate-600 rounded px-1 py-0.2 text-[10px] font-bold mr-1">#${index + 1}</span>`;
-          if (index === 0) rankBadge = `<span class="text-sm mr-1">🥇</span>`;
-          else if (index === 1) rankBadge = `<span class="text-sm mr-1">🥈</span>`;
-          else if (index === 2) rankBadge = `<span class="text-sm mr-1">🥉</span>`;
-
-          return `
-            <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm cursor-pointer hover:border-indigo-300 transition">
-              <div class="flex items-center gap-2">
-                <span class="text-xl bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center">${av}</span>
-                <div>
-                  <div class="text-xs font-bold text-slate-800">
-                    ${rankBadge} ${hs.Ho_Ten}
-                  </div>
-                  ${subInfo ? `<div class="text-[11px] text-slate-400 mt-0.5">${subInfo}</div>` : ''}
-                </div>
-              </div>
-              <div class="text-right">
-                <span class="text-xs font-black px-2.5 py-1 rounded-lg border ${color}">
-                  ${score > 0 ? '+' : ''}${score} đ
-                </span>
-                <div class="text-[10px] mt-1 space-x-1 font-medium">
-                  <span class="text-emerald-600">+${hs.Thang_Diem_Cong || 0}</span>
-                  <span class="text-slate-300">|</span>
-                  <span class="text-rose-500">-${hs.Thang_Diem_Tru || 0}</span>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
+      const tkbDay = (appData.thoiKhoaBieu || []).find(t => t.Thu === dayName);
+      let hasAfternoon = false;
+      if (tkbDay) {
+        hasAfternoon = Boolean(tkbDay.Chieu_Tiet1 || tkbDay.Chieu_Tiet2 || tkbDay.Chieu_Tiet3 || tkbDay.Chieu_Tiet4 || tkbDay.Chieu_Tiet5);
       }
 
-      // Khung lỗi tập thể trong tháng
-      const collectiveBox = document.getElementById("collectiveViolationBox");
-      const collectiveList = document.getElementById("collectiveViolationList");
-      const collectiveBadge = document.getElementById("collectivePerStudentBadge");
-      if (collectiveViolationsList.length > 0) {
-        collectiveBox.classList.remove("hidden");
-        collectiveBadge.innerText = `-${collectivePenaltyPerStudent} đ / mỗi HS`;
-        collectiveList.innerHTML = collectiveViolationsList.map(v => `
-          <div class="bg-white p-2 rounded-lg border border-rose-100 flex justify-between items-center">
-            <div>
-              <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
-              <span class="text-[10px] text-slate-400 block">${formatDisplayDate(v.Ngay)} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'} • ${v.Ghi_Chu || ''}</span>
-            </div>
-            <span class="font-black text-rose-600">Tổng trừ: -${v.Diem_Tru}đ</span>
-          </div>
-        `).join('');
-      } else {
-        collectiveBox.classList.add("hidden");
+      const notice = document.getElementById("dd_schedule_notice");
+      if (notice) {
+        notice.innerHTML = `💡 ${dayName}: Hôm nay <b>${hasAfternoon ? 'học 2 buổi (Sáng & Chiều)' : 'chỉ học 1 buổi (Sáng)'}</b> theo TKB.`;
       }
 
-      // 2. Báo bài
-      const listBB = document.getElementById("listBaoBai");
-      if (listBB && appData.baoBai) {
-        listBB.innerHTML = appData.baoBai.slice().reverse().map((bb, idx) => {
-          const actualRowIndex = appData.baoBai.length - idx + 1;
-          return `
-            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-1.5">
-              <div class="flex justify-between items-center">
-                <span class="bg-indigo-50 text-indigo-700 text-[11px] font-bold px-2 py-0.5 rounded border border-indigo-100">${bb.Mon_Hoc}</span>
-                <div class="flex items-center gap-2">
-                  <span class="text-[11px] text-rose-500 font-semibold"><i class="fa-regular fa-clock"></i> Hạn: ${formatDisplayDate(bb.Han_Nop_Kiem_Tra)}</span>
-                  ${isGVCN ? `
-                    <button onclick="openEditBaoBaiModal(${actualRowIndex})" class="text-indigo-600 hover:text-indigo-800 text-xs px-1.5 py-0.5 bg-indigo-50 rounded border border-indigo-200"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deleteBaoBaiItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
-                  ` : ''}
-                </div>
-              </div>
-              <p class="text-xs font-semibold text-slate-800">${bb.Noi_Dung_Bao_Bai}</p>
-              <div class="text-[10px] text-slate-400 flex justify-between pt-1 border-t border-slate-100">
-                <span>Tiết: ${bb.Thu_Tiet}</span>
-                <span>Đăng bởi: ${bb.Nguoi_Dang}</span>
-              </div>
-            </div>
-          `;
-        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có thông báo bài mới.</div>';
-      }
+      renderDiemDanhTable();
+    }
 
-      // 3. Hoạt động phong trào
-      const listHD = document.getElementById("listHoatDong");
-      if (listHD && appData.hoatDong) {
-        const currentUser = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
-        const myLabel = currentUser ? `#${currentUser.STT} - ${currentUser.Ho_Ten}` : (currentUserRole === "GVCN" ? "Cô Hương (GVCN)" : "");
-        const canManageList = (currentUserRole === "GVCN" || currentUserRole === "Bí thư" || currentUserRole === "Lớp trưởng");
+    function renderDiemDanhTable() {
+      const container = document.getElementById("diemDanhTableList");
+      if (!container || !appData.hocSinh) return;
 
-        listHD.innerHTML = appData.hoatDong.slice().reverse().map(hd => {
-          const ds = String(hd.DS_Tham_Gia || "");
-          const dsArray = ds ? ds.split(", ").map(s => s.trim()).filter(Boolean) : [];
-          const isJoined = myLabel && dsArray.includes(myLabel);
-          const hasImage = hd.Hinh_Anh && hd.Hinh_Anh.startsWith("data:image");
-          const gioiHan = Number(hd.Gioi_Han) || 0;
-          const isFull = (gioiHan > 0 && dsArray.length >= gioiHan && !isJoined);
+      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
+      const buoiStr = document.getElementById("dd_buoi").value;
 
-          return `
-            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2.5">
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
-                  ${hd.Co_Giai_X2 ? '<span class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-black text-[9px] px-1.5 py-0.2 rounded shadow-2xs">🏆 THI ĐUA TRƯỜNG (X2 ĐIỂM)</span>' : ''}
-                  ${gioiHan > 0 ? `<span class="bg-indigo-50 text-indigo-700 font-extrabold text-[9px] px-1.5 py-0.2 rounded border border-indigo-200">Chỉ tiêu: ${dsArray.length}/${gioiHan}</span>` : ''}
-                </div>
-                <div class="flex items-center gap-1.5">
-                  <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded font-black">+${hd.Diem_Cong}đ</span>
-                  ${isGVCN ? `
-                    <button onclick="openEditHoatDongModal('${hd.ID_HoatDong}')" class="text-amber-600 hover:text-amber-800 text-xs px-1.5 py-0.5 bg-amber-50 rounded border border-amber-200"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deleteHoatDongItem('${hd.ID_HoatDong}')" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
-                  ` : ''}
-                </div>
-              </div>
+      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
+      
+      currentAttendanceState = {};
+      existingAttendance.forEach(a => {
+        currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
+      });
 
-              ${hasImage ? `
-                <div class="rounded-xl overflow-hidden border border-slate-200 cursor-pointer" onclick="viewFullImage('${hd.Hinh_Anh}')">
-                  <img src="${hd.Hinh_Anh}" alt="Poster hoạt động" class="w-full max-h-56 object-cover hover:scale-102 transition duration-300">
-                </div>
-              ` : ''}
+      document.getElementById("ddTotalCount").innerText = appData.hocSinh.length;
 
-              <p class="text-xs text-slate-600 leading-relaxed">${hd.Noi_Dung}</p>
-              <div class="text-[10px] text-rose-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn đăng ký: ${formatDisplayDate(hd.Han_Chot)}</div>
-              
-              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 text-[11px] text-slate-600">
-                <div class="font-semibold text-slate-700 mb-0.5 flex justify-between items-center">
-                  <span><i class="fa-solid fa-users text-indigo-500 mr-1"></i>Đã tham gia (${dsArray.length}${gioiHan > 0 ? '/' + gioiHan : ''}):</span>
-                  ${canManageList ? `
-                    <button onclick="openAdminThamGiaModal('${hd.ID_HoatDong}')" class="text-[10px] text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200 transition">
-                      <i class="fa-solid fa-user-pen mr-1"></i>Thêm / Sửa DS
-                    </button>
-                  ` : ''}
-                </div>
-                <div class="text-[10px] text-slate-500 italic">
-                  ${dsArray.length > 0 ? dsArray.join(", ") : "Chưa có ai tham gia"}
-                </div>
-              </div>
+      container.innerHTML = appData.hocSinh.map(hs => {
+        const current = currentAttendanceState[hs.STT] || { trangThai: "Có mặt", ghiChu: "" };
+        const status = current.trangThai;
 
-              <div class="pt-1 flex justify-end">
-                <button onclick="${isFull ? '' : `toggleJoin('${hd.ID_HoatDong}')`}" ${isFull ? 'disabled' : ''} class="text-xs font-semibold px-3 py-1.5 rounded-lg border transition ${
-                  isJoined 
-                    ? 'bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100' 
-                    : (isFull 
-                        ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed' 
-                        : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700')
-                }">
-                  ${isJoined ? '<i class="fa-solid fa-user-minus mr-1"></i> Hủy đăng ký' : (isFull ? '<i class="fa-solid fa-lock mr-1"></i> Đã đủ số lượng' : '<i class="fa-solid fa-user-plus mr-1"></i> Đăng ký tham gia')}
-                </button>
-              </div>
-            </div>
-          `;
-        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có hoạt động mới.</div>';
-      }
-
-      // 4. Trực nhật
-      const listTN = document.getElementById("listTrucNhat");
-      if (listTN && appData.trucNhat) {
-        listTN.innerHTML = appData.trucNhat.map((tn, idx) => {
-          const actualRowIndex = idx + 2;
-          return `
-            <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm">
+        return `
+          <div id="dd_card_${hs.STT}" class="p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs ${
+            status === 'Vắng không phép' ? 'bg-rose-50 border-rose-300' :
+            status === 'Vắng có phép' ? 'bg-amber-50 border-amber-300' :
+            'bg-white border-slate-200'
+          }">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">${hs.Avatar || '👤'}</span>
               <div>
-                <div class="text-xs font-bold text-slate-800">${tn.Thu} (${tn.Buoi})</div>
-                <div class="text-xs text-slate-600 font-medium mt-0.5"><i class="fa-solid fa-user-check text-emerald-500 mr-1"></i>${tn.To_Truc}</div>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-[11px] px-2 py-1 rounded bg-slate-100 text-slate-600 font-semibold">${tn.Trang_Thai}</span>
-                ${isGVCN ? `
-                  <button onclick="openEditTrucNhatModal(${actualRowIndex})" class="text-emerald-600 hover:text-emerald-800 text-xs px-1.5 py-0.5 bg-emerald-50 rounded border border-emerald-200"><i class="fa-solid fa-pen"></i></button>
-                  <button onclick="deleteTrucNhatItem(${actualRowIndex})" class="text-rose-600 hover:text-rose-800 text-xs px-1.5 py-0.5 bg-rose-50 rounded border border-rose-200"><i class="fa-solid fa-trash"></i></button>
-                ` : ''}
+                <div class="text-xs font-bold text-slate-800">#${hs.STT} ${hs.Ho_Ten}</div>
+                <div class="text-[10px] text-slate-400">${hs.To}</div>
               </div>
             </div>
-          `;
-        }).join('') || '<div class="text-xs text-slate-400 text-center py-6">Chưa có lịch trực nhật.</div>';
+            <div class="flex items-center gap-1.5">
+              <select id="dd_select_${hs.STT}" onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-bold border rounded-lg p-1.5 cursor-pointer ${
+                status === 'Vắng không phép' ? 'bg-rose-600 text-white border-rose-600' :
+                status === 'Vắng có phép' ? 'bg-amber-500 text-white border-amber-500' :
+                'bg-emerald-50 text-emerald-700 border-emerald-300'
+              }">
+                <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''} class="bg-white text-slate-800">P: Có mặt</option>
+                <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''} class="bg-white text-slate-800">CP: Vắng có phép</option>
+                <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''} class="bg-white text-slate-800">KP: Vắng không phép</option>
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ĐÃ SỬA LỖI ĐỔI TRẠNG THÁI KHÔNG BỊ RESET GIAO DIỆN
+    function setStudentAttendance(stt, status) {
+      if (!currentAttendanceState[stt]) currentAttendanceState[stt] = {};
+      currentAttendanceState[stt].trangThai = status;
+
+      const card = document.getElementById(`dd_card_${stt}`);
+      const select = document.getElementById(`dd_select_${stt}`);
+      if (card && select) {
+        if (status === "Vắng không phép") {
+          card.className = "p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs bg-rose-50 border-rose-300";
+          select.className = "text-xs font-bold border rounded-lg p-1.5 cursor-pointer bg-rose-600 text-white border-rose-600";
+        } else if (status === "Vắng có phép") {
+          card.className = "p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs bg-amber-50 border-amber-300";
+          select.className = "text-xs font-bold border rounded-lg p-1.5 cursor-pointer bg-amber-500 text-white border-amber-500";
+        } else {
+          card.className = "p-2.5 rounded-xl border transition flex justify-between items-center shadow-xs bg-white border-slate-200";
+          select.className = "text-xs font-bold border rounded-lg p-1.5 cursor-pointer bg-emerald-50 text-emerald-700 border-emerald-300";
+        }
+      }
+    }
+
+    async function submitDiemDanhServer() {
+      const btn = document.getElementById("btnSubmitDiemDanh");
+      btn.innerText = "Đang lưu...";
+      btn.disabled = true;
+
+      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
+      const buoiStr = document.getElementById("dd_buoi").value;
+
+      const danhSachVang = [];
+      for (const [stt, item] of Object.entries(currentAttendanceState)) {
+        if (item.trangThai && item.trangThai !== "Có mặt") {
+          const hs = appData.hocSinh.find(h => String(h.STT) === String(stt));
+          danhSachVang.push({
+            stt: stt,
+            hoTen: hs ? hs.Ho_Ten : "",
+            trangThai: item.trangThai,
+            ghiChu: item.ghiChu || ""
+          });
+        }
+      }
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "saveDiemDanh",
+            userEmail: currentUserEmail,
+            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
+      } finally {
+        btn.innerText = "Lưu điểm danh";
+        btn.disabled = false;
+      }
+    }
+
+    // NHẬT KÝ VẮNG & SỬA TRỰC TIẾP TRẠNG THÁI KHI HS NỘP ĐƠN
+    function renderRecentAbsenceEdit() {
+      const container = document.getElementById("recentAbsenceEditList");
+      if (!container || !appData.diemDanh) return;
+
+      const isManager = (currentUserRole === "GVCN" || currentUserRole === "Lớp trưởng" || currentUserRole === "Lớp phó Kỷ luật");
+      const list = appData.diemDanh.slice().reverse().slice(0, 15);
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="text-slate-400 italic text-center py-2">Không có ghi nhận vắng học gần đây.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex justify-between items-center">
+          <div>
+            <div class="font-bold text-slate-800">#${item.STT} ${item.Ho_Ten}</div>
+            <div class="text-[10px] text-slate-400">${item.Ngay} (${item.Buoi}) • Ghi: ${item.Nguoi_Diem_Danh || 'Cán bộ'}</div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            ${isManager ? `
+              <select onchange="updateSingleAbsenceStatus('${item.Ngay}', '${item.Buoi}', '${item.STT}', this.value)" class="text-[11px] font-bold border rounded-lg px-2 py-1 ${
+                item.Trang_Thai === 'Vắng không phép' ? 'bg-rose-50 text-rose-700 border-rose-300' : 'bg-amber-50 text-amber-700 border-amber-300'
+              }">
+                <option value="Vắng không phép" ${item.Trang_Thai === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
+                <option value="Vắng có phép" ${item.Trang_Thai === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép (Đã nộp đơn)</option>
+                <option value="Có mặt">Đã có mặt (Xóa)</option>
+              </select>
+            ` : `<span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.Trang_Thai === 'Vắng có phép' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'}">${item.Trang_Thai}</span>`}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function updateSingleAbsenceStatus(ngay, buoi, stt, newStatus) {
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "updateSingleAttendance",
+            userEmail: currentUserEmail,
+            payload: { ngay, buoi, stt, newStatus }
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ " + json.message);
+          await loadData();
+        } else {
+          alert("❌ " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ!");
       }
     }
 
     // ==============================================================
-    // BẢO MẬT BÁO ĐỘNG VẮNG > 30 BUỔI
+    // BẢO MẬT BÁO ĐỘNG VẮNG & THÔNG BÁO NỘP ĐƠN THEO TỪNG CÁ NHÂN
     // ==============================================================
     function renderAbsenceSummary() {
       const container = document.getElementById("absenceSummaryList");
@@ -1282,6 +1336,9 @@
 
       if (!container || !appData.hocSinh) return;
 
+      const isGVCN = (currentUserRole === "GVCN");
+      const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
+
       const absenceStats = appData.hocSinh.map(hs => {
         const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(hs.STT));
         const coPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng có phép").length;
@@ -1291,9 +1348,6 @@
       });
 
       // 1. Cảnh báo > 30 buổi (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN)
-      const isGVCN = (currentUserRole === "GVCN");
-      const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
-
       const dangerStudents = absenceStats.filter(s => s.tongNghi >= 30);
       let visibleDangerStudents = [];
 
@@ -1315,18 +1369,26 @@
         warningBox.classList.add("hidden");
       }
 
-      // 2. Nhắc nhở nộp đơn xin phép
-      const recentUnexcused = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép").slice(-5).reverse();
-      if (recentUnexcused.length > 0) {
+      // 2. Nhắc nhở nộp đơn xin phép (CHỈ HIỆN VỚI CHÍNH HỌC SINH ĐÓ & GVCN)
+      const unexcusedList = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép");
+      let visibleUnexcused = [];
+
+      if (isGVCN) {
+        visibleUnexcused = unexcusedList.slice(-5).reverse();
+      } else if (currentLoggedInHS) {
+        visibleUnexcused = unexcusedList.filter(d => String(d.STT) === String(currentLoggedInHS.STT)).slice(-5).reverse();
+      }
+
+      if (visibleUnexcused.length > 0) {
         reminderBox.classList.remove("hidden");
-        reminderCountBadge.innerText = `${recentUnexcused.length} HS`;
-        reminderList.innerHTML = recentUnexcused.map(u => `
+        reminderCountBadge.innerText = `${visibleUnexcused.length} Buổi`;
+        reminderList.innerHTML = visibleUnexcused.map(u => `
           <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-amber-200">
             <div>
               <span class="font-black text-slate-800">#${u.STT} ${u.Ho_Ten}</span>
               <span class="text-[10px] text-slate-400 ml-1">(${u.Ngay} - Buổi ${u.Buoi})</span>
             </div>
-            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Cần nộp đơn hôm nay</span>
+            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Cần nộp đơn phép cho GVCN</span>
           </div>
         `).join('');
       } else {
@@ -1357,7 +1419,7 @@
     }
 
     // ==============================================================
-    // GHI NHẬN VI PHẠM & ĐIỂM CỘNG (CHỌN NGÀY TÙY Ý)
+    // GHI NHẬN VI PHẠM & ĐIỂM CỘNG
     // ==============================================================
     function populateStudentSelects() {
       if (!appData.hocSinh) return;
@@ -1421,7 +1483,7 @@
     }
 
     // ==============================================================
-    // THỜI KHÓA BIỂU & ĐIỂM DANH (SÁNG 4 TIẾT, CHIỀU 5 TIẾT)
+    // THỜI KHÓA BIỂU
     // ==============================================================
     const DEFAULT_TKB_DAYS = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
 
@@ -1434,7 +1496,6 @@
       (appData.thoiKhoaBieu || []).forEach(t => { if (tkbMap[t.Thu]) tkbMap[t.Thu] = t; });
 
       let html = "";
-      // Buổi Sáng: 4 Tiết
       for (let tiet = 1; tiet <= 4; tiet++) {
         html += `<tr>`;
         if (tiet === 1) html += `<td rowspan="4" class="bg-indigo-50 font-bold text-indigo-800 p-1 border border-slate-300 text-[10px]">SÁNG</td>`;
@@ -1445,7 +1506,6 @@
         html += `</tr>`;
       }
 
-      // Buổi Chiều: 5 Tiết
       for (let tiet = 1; tiet <= 5; tiet++) {
         html += `<tr>`;
         if (tiet === 1) html += `<td rowspan="5" class="bg-amber-50 font-bold text-amber-800 p-1 border border-slate-300 text-[10px]">CHIỀU</td>`;
@@ -1532,130 +1592,6 @@
         alert("Lỗi kết nối máy chủ!");
       } finally {
         btn.innerText = "Lưu Thời Khóa Biểu";
-        btn.disabled = false;
-      }
-    }
-
-    function initDiemDanhTab() {
-      const dateInput = document.getElementById("dd_ngay");
-      if (!dateInput.value) {
-        dateInput.value = new Date().toISOString().split('T')[0];
-      }
-      autoDetectBuoiHoc(dateInput.value);
-    }
-
-    function autoDetectBuoiHoc(selectedDateStr) {
-      if (!selectedDateStr) return;
-      const d = new Date(selectedDateStr);
-      const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-      const dayName = days[d.getDay()];
-
-      const tkbDay = (appData.thoiKhoaBieu || []).find(t => t.Thu === dayName);
-      let hasAfternoon = false;
-      if (tkbDay) {
-        hasAfternoon = Boolean(tkbDay.Chieu_Tiet1 || tkbDay.Chieu_Tiet2 || tkbDay.Chieu_Tiet3 || tkbDay.Chieu_Tiet4 || tkbDay.Chieu_Tiet5);
-      }
-
-      const notice = document.getElementById("dd_schedule_notice");
-      if (notice) {
-        notice.innerHTML = `💡 ${dayName}: Hôm nay <b>${hasAfternoon ? 'học 2 buổi (Sáng & Chiều)' : 'chỉ học 1 buổi (Sáng)'}</b> theo TKB.`;
-      }
-
-      renderDiemDanhTable();
-    }
-
-    function renderDiemDanhTable() {
-      const container = document.getElementById("diemDanhTableList");
-      if (!container || !appData.hocSinh) return;
-
-      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
-      const buoiStr = document.getElementById("dd_buoi").value;
-
-      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
-      
-      currentAttendanceState = {};
-      existingAttendance.forEach(a => {
-        currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
-      });
-
-      document.getElementById("ddTotalCount").innerText = appData.hocSinh.length;
-
-      container.innerHTML = appData.hocSinh.map(hs => {
-        const current = currentAttendanceState[hs.STT] || { trangThai: "Có mặt", ghiChu: "" };
-        const status = current.trangThai;
-
-        return `
-          <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-xs">
-            <div class="flex items-center gap-2">
-              <span class="text-lg">${hs.Avatar || '👤'}</span>
-              <div>
-                <div class="text-xs font-bold text-slate-800">#${hs.STT} ${hs.Ho_Ten}</div>
-                <div class="text-[10px] text-slate-400">${hs.To}</div>
-              </div>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <select onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-bold border rounded-lg p-1.5 ${
-                status === 'Vắng không phép' ? 'bg-rose-50 text-rose-700 border-rose-300' :
-                status === 'Vắng có phép' ? 'bg-amber-50 text-amber-700 border-amber-300' :
-                'bg-emerald-50 text-emerald-700 border-emerald-300'
-              }">
-                <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''}>P: Có mặt</option>
-                <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép</option>
-                <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
-              </select>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function setStudentAttendance(stt, status) {
-      if (!currentAttendanceState[stt]) currentAttendanceState[stt] = {};
-      currentAttendanceState[stt].trangThai = status;
-      renderDiemDanhTable();
-    }
-
-    async function submitDiemDanhServer() {
-      const btn = document.getElementById("btnSubmitDiemDanh");
-      btn.innerText = "Đang lưu...";
-      btn.disabled = true;
-
-      const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
-      const buoiStr = document.getElementById("dd_buoi").value;
-
-      const danhSachVang = [];
-      for (const [stt, item] of Object.entries(currentAttendanceState)) {
-        if (item.trangThai && item.trangThai !== "Có mặt") {
-          const hs = appData.hocSinh.find(h => String(h.STT) === String(stt));
-          danhSachVang.push({
-            stt: stt,
-            hoTen: hs ? hs.Ho_Ten : "",
-            trangThai: item.trangThai,
-            ghiChu: item.ghiChu || ""
-          });
-        }
-      }
-
-      try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "saveDiemDanh",
-            userEmail: currentUserEmail,
-            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
-          })
-        });
-        const json = await res.json();
-        if (json.success) {
-          alert("✅ " + json.message);
-          await loadData();
-        } else {
-          alert("❌ " + json.message);
-        }
-      } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
-      } finally {
-        btn.innerText = "Lưu điểm danh";
         btn.disabled = false;
       }
     }
@@ -1780,7 +1716,26 @@
 
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Điểm cộng trong Tháng ${selectedMonth}</span>
+            <span><i class="fa-solid fa-flag text-amber-500 mr-1.5"></i>Hoạt động đã tham gia</span>
+            <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myHoatDong.length}</span>
+          </h4>
+          <div class="space-y-1.5">
+            ${myHoatDong.length > 0 ? myHoatDong.map(h => `
+              <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex justify-between items-center text-xs">
+                <div>
+                  <span class="font-bold text-slate-800">${h.Ten_HoatDong}</span>
+                  ${h.Co_Giai_X2 ? '<span class="bg-amber-100 text-amber-800 font-extrabold text-[9px] px-1.5 py-0.2 rounded ml-1">🏆 Giải thi đua</span>' : ''}
+                  <span class="text-[10px] text-slate-400 block">Hạn: ${formatDisplayDate(h.Han_Chot)}</span>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">+${h.Co_Giai_X2 ? (h.Diem_Cong * 2) : h.Diem_Cong}đ</span>
+              </div>
+            `).join('') : '<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa tham gia hoạt động nào.</div>'}
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Điểm thưởng trong Tháng ${selectedMonth}</span>
             <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myDiemCong.length}</span>
           </h4>
           <div class="space-y-1.5 max-h-48 overflow-y-auto">
@@ -1795,7 +1750,7 @@
                   <span>${d.Ghi_Chu || ''}</span>
                 </div>
               </div>
-            `).join('') : `<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm cộng trong tháng ${selectedMonth}.</div>`}
+            `).join('') : `<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng trong tháng ${selectedMonth}.</div>`}
           </div>
         </div>
 
@@ -2006,7 +1961,7 @@
       const hd = (appData.hoatDong || []).find(h => String(h.ID_HoatDong) === String(idHoatDong));
       if (!hd) return;
 
-      document.getElementById("modalHoatDongTitle").innerText = "Chỉnh sửa Hoạt động";
+      document.getElementById("modalHoatDongTitle").innerText = "Chỉnh sửa Hoạt động Đoàn";
       document.getElementById("hd_edit_id").value = idHoatDong;
       document.getElementById("hd_ten").value = hd.Ten_HoatDong;
       document.getElementById("hd_noidung").value = hd.Noi_Dung;
@@ -2414,95 +2369,8 @@
     }
 
     // ==============================================================
-    // TIỆN ÍCH SINH NHẬT & ĐĂNG BÀI
+    // TIỆN ÍCH CHUYỂN TAB & GỬI YÊU CẦU
     // ==============================================================
-    function parseDate(dateStr) {
-      if (!dateStr) return null;
-      const str = String(dateStr).trim();
-      let day, month;
-
-      if (str.includes('/')) {
-        const parts = str.split('/');
-        day = parseInt(parts[0], 10);
-        month = parseInt(parts[1], 10);
-      } else if (str.includes('-')) {
-        const parts = str.split('-');
-        if (parts[0].length === 4) {
-          month = parseInt(parts[1], 10);
-          day = parseInt(parts[2], 10);
-        } else {
-          day = parseInt(parts[0], 10);
-          month = parseInt(parts[1], 10);
-        }
-      }
-      return (day && month) ? { day, month, raw: str } : null;
-    }
-
-    function checkAndRenderBirthdays() {
-      if (!appData.hocSinh) return;
-      const today = new Date();
-      const currentDay = today.getDate();
-      const currentMonth = today.getMonth() + 1;
-
-      document.getElementById("currentMonthText").innerText = `Tháng ${currentMonth}`;
-
-      const todayBirthdays = [];
-      const monthBirthdays = [];
-
-      appData.hocSinh.forEach(hs => {
-        const d = parseDate(hs.Ngay_Sinh);
-        if (d) {
-          if (d.month === currentMonth) {
-            monthBirthdays.push({ ...hs, birthDay: d.day, birthStr: d.raw });
-            if (d.day === currentDay) todayBirthdays.push(hs);
-          }
-        }
-      });
-
-      const banner = document.getElementById("todayBirthdayBanner");
-      const nameBox = document.getElementById("todayBirthdayNames");
-      if (todayBirthdays.length > 0) {
-        banner.classList.remove("hidden");
-        nameBox.innerText = todayBirthdays.map(h => `${h.Avatar || '🎂'} ${h.Ho_Ten} (#${h.STT} - ${h.To})`).join("  •  ");
-        
-        if (!hasTriggeredBirthdayConfetti) {
-          setTimeout(() => triggerConfetti(), 800);
-          hasTriggeredBirthdayConfetti = true;
-        }
-      } else {
-        banner.classList.add("hidden");
-      }
-
-      const monthList = document.getElementById("monthBirthdayList");
-      const monthBadge = document.getElementById("monthBirthdayCountBadge");
-      monthBadge.innerText = `${monthBirthdays.length} bạn`;
-
-      monthBirthdays.sort((a, b) => a.birthDay - b.birthDay);
-
-      if (monthBirthdays.length === 0) {
-        monthList.innerHTML = `<span class="text-[11px] text-pink-400 italic">Tháng này không có sinh nhật bạn nào.</span>`;
-      } else {
-        monthList.innerHTML = monthBirthdays.map(h => {
-          const isToday = (h.birthDay === currentDay);
-          const av = h.Avatar || "🎂";
-          return `
-            <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white border ${isToday ? 'border-pink-500 ring-2 ring-pink-300' : 'border-pink-200'} rounded-lg px-2 py-1 text-xs shadow-xs cursor-pointer hover:bg-pink-100/50 flex items-center gap-1.5 transition">
-              <span>${av}</span>
-              <span class="text-pink-600 font-black">${h.birthDay}/${currentMonth}</span>
-              <span class="font-bold text-slate-700 truncate">#${h.STT} ${h.Ho_Ten}</span>
-              ${isToday ? '<span class="text-xs">🎉</span>' : ''}
-            </div>
-          `;
-        }).join('');
-      }
-    }
-
-    function triggerConfetti() {
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-      }
-    }
-
     function viewStudentProfile(stt) {
       const select = document.getElementById("selectTraCuuHS");
       if (select) select.value = stt;
@@ -2559,7 +2427,7 @@
       await sendPostRequest(isEditing ? "editHoatDong" : "addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
       document.getElementById("hd_edit_id").value = "";
       removeAttachedImage();
-      document.getElementById("modalHoatDongTitle").innerText = "Tạo hoạt động";
+      document.getElementById("modalHoatDongTitle").innerText = "Tạo hoạt động Đoàn";
     }
 
     async function submitTrucNhat(e) {
