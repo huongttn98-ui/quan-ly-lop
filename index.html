@@ -1862,7 +1862,9 @@
     }
 
     function openEditBaoBaiModal(rowIndex) {
-      const bb = appData.baoBai[appData.baoBai.length - (rowIndex - 1)];
+      // rowIndex là số dòng thật trên Google Sheet (dòng 1 là tiêu đề),
+      // còn appData.baoBai bắt đầu từ phần tử 0 tương ứng với dòng 2.
+      const bb = appData.baoBai[rowIndex - 2];
       if (!bb) return;
 
       document.getElementById("modalBaoBaiTitle").innerText = "Chỉnh sửa Báo bài";
@@ -2412,6 +2414,7 @@
       e.preventDefault();
       const editId = document.getElementById("hd_edit_id").value;
       const isEditing = Boolean(editId);
+      const editDataIndex = (appData.hoatDong || []).findIndex(h => String(h.ID_HoatDong) === String(editId));
 
       const rawDate = document.getElementById("hd_hanchot").value;
       let formattedDate = rawDate;
@@ -2422,6 +2425,7 @@
 
       const payload = {
         idHoatDong: editId,
+        rowIndex: editDataIndex >= 0 ? editDataIndex + 2 : "",
         tenHoatDong: document.getElementById("hd_ten").value,
         noiDung: document.getElementById("hd_noidung").value,
         hanChot: formattedDate,
