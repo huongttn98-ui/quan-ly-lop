@@ -343,10 +343,10 @@
           <i class="fa-solid fa-medal text-amber-500"></i> Xếp Hạng Cá Nhân (<span id="studentListMonthLabel">Tháng ...</span>)
         </h2>
         <div class="flex gap-1.5">
-          <button id="btnThemDiemCong" onclick="openModal('modalDiemCong')" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
+          <button id="btnThemDiemCong" onclick="openNewDiemCongModal()" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
             <i class="fa-solid fa-plus"></i> Cộng điểm
           </button>
-          <button id="btnThemViPham" onclick="openModal('modalViPham')" class="hidden text-xs bg-rose-600 hover:bg-rose-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
+          <button id="btnThemViPham" onclick="openNewViPhamModal()" class="hidden text-xs bg-rose-600 hover:bg-rose-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
             <i class="fa-solid fa-minus"></i> Ghi lỗi
           </button>
         </div>
@@ -529,8 +529,9 @@
   <!-- MODAL GHI NHẬN VI PHẠM -->
   <div id="modalViPham" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
-      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> Ghi lỗi & Trừ điểm</h3>
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-minus text-rose-500"></i> <span id="modalViPhamTitle">Ghi lỗi & Trừ điểm</span></h3>
       <form onsubmit="submitViPham(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="vp_row_index" value="">
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Đối tượng vi phạm:</label>
           <select id="vp_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium"></select>
@@ -564,8 +565,10 @@
   <!-- MODAL ĐIỂM CỘNG -->
   <div id="modalDiemCong" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl">
-      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> Khen thưởng & Cộng điểm</h3>
+      <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-circle-plus text-emerald-500"></i> <span id="modalDiemCongTitle">Khen thưởng & Cộng điểm</span></h3>
       <form onsubmit="submitDiemCong(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="dc_row_index" value="">
+        <input type="hidden" id="dc_original_marker" value="">
         <div>
           <label class="block font-semibold text-slate-600 mb-1">Chọn học sinh:</label>
           <select id="dc_hocsinh" required class="w-full border rounded-lg p-2.5 bg-slate-50 font-medium"></select>
@@ -841,6 +844,7 @@
           calculateScoreByMonth(selectedMonth);
           identifyUser();
           renderUI();
+          renderThiDuaTo();
           renderTrangChuDashboard();
           renderTKBTable();
           initDiemDanhTab();
@@ -900,6 +904,43 @@
         hs.Thang_Diem_Cong = myMonthCong;
         hs.Thang_Diem_Hien_Tai = Math.round((hs.Thang_Diem_Cong - hs.Thang_Diem_Tru) * 10) / 10;
       });
+    }
+
+    function getStudentTeamNumber(hs) {
+      const teamText = String((hs && hs.To) || "").trim();
+      const match = teamText.match(/[1-4]/);
+      return match ? Number(match[0]) : 0;
+    }
+
+    function getTeamRankingData() {
+      return [1, 2, 3, 4].map(teamNumber => {
+        const members = (appData.hocSinh || []).filter(h => getStudentTeamNumber(h) === teamNumber);
+        const tongCong = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Cong) || 0), 0);
+        const tongTru = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Tru) || 0), 0);
+        return {
+          teamNumber,
+          tenTo: `Tổ ${teamNumber}`,
+          membersCount: members.length,
+          tongCong: Math.round(tongCong * 10) / 10,
+          tongTru: Math.round(tongTru * 10) / 10,
+          diemThiDua: Math.round((tongCong - tongTru) * 10) / 10
+        };
+      }).sort((a, b) => b.diemThiDua - a.diemThiDua || a.teamNumber - b.teamNumber);
+    }
+
+    function renderThiDuaTo() {
+      const container = document.getElementById("rankingToContainer");
+      if (!container) return;
+      const medals = ["🥇", "🥈", "🥉", "🏅"];
+      container.innerHTML = getTeamRankingData().map((team, index) => `
+        <div class="bg-white rounded-xl border border-amber-200 p-3 text-center shadow-sm">
+          <div class="text-xl">${medals[index]}</div>
+          <div class="font-black text-slate-800 text-sm">${team.tenTo}</div>
+          <div class="font-black text-amber-600 text-base">${team.diemThiDua > 0 ? "+" : ""}${team.diemThiDua} điểm</div>
+          <div class="text-[10px] text-slate-500 mt-1">+${team.tongCong} thưởng • -${team.tongTru} phạt</div>
+          <div class="text-[9px] text-slate-400">${team.membersCount} thành viên</div>
+        </div>
+      `).join("");
     }
 
     function identifyUser() {
@@ -992,16 +1033,7 @@
       }
 
       // Tổ dẫn đầu thi đua tháng
-      const toList = ["Tổ 1", "Tổ 2", "Tổ 3", "Tổ 4"];
-      const stats = toList.map(tenTo => {
-        const members = (appData.hocSinh || []).filter(h => String(h.To).toLowerCase().includes(tenTo.toLowerCase().replace(" ", "")));
-        const tongCong = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Cong) || 0), 0);
-        const tongTru = members.reduce((sum, h) => sum + (Number(h.Thang_Diem_Tru) || 0), 0);
-        const diemThiDua = Math.round((tongCong - tongTru) * 10) / 10;
-        return { tenTo, membersCount: members.length, tongCong, tongTru: Math.round(tongTru * 10)/10, diemThiDua };
-      });
-
-      stats.sort((a, b) => b.diemThiDua - a.diemThiDua);
+      const stats = getTeamRankingData();
       const top1To = stats[0];
 
       if (top1To && document.getElementById("homeTopToName")) {
@@ -1633,8 +1665,67 @@
       if (document.getElementById("dc_ngay")) document.getElementById("dc_ngay").value = todayISO;
     }
 
+    function toDateInputValue(dateValue) {
+      const text = String(dateValue || "").trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+      const parts = text.split("/");
+      if (parts.length === 3) return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(2, "0")}`;
+      return "";
+    }
+
+    function openNewViPhamModal() {
+      document.getElementById("vp_row_index").value = "";
+      document.getElementById("modalViPhamTitle").innerText = "Ghi lỗi & Trừ điểm";
+      document.getElementById("vp_loailoi").value = "";
+      document.getElementById("vp_diemtru").value = 2;
+      document.getElementById("vp_ghichu").value = "";
+      document.getElementById("vp_ngay").value = new Date().toISOString().split("T")[0];
+      openModal("modalViPham");
+    }
+
+    function openEditViPhamModal(rowIndex) {
+      if (currentUserRole !== "GVCN") return;
+      const item = (appData.viPham || [])[rowIndex - 2];
+      if (!item) return;
+      document.getElementById("vp_row_index").value = rowIndex;
+      document.getElementById("modalViPhamTitle").innerText = "Chỉnh sửa lỗi & Điểm trừ";
+      document.getElementById("vp_hocsinh").value = String(item.STT);
+      document.getElementById("vp_ngay").value = toDateInputValue(item.Ngay);
+      document.getElementById("vp_loailoi").value = item.Loai_Loi || "";
+      document.getElementById("vp_diemtru").value = item.Diem_Tru || 1;
+      document.getElementById("vp_ghichu").value = item.Ghi_Chu || "";
+      openModal("modalViPham");
+    }
+
+    function openNewDiemCongModal() {
+      document.getElementById("dc_row_index").value = "";
+      document.getElementById("dc_original_marker").value = "";
+      document.getElementById("modalDiemCongTitle").innerText = "Khen thưởng & Cộng điểm";
+      document.getElementById("dc_lydo").value = "";
+      document.getElementById("dc_diemcong").value = 2;
+      document.getElementById("dc_ghichu").value = "";
+      document.getElementById("dc_ngay").value = new Date().toISOString().split("T")[0];
+      openModal("modalDiemCong");
+    }
+
+    function openEditDiemCongModal(rowIndex) {
+      if (currentUserRole !== "GVCN") return;
+      const item = (appData.diemCong || [])[rowIndex - 2];
+      if (!item) return;
+      document.getElementById("dc_row_index").value = rowIndex;
+      document.getElementById("dc_original_marker").value = String(item.Ghi_Chu || "").startsWith("AUTO_HD:") ? item.Ghi_Chu : "";
+      document.getElementById("modalDiemCongTitle").innerText = "Chỉnh sửa khen thưởng & Điểm cộng";
+      document.getElementById("dc_hocsinh").value = String(item.STT);
+      document.getElementById("dc_ngay").value = toDateInputValue(item.Ngay);
+      document.getElementById("dc_lydo").value = item.Ly_Do || "";
+      document.getElementById("dc_diemcong").value = item.Diem_Cong || 1;
+      document.getElementById("dc_ghichu").value = item.Ghi_Chu || "";
+      openModal("modalDiemCong");
+    }
+
     async function submitViPham(e) {
       e.preventDefault();
+      const editRowIndex = document.getElementById("vp_row_index").value;
       const select = document.getElementById("vp_hocsinh");
       const hoTen = select.options[select.selectedIndex].getAttribute("data-name");
       
@@ -1646,6 +1737,7 @@
       }
 
       const payload = {
+        rowIndex: editRowIndex,
         stt: select.value,
         hoTen: hoTen,
         ngay: formattedDate,
@@ -1653,11 +1745,14 @@
         diemTru: document.getElementById("vp_diemtru").value,
         ghiChu: document.getElementById("vp_ghichu").value
       };
-      await sendPostRequest("addViPham", payload, "btnSubmitVP", "modalViPham");
+      await sendPostRequest(editRowIndex ? "editViPham" : "addViPham", payload, "btnSubmitVP", "modalViPham");
+      document.getElementById("vp_row_index").value = "";
+      document.getElementById("modalViPhamTitle").innerText = "Ghi lỗi & Trừ điểm";
     }
 
     async function submitDiemCong(e) {
       e.preventDefault();
+      const editRowIndex = document.getElementById("dc_row_index").value;
       const select = document.getElementById("dc_hocsinh");
       const hoTen = select.options[select.selectedIndex].getAttribute("data-name");
       
@@ -1669,14 +1764,19 @@
       }
 
       const payload = {
+        rowIndex: editRowIndex,
         stt: select.value,
         hoTen: hoTen,
         ngay: formattedDate,
         lyDo: document.getElementById("dc_lydo").value,
         diemCong: document.getElementById("dc_diemcong").value,
-        ghiChu: document.getElementById("dc_ghichu").value
+        ghiChu: document.getElementById("dc_ghichu").value,
+        originalMarker: document.getElementById("dc_original_marker").value
       };
-      await sendPostRequest("addDiemCong", payload, "btnSubmitDC", "modalDiemCong");
+      await sendPostRequest(editRowIndex ? "editDiemCong" : "addDiemCong", payload, "btnSubmitDC", "modalDiemCong");
+      document.getElementById("dc_row_index").value = "";
+      document.getElementById("dc_original_marker").value = "";
+      document.getElementById("modalDiemCongTitle").innerText = "Khen thưởng & Cộng điểm";
     }
 
     // ==============================================================
@@ -1807,7 +1907,10 @@
               <div class="bg-emerald-50/50 p-2 rounded-lg border border-emerald-100 text-xs">
                 <div class="flex justify-between items-center">
                   <span class="font-bold text-slate-800">${d.Ly_Do}</span>
-                  <span class="font-black text-emerald-600">+${d.Diem_Cong}đ</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-black text-emerald-600">+${d.Diem_Cong}đ</span>
+                    ${currentUserRole === "GVCN" ? `<button onclick="openEditDiemCongModal(${appData.diemCong.indexOf(d) + 2})" class="text-emerald-700 bg-emerald-100 hover:bg-emerald-200 border border-emerald-200 rounded px-1.5 py-0.5" title="Chỉnh sửa điểm cộng"><i class="fa-solid fa-pen"></i></button>` : ''}
+                  </div>
                 </div>
                 <div class="text-[10px] text-slate-400 flex justify-between mt-1">
                   <span>${formatDisplayDate(d.Ngay)} • Ghi: ${d.Nguoi_Ghi || 'GV'}</span>
@@ -1841,7 +1944,10 @@
               <div class="bg-rose-50/50 p-2 rounded-lg border border-rose-100 text-xs">
                 <div class="flex justify-between items-center">
                   <span class="font-bold text-slate-800">${v.Loai_Loi}</span>
-                  <span class="font-black text-rose-600">-${v.Diem_Tru}đ</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-black text-rose-600">-${v.Diem_Tru}đ</span>
+                    ${currentUserRole === "GVCN" ? `<button onclick="openEditViPhamModal(${appData.viPham.indexOf(v) + 2})" class="text-rose-700 bg-rose-100 hover:bg-rose-200 border border-rose-200 rounded px-1.5 py-0.5" title="Chỉnh sửa vi phạm"><i class="fa-solid fa-pen"></i></button>` : ''}
+                  </div>
                 </div>
                 <div class="text-[10px] text-slate-400 flex justify-between mt-1">
                   <span>${formatDisplayDate(v.Ngay)} • Ghi: ${v.Nguoi_Ghi || 'Cán bộ'}</span>
