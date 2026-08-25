@@ -79,7 +79,7 @@
               <span class="text-xs font-bold text-pink-100">Hôm nay là sinh nhật của:</span>
             </div>
             <h3 id="todayBirthdayNames" class="text-lg font-black tracking-wide text-yellow-200"></h3>
-            <p class="text-xs text-pink-100 leading-tight">Chúc các em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
+            <p class="text-xs text-pink-100 leading-tight">Chúc em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
           </div>
           <button onclick="triggerConfetti()" class="bg-white text-pink-600 hover:bg-pink-50 font-black text-xs px-4 py-2 rounded-xl shadow transition shrink-0 animate-bounce-slow flex items-center gap-1.5">
             <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Bắn pháo hoa 🎊
@@ -686,9 +686,18 @@
 
         <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200">
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="hd_co_giai_x2" class="rounded text-amber-600 focus:ring-amber-500 w-4 h-4">
+            <input type="checkbox" id="hd_co_giai_x2" onchange="toggleAwardConfirmationBox()" class="rounded text-amber-600 focus:ring-amber-500 w-4 h-4">
             <span class="text-xs font-black text-amber-900">
               🏆 Hoạt động thi đua cấp trường (Đạt giải x2 điểm rèn luyện)
+            </span>
+          </label>
+        </div>
+
+        <div id="hd_dat_giai_box" class="hidden bg-emerald-50 p-2.5 rounded-xl border border-emerald-300">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hd_da_dat_giai" class="rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4">
+            <span class="text-xs font-black text-emerald-900">
+              ✅ GVCN xác nhận hoạt động đã đạt giải — tự động nhân đôi điểm
             </span>
           </label>
         </div>
@@ -1128,7 +1137,7 @@
               <div>
                 <div class="font-bold text-slate-800 text-xs flex items-center gap-1">
                   ${hd.Ten_HoatDong}
-                  ${hd.Co_Giai_X2 ? '<span class="text-[9px] bg-amber-100 text-amber-800 px-1 py-0.2 rounded font-extrabold">🏆 x2</span>' : ''}
+                  ${hd.Da_Dat_Giai ? '<span class="text-[9px] bg-emerald-100 text-emerald-800 px-1 py-0.2 rounded font-extrabold">✅ Đạt giải • x2</span>' : (hd.Co_Giai_X2 ? '<span class="text-[9px] bg-amber-100 text-amber-800 px-1 py-0.2 rounded font-extrabold">🏆 Thi đua trường</span>' : '')}
                 </div>
                 <div class="text-[10px] text-rose-500 mt-0.5 font-medium"><i class="fa-regular fa-clock mr-1"></i>Hạn: ${formatDisplayDate(hd.Han_Chot)}</div>
               </div>
@@ -1607,7 +1616,8 @@
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-1.5 flex-wrap">
                   <h3 class="text-xs font-bold text-slate-800">${hd.Ten_HoatDong}</h3>
-                  ${hd.Co_Giai_X2 ? '<span class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-black text-[9px] px-1.5 py-0.2 rounded shadow-2xs">🏆 THI ĐUA TRƯỜNG (X2 ĐIỂM)</span>' : ''}
+                  ${hd.Co_Giai_X2 ? '<span class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-black text-[9px] px-1.5 py-0.2 rounded shadow-2xs">🏆 THI ĐUA TRƯỜNG</span>' : ''}
+                  ${hd.Da_Dat_Giai ? '<span class="bg-emerald-600 text-white font-black text-[9px] px-1.5 py-0.2 rounded shadow-2xs">✅ ĐÃ ĐẠT GIẢI • X2 ĐIỂM</span>' : ''}
                   ${gioiHan > 0 ? `<span class="bg-indigo-50 text-indigo-700 font-extrabold text-[9px] px-1.5 py-0.2 rounded border border-indigo-200">Chỉ tiêu: ${dsArray.length}/${gioiHan}</span>` : ''}
                 </div>
                 <div class="flex items-center gap-1.5">
@@ -2013,6 +2023,14 @@
       if (previewBox) previewBox.classList.add("hidden");
     }
 
+    function toggleAwardConfirmationBox() {
+      const eligible = document.getElementById("hd_co_giai_x2").checked;
+      const box = document.getElementById("hd_dat_giai_box");
+      const confirmed = document.getElementById("hd_da_dat_giai");
+      box.classList.toggle("hidden", !eligible);
+      if (!eligible) confirmed.checked = false;
+    }
+
     function setActivityImage(file) {
       if (!file || !String(file.type || "").startsWith("image/")) return;
       const reader = new FileReader();
@@ -2110,6 +2128,8 @@
       document.getElementById("hd_diemcong").value = hd.Diem_Cong;
       document.getElementById("hd_gioihan").value = hd.Gioi_Han || 0;
       document.getElementById("hd_co_giai_x2").checked = Boolean(hd.Co_Giai_X2);
+      document.getElementById("hd_da_dat_giai").checked = Boolean(hd.Da_Dat_Giai);
+      document.getElementById("hd_dat_giai_box").classList.toggle("hidden", !hd.Co_Giai_X2);
 
       if (hd.Hinh_Anh) {
         document.getElementById("hd_base64_image").value = hd.Hinh_Anh;
@@ -2634,11 +2654,14 @@
         diemCong: document.getElementById("hd_diemcong").value,
         gioiHan: Number(document.getElementById("hd_gioihan").value) || 0,
         coGiaiX2: document.getElementById("hd_co_giai_x2").checked,
+        daDatGiai: document.getElementById("hd_da_dat_giai").checked,
         hinhAnh: document.getElementById("hd_base64_image").value
       };
       await sendPostRequest(isEditing ? "editHoatDong" : "addHoatDong", payload, "btnSubmitHD", "modalHoatDong");
       document.getElementById("hd_edit_id").value = "";
       removeAttachedImage();
+      document.getElementById("hd_da_dat_giai").checked = false;
+      document.getElementById("hd_dat_giai_box").classList.add("hidden");
       document.getElementById("modalHoatDongTitle").innerText = "Tạo hoạt động Đoàn";
     }
 
