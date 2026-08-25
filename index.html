@@ -87,6 +87,17 @@
         </div>
       </div>
 
+      <!-- KHUNG SINH NHẬT TRONG THÁNG -->
+      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          </h3>
+          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+        </div>
+        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
+      </div>
+
       <!-- BANNER TỔ ĐANG DẪN ĐẦU THI ĐUA THÁNG -->
       <div id="homeTopToBanner" class="bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white rounded-2xl p-3.5 shadow-md border border-amber-300 relative overflow-hidden">
         <div class="absolute -right-3 -bottom-3 text-6xl opacity-20 text-white"><i class="fa-solid fa-trophy"></i></div>
@@ -125,28 +136,6 @@
         <div id="homeTomorrowTKBContent" class="text-xs space-y-1.5"></div>
       </div>
 
-      <!-- KHUNG SINH NHẬT TRONG THÁNG -->
-      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
-          </h3>
-          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
-        </div>
-        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
-      </div>
-
-      <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
-      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-3.5 border border-emerald-200 shadow-sm space-y-2">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-broom text-emerald-600"></i> Lịch Trực Nhật Gần Nhất
-          </h3>
-          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Hôm nay & Ngày mai</span>
-        </div>
-        <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
-      </div>
-
       <!-- BÁO BÀI & HẠN KIỂM TRA SẮP TỚI -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
@@ -162,11 +151,22 @@
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-bullhorn text-amber-500"></i> Phong Trào & Sự Kiện Đang Mở Đăng Ký
+            <i class="fa-solid fa-bullhorn text-amber-500"></i> Hoạt động đang diễn ra
           </h3>
           <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
         <div id="homeHoatDongList" class="space-y-2"></div>
+      </div>
+
+      <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
+      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-3.5 border border-emerald-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wide">
+            <i class="fa-solid fa-broom text-emerald-600"></i> Lịch Trực Nhật Gần Nhất
+          </h3>
+          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Hôm nay & Ngày mai</span>
+        </div>
+        <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
       </div>
 
     </section>
@@ -366,7 +366,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có vi phạm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
+          📌 Danh sách học sinh tham gia tổng vệ sinh:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -845,6 +845,7 @@
           identifyUser();
           renderUI();
           renderThiDuaTo();
+          renderLaoDongCuoiThang();
           renderTrangChuDashboard();
           renderTKBTable();
           initDiemDanhTab();
@@ -881,6 +882,7 @@
       calculateScoreByMonth(selectedMonth);
       renderUI();
       renderThiDuaTo();
+      renderLaoDongCuoiThang();
     }
 
     function calculateScoreByMonth(targetMonth) {
@@ -939,6 +941,39 @@
           <div class="font-black text-amber-600 text-base">${team.diemThiDua > 0 ? "+" : ""}${team.diemThiDua} điểm</div>
           <div class="text-[10px] text-slate-500 mt-1">+${team.tongCong} thưởng • -${team.tongTru} phạt</div>
           <div class="text-[9px] text-slate-400">${team.membersCount} thành viên</div>
+        </div>
+      `).join("");
+    }
+
+    function renderLaoDongCuoiThang() {
+      const container = document.getElementById("listLaoDongCuoiThang");
+      const badge = document.getElementById("countLaoDongBadge");
+      if (!container || !badge) return;
+
+      const negativeStudents = (appData.hocSinh || [])
+        .filter(hs => Number(hs.Thang_Diem_Hien_Tai) < 0)
+        .sort((a, b) => Number(a.Thang_Diem_Hien_Tai) - Number(b.Thang_Diem_Hien_Tai));
+
+      badge.innerText = `${negativeStudents.length} HS`;
+      if (negativeStudents.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white/70 border border-emerald-200 text-emerald-700 rounded-xl p-2.5 text-xs text-center font-semibold">
+            <i class="fa-solid fa-circle-check mr-1"></i>Không có học sinh nào bị điểm rèn luyện âm trong Tháng ${selectedMonth}.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = negativeStudents.map(hs => `
+        <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-200 flex justify-between items-center cursor-pointer hover:bg-rose-50 transition">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="text-lg">${hs.Avatar || "👤"}</span>
+            <div class="min-w-0">
+              <div class="font-bold text-slate-800 text-xs truncate">#${hs.STT} - ${hs.Ho_Ten}</div>
+              <div class="text-[10px] text-slate-500">${hs.To || "Chưa phân tổ"} • +${hs.Thang_Diem_Cong || 0} / -${hs.Thang_Diem_Tru || 0}</div>
+            </div>
+          </div>
+          <span class="bg-rose-100 text-rose-700 border border-rose-200 px-2 py-1 rounded-lg text-xs font-black whitespace-nowrap">${hs.Thang_Diem_Hien_Tai} điểm</span>
         </div>
       `).join("");
     }
