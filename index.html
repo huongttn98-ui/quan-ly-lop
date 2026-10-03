@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Thư viện pháo hoa Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Thư viện tạo file Excel -->
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -34,9 +36,14 @@
         </h1>
         <p id="userRoleText" class="text-xs text-indigo-100 font-medium mt-0.5">Chế độ: Đang tải...</p>
       </div>
-      <button onclick="loginPrompt()" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/30 transition">
-        <i class="fa-solid fa-user-gear"></i> <span id="btnTextLogin">Đăng nhập</span>
-      </button>
+      <div class="flex items-center gap-2">
+        <button id="btnExportAll" onclick="exportAllManagementData()" class="hidden bg-emerald-500/90 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/30 transition" title="Tải toàn bộ dữ liệu quản lý">
+          <i class="fa-solid fa-file-excel"></i> Tải dữ liệu
+        </button>
+        <button onclick="loginPrompt()" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/30 transition">
+          <i class="fa-solid fa-user-gear"></i> <span id="btnTextLogin">Đăng nhập</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -79,23 +86,12 @@
               <span class="text-xs font-bold text-pink-100">Hôm nay là sinh nhật của:</span>
             </div>
             <h3 id="todayBirthdayNames" class="text-lg font-black tracking-wide text-yellow-200"></h3>
-            <p class="text-xs text-pink-100 leading-tight">Chúc em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
+            <p class="text-xs text-pink-100 leading-tight">Chúc các em tuổi mới luôn vui vẻ, học tập thật giỏi và luôn tràn đầy năng lượng cùng 10C5! 💖</p>
           </div>
           <button onclick="triggerConfetti()" class="bg-white text-pink-600 hover:bg-pink-50 font-black text-xs px-4 py-2 rounded-xl shadow transition shrink-0 animate-bounce-slow flex items-center gap-1.5">
             <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Bắn pháo hoa 🎊
           </button>
         </div>
-      </div>
-
-      <!-- KHUNG SINH NHẬT TRONG THÁNG -->
-      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
-          </h3>
-          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
-        </div>
-        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
       </div>
 
       <!-- BANNER TỔ ĐANG DẪN ĐẦU THI ĐUA THÁNG -->
@@ -136,6 +132,28 @@
         <div id="homeTomorrowTKBContent" class="text-xs space-y-1.5"></div>
       </div>
 
+      <!-- KHUNG SINH NHẬT TRONG THÁNG -->
+      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-3.5 border border-pink-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-pink-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh Nhật Tháng Này (<span id="currentMonthText"></span>)
+          </h3>
+          <span id="monthBirthdayCountBadge" class="text-[10px] bg-pink-200 text-pink-800 font-bold px-2 py-0.5 rounded-full">0 bạn</span>
+        </div>
+        <div id="monthBirthdayList" class="flex flex-wrap gap-1.5 pt-1"></div>
+      </div>
+
+      <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
+      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-3.5 border border-emerald-200 shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wide">
+            <i class="fa-solid fa-broom text-emerald-600"></i> Lịch Trực Nhật Gần Nhất
+          </h3>
+          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Hôm nay & Ngày mai</span>
+        </div>
+        <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
+      </div>
+
       <!-- BÁO BÀI & HẠN KIỂM TRA SẮP TỚI -->
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
@@ -151,22 +169,11 @@
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-bullhorn text-amber-500"></i> Hoạt động đang diễn ra
+            <i class="fa-solid fa-bullhorn text-amber-500"></i> Phong Trào & Sự Kiện Đang Mở Đăng Ký
           </h3>
           <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
         <div id="homeHoatDongList" class="space-y-2"></div>
-      </div>
-
-      <!-- NHẮC NHỞ TRỰC NHẬT GẦN NHẤT -->
-      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-3.5 border border-emerald-200 shadow-sm space-y-2">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-broom text-emerald-600"></i> Lịch Trực Nhật Gần Nhất
-          </h3>
-          <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Hôm nay & Ngày mai</span>
-        </div>
-        <div id="homeTrucNhatList" class="space-y-1.5 text-xs"></div>
       </div>
 
     </section>
@@ -245,9 +252,12 @@
             </h3>
             <p class="text-[10px] text-slate-400">Tự động nhận diện 1 buổi hoặc 2 buổi học theo Thời Khóa Biểu.</p>
           </div>
-          <button id="btnSubmitDiemDanh" onclick="submitDiemDanhServer()" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition">
-            <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu điểm danh
-          </button>
+          <div class="flex gap-1.5">
+            <button id="btnExportDiemDanh" onclick="exportAttendanceFile()" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition"><i class="fa-solid fa-file-excel mr-1"></i>Tải file</button>
+            <button id="btnSubmitDiemDanh" onclick="submitDiemDanhServer()" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition">
+              <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu điểm danh
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
@@ -343,6 +353,8 @@
           <i class="fa-solid fa-medal text-amber-500"></i> Xếp Hạng Cá Nhân (<span id="studentListMonthLabel">Tháng ...</span>)
         </h2>
         <div class="flex gap-1.5">
+          <button id="btnExportDiemCong" onclick="exportRewardFile()" class="hidden text-xs bg-teal-600 hover:bg-teal-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-file-excel"></i> File điểm cộng</button>
+          <button id="btnExportViPham" onclick="exportViolationFile()" class="hidden text-xs bg-orange-600 hover:bg-orange-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-file-excel"></i> File vi phạm</button>
           <button id="btnThemDiemCong" onclick="openNewDiemCongModal()" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm">
             <i class="fa-solid fa-plus"></i> Cộng điểm
           </button>
@@ -366,7 +378,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh tham gia tổng vệ sinh:
+          📌 Danh sách học sinh có điểm rèn luyện âm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -389,9 +401,12 @@
           <h2 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-chalkboard-user text-teal-600 mr-1.5"></i> Sơ đồ vị trí chỗ ngồi lớp 10C5</h2>
           <p class="text-[10px] text-slate-400">💡 Kéo thả hoặc chạm 2 học sinh để hoán đổi chỗ ngồi.</p>
         </div>
-        <button id="btnSaveSoDo" onclick="saveSoDoToServer()" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition">
-          <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu sơ đồ
-        </button>
+        <div class="flex gap-1.5">
+          <button id="btnExportSoDo" onclick="exportSeatingFile()" class="hidden text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition"><i class="fa-solid fa-file-excel mr-1"></i>Tải sơ đồ</button>
+          <button id="btnSaveSoDo" onclick="saveSoDoToServer()" class="hidden text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg shadow transition">
+            <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu sơ đồ
+          </button>
+        </div>
       </div>
 
       <div class="bg-white rounded-2xl p-4 border border-slate-300 shadow-md space-y-4">
@@ -1013,6 +1028,13 @@
     }
 
     function checkPermissions() {
+      const exportButtonIds = ["btnExportAll", "btnExportDiemDanh", "btnExportViPham", "btnExportDiemCong", "btnExportSoDo"];
+      exportButtonIds.forEach(id => document.getElementById(id)?.classList.add("hidden"));
+      if (currentUserRole === "GVCN") {
+        exportButtonIds.forEach(id => {
+          document.getElementById(id)?.classList.remove("hidden");
+        });
+      }
       if (currentUserRole === "GVCN" || currentUserRole === "Lớp phó Học tập") {
         document.getElementById("btnThemBaoBai")?.classList.remove("hidden");
         document.getElementById("btnEditTKB")?.classList.remove("hidden");
@@ -2607,6 +2629,120 @@
       return (day && month) ? { day, month, raw: str } : null;
     }
 
+    function ensureExcelLibrary() {
+      if (typeof XLSX === "undefined") {
+        alert("Thư viện tạo Excel chưa tải xong. Cô vui lòng chờ vài giây rồi thử lại!");
+        return false;
+      }
+      return true;
+    }
+
+    function exportDateStamp() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    }
+
+    function setExcelWidths(sheet, widths) {
+      sheet["!cols"] = widths.map(width => ({ wch: width }));
+      if (sheet["!ref"]) sheet["!autofilter"] = { ref: sheet["!ref"] };
+    }
+
+    function buildAttendanceSheet() {
+      const rows = [["STT", "Họ và tên", "Ngày", "Buổi", "Trạng thái", "Ghi chú", "Người điểm danh"]];
+      (appData.diemDanh || []).filter(d => d.STT || d.Ho_Ten).forEach(d => rows.push([
+        d.STT, d.Ho_Ten, formatDisplayDate(d.Ngay), d.Buoi, d.Trang_Thai, d.Ghi_Chu || "", d.Nguoi_Diem_Danh || ""
+      ]));
+      const sheet = XLSX.utils.aoa_to_sheet(rows);
+      setExcelWidths(sheet, [8, 28, 14, 12, 20, 32, 24]);
+      return sheet;
+    }
+
+    function buildViolationSheet() {
+      const rows = [["STT", "Họ và tên", "Ngày", "Loại lỗi", "Điểm trừ", "Ghi chú", "Người ghi"]];
+      (appData.viPham || []).filter(v => v.Loai_Loi && (v.STT || v.Ho_Ten)).forEach(v => rows.push([
+        v.STT, v.Ho_Ten, formatDisplayDate(v.Ngay), v.Loai_Loi, Number(v.Diem_Tru) || 0, v.Ghi_Chu || "", v.Nguoi_Ghi || ""
+      ]));
+      const sheet = XLSX.utils.aoa_to_sheet(rows);
+      setExcelWidths(sheet, [8, 28, 14, 34, 12, 32, 24]);
+      return sheet;
+    }
+
+    function buildRewardSheet() {
+      const rows = [["STT", "Họ và tên", "Ngày", "Lý do cộng điểm", "Điểm cộng", "Ghi chú/Mã hoạt động", "Người ghi"]];
+      (appData.diemCong || []).filter(d => d.Ly_Do && (d.STT || d.Ho_Ten)).forEach(d => rows.push([
+        d.STT, d.Ho_Ten, formatDisplayDate(d.Ngay), d.Ly_Do, Number(d.Diem_Cong) || 0, d.Ghi_Chu || "", d.Nguoi_Ghi || ""
+      ]));
+      const sheet = XLSX.utils.aoa_to_sheet(rows);
+      setExcelWidths(sheet, [8, 28, 14, 38, 12, 30, 28]);
+      return sheet;
+    }
+
+    function buildSeatingSheet() {
+      const studentMap = new Map((appData.hocSinh || []).map(h => [String(h.STT), h]));
+      const seatLabel = seatId => {
+        const stt = seatingState[seatId];
+        const hs = stt ? studentMap.get(String(stt)) : null;
+        return hs ? `#${hs.STT} - ${hs.Ho_Ten}` : "Trống";
+      };
+      const rows = [
+        ["SƠ ĐỒ LỚP 10C5 – NĂM HỌC 2026–2027"],
+        ["BẢNG LỚP HỌC Ở PHÍA TRÊN"],
+        [],
+        ["Bàn", "Tổ 1 - Trái", "Tổ 1 - Phải", "Tổ 2 - Trái", "Tổ 2 - Phải", "Tổ 3 - Trái", "Tổ 3 - Phải", "Tổ 4 - Trái", "Tổ 4 - Phải"]
+      ];
+      for (let desk = 1; desk <= 6; desk++) {
+        const row = [`Bàn ${desk}`];
+        for (let team = 1; team <= 4; team++) {
+          row.push(seatLabel(`T${team}_B${desk}_L`), seatLabel(`T${team}_B${desk}_R`));
+        }
+        rows.push(row);
+      }
+      const seated = new Set(Object.values(seatingState).map(String));
+      const unassigned = (appData.hocSinh || []).filter(h => !seated.has(String(h.STT)));
+      rows.push([], ["Học sinh chưa xếp chỗ"]);
+      unassigned.forEach(h => rows.push([`#${h.STT} - ${h.Ho_Ten}`]));
+      const sheet = XLSX.utils.aoa_to_sheet(rows);
+      setExcelWidths(sheet, [12, 28, 28, 28, 28, 28, 28, 28, 28]);
+      return sheet;
+    }
+
+    function downloadWorkbookWithSheets(fileName, sheets) {
+      if (!ensureExcelLibrary()) return;
+      const workbook = XLSX.utils.book_new();
+      sheets.forEach(item => XLSX.utils.book_append_sheet(workbook, item.sheet, item.name));
+      XLSX.writeFile(workbook, fileName);
+    }
+
+    function exportAttendanceFile() {
+      if (!ensureExcelLibrary()) return;
+      downloadWorkbookWithSheets(`Diem_danh_10C5_${exportDateStamp()}.xlsx`, [{ name: "Điểm danh", sheet: buildAttendanceSheet() }]);
+    }
+
+    function exportViolationFile() {
+      if (!ensureExcelLibrary()) return;
+      downloadWorkbookWithSheets(`Vi_pham_10C5_${exportDateStamp()}.xlsx`, [{ name: "Vi phạm", sheet: buildViolationSheet() }]);
+    }
+
+    function exportRewardFile() {
+      if (!ensureExcelLibrary()) return;
+      downloadWorkbookWithSheets(`Diem_cong_10C5_${exportDateStamp()}.xlsx`, [{ name: "Điểm cộng", sheet: buildRewardSheet() }]);
+    }
+
+    function exportSeatingFile() {
+      if (!ensureExcelLibrary()) return;
+      downloadWorkbookWithSheets(`So_do_lop_10C5_${exportDateStamp()}.xlsx`, [{ name: "Sơ đồ lớp", sheet: buildSeatingSheet() }]);
+    }
+
+    function exportAllManagementData() {
+      if (!ensureExcelLibrary()) return;
+      downloadWorkbookWithSheets(`Du_lieu_quan_ly_10C5_${exportDateStamp()}.xlsx`, [
+        { name: "Điểm danh", sheet: buildAttendanceSheet() },
+        { name: "Vi phạm", sheet: buildViolationSheet() },
+        { name: "Điểm cộng", sheet: buildRewardSheet() },
+        { name: "Sơ đồ lớp", sheet: buildSeatingSheet() }
+      ]);
+    }
+
     async function submitBaoBai(e) {
       e.preventDefault();
       const editIndex = document.getElementById("bb_row_index").value;
@@ -2731,7 +2867,8 @@
         if (json.success) {
           alert("✅ " + json.message);
           closeModal(modalId);
-          await loadData();
+          applyImmediateScoreUpdate(action, payload);
+          loadData();
         } else {
           alert("❌ " + json.message);
         }
@@ -2743,6 +2880,48 @@
           btn.disabled = false;
         }
       }
+    }
+
+    function applyImmediateScoreUpdate(action, payload) {
+      if (action === "addViPham") {
+        appData.viPham.push({
+          STT: payload.stt, Ho_Ten: payload.hoTen, Ngay: payload.ngay,
+          Loai_Loi: payload.loaiLoi, Diem_Tru: Number(payload.diemTru) || 0,
+          Ghi_Chu: payload.ghiChu || "", Nguoi_Ghi: "Cô Hương (GVCN)"
+        });
+      } else if (action === "editViPham") {
+        const index = Number(payload.rowIndex) - 2;
+        if (index >= 0 && appData.viPham[index]) {
+          appData.viPham[index] = {
+            STT: payload.stt, Ho_Ten: payload.hoTen, Ngay: payload.ngay,
+            Loai_Loi: payload.loaiLoi, Diem_Tru: Number(payload.diemTru) || 0,
+            Ghi_Chu: payload.ghiChu || "", Nguoi_Ghi: "Cô Hương (GVCN)"
+          };
+        }
+      } else if (action === "addDiemCong") {
+        appData.diemCong.push({
+          STT: payload.stt, Ho_Ten: payload.hoTen, Ngay: payload.ngay,
+          Ly_Do: payload.lyDo, Diem_Cong: Number(payload.diemCong) || 0,
+          Ghi_Chu: payload.ghiChu || "", Nguoi_Ghi: "Cô Hương (GVCN)"
+        });
+      } else if (action === "editDiemCong") {
+        const index = Number(payload.rowIndex) - 2;
+        if (index >= 0 && appData.diemCong[index]) {
+          appData.diemCong[index] = {
+            STT: payload.stt, Ho_Ten: payload.hoTen, Ngay: payload.ngay,
+            Ly_Do: payload.lyDo, Diem_Cong: Number(payload.diemCong) || 0,
+            Ghi_Chu: payload.originalMarker || payload.ghiChu || "", Nguoi_Ghi: "Cô Hương (GVCN)"
+          };
+        }
+      } else {
+        return;
+      }
+
+      calculateScoreByMonth(selectedMonth);
+      renderUI();
+      renderThiDuaTo();
+      renderLaoDongCuoiThang();
+      renderTrangChuDashboard();
     }
 
     function switchTab(tabId, btn) {
