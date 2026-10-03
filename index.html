@@ -169,7 +169,7 @@
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-bullhorn text-amber-500"></i> Hoạt động 
+            <i class="fa-solid fa-bullhorn text-amber-500"></i> Phong Trào & Sự Kiện Đang Mở Đăng Ký
           </h3>
           <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
@@ -400,7 +400,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có điểm rèn luyện trong kỳ đang âm tham gia tổng vệ sinh cuối tháng:
+          📌 Danh sách học sinh có điểm rèn luyện trong kỳ đang âm tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -1028,6 +1028,23 @@
       return isNaN(parsed.getTime()) ? null : new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
     }
 
+    function isDeadlineStillActive(dateStr) {
+      const deadline = parseFlexibleDate(dateStr);
+      if (!deadline) return true;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return deadline >= today;
+    }
+
+    function sortByNearestDeadline(a, b, dateField) {
+      const dateA = parseFlexibleDate(a?.[dateField]);
+      const dateB = parseFlexibleDate(b?.[dateField]);
+      if (!dateA && !dateB) return 0;
+      if (!dateA) return 1;
+      if (!dateB) return -1;
+      return dateA - dateB;
+    }
+
     function isDateInRenLuyenPeriod(dateStr) {
       const value = parseFlexibleDate(dateStr);
       const start = parseFlexibleDate(appData.renLuyenConfig?.startDate);
@@ -1327,7 +1344,10 @@
       // Báo bài sắp tới
       const homeBB = document.getElementById("homeBaoBaiList");
       if (homeBB && appData.baoBai) {
-        const recentBB = appData.baoBai.slice(-3).reverse();
+        const recentBB = appData.baoBai
+          .filter(bb => isDeadlineStillActive(bb.Han_Nop_Kiem_Tra))
+          .sort((a, b) => sortByNearestDeadline(a, b, "Han_Nop_Kiem_Tra"))
+          .slice(0, 3);
         if (recentBB.length > 0) {
           homeBB.innerHTML = recentBB.map(bb => `
             <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex justify-between items-center">
@@ -1340,14 +1360,17 @@
             </div>
           `).join('');
         } else {
-          homeBB.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Chưa có báo bài mới.</div>';
+          homeBB.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Không có bài tập hoặc lịch kiểm tra nào còn hạn.</div>';
         }
       }
 
       // Hoạt động phong trào sắp diễn ra
       const homeHD = document.getElementById("homeHoatDongList");
       if (homeHD && appData.hoatDong) {
-        const recentHD = appData.hoatDong.slice(-2).reverse();
+        const recentHD = appData.hoatDong
+          .filter(hd => isDeadlineStillActive(hd.Han_Chot))
+          .sort((a, b) => sortByNearestDeadline(a, b, "Han_Chot"))
+          .slice(0, 2);
         if (recentHD.length > 0) {
           homeHD.innerHTML = recentHD.map(hd => `
             <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex justify-between items-center">
@@ -1362,7 +1385,7 @@
             </div>
           `).join('');
         } else {
-          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Chưa có hoạt động Đoàn mới.</div>';
+          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Không có hoạt động nào đang mở đăng ký.</div>';
         }
       }
     }
