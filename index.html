@@ -169,7 +169,7 @@
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-bullhorn text-amber-500"></i> Phong Trào & Sự Kiện Đang Mở Đăng Ký
+            <i class="fa-solid fa-bullhorn text-amber-500"></i> Hoạt động 
           </h3>
           <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
@@ -298,7 +298,7 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- TAB 5: RÈN LUYỆN & XẾP HẠNG THI ĐUA THEO THÁNG -->
+    <!-- TAB 5: RÈN LUYỆN HỌC KỲ & XẾP HẠNG THI ĐUA THEO THÁNG -->
     <!-- ============================================================== -->
     <section id="tab-nenep" class="tab-content space-y-3">
       
@@ -306,9 +306,31 @@
       <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-3 flex justify-between items-center">
         <div class="flex items-center gap-1.5">
           <i class="fa-solid fa-filter text-indigo-600 text-sm"></i>
-          <span class="text-xs font-black text-indigo-900 uppercase">Tổng Kết Rèn Luyện:</span>
+          <span class="text-xs font-black text-indigo-900 uppercase">Chọn tháng tính thi đua tổ:</span>
         </div>
         <select id="selectFilterMonth" onchange="changeFilterMonth(this.value)" class="text-xs font-black bg-white border border-indigo-300 text-indigo-800 rounded-lg px-3 py-1 shadow-xs focus:ring-2 focus:ring-indigo-500"></select>
+      </div>
+
+      <!-- KHOẢNG THỜI GIAN TÍNH ĐIỂM RÈN LUYỆN HỌC KỲ -->
+      <div class="bg-white border border-indigo-200 rounded-2xl p-3 space-y-2 shadow-sm">
+        <div class="flex justify-between items-center gap-2">
+          <h3 class="text-xs font-black text-indigo-900 uppercase">
+            <i class="fa-solid fa-calendar-check mr-1"></i>Thời gian tính điểm rèn luyện học kỳ
+          </h3>
+          <span id="renLuyenPeriodLabel" class="text-[10px] text-indigo-600 font-bold"></span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-[1fr_1fr_auto] gap-2 items-end">
+          <label class="text-[10px] font-bold text-slate-600">Từ ngày
+            <input id="renLuyenStartDate" type="date" disabled class="mt-1 w-full border rounded-lg p-2 text-xs bg-slate-50">
+          </label>
+          <label class="text-[10px] font-bold text-slate-600">Đến hết ngày
+            <input id="renLuyenEndDate" type="date" disabled class="mt-1 w-full border rounded-lg p-2 text-xs bg-slate-50">
+          </label>
+          <button id="btnSaveRenLuyenConfig" onclick="saveRenLuyenConfig()" class="hidden col-span-2 sm:col-span-1 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg shadow-sm">
+            <i class="fa-solid fa-floppy-disk mr-1"></i>Lưu mốc tính điểm
+          </button>
+        </div>
+        <p class="text-[10px] text-slate-400">Điểm cá nhân chỉ cộng các khoản phát sinh trong khoảng trên; thi đua tổ vẫn tính theo tháng được chọn.</p>
       </div>
 
       <!-- BẢNG VÀNG THI ĐUA 4 TỔ THEO THÁNG -->
@@ -347,10 +369,10 @@
         <div id="hoSoDetailContainer" class="space-y-3 pt-1"></div>
       </div>
 
-      <!-- DANH SÁCH BẢNG XẾP HẠNG RÈN LUYỆN CÁ NHÂN THEO THÁNG -->
+      <!-- DANH SÁCH BẢNG XẾP HẠNG RÈN LUYỆN CÁ NHÂN TRONG HỌC KỲ -->
       <div class="flex justify-between items-center pt-2">
         <h2 class="font-bold text-slate-700 text-sm flex items-center gap-1">
-          <i class="fa-solid fa-medal text-amber-500"></i> Xếp Hạng Cá Nhân (<span id="studentListMonthLabel">Tháng ...</span>)
+          <i class="fa-solid fa-medal text-amber-500"></i> Xếp Hạng Rèn Luyện Cá Nhân (<span id="studentListMonthLabel">Trong kỳ tính điểm</span>)
         </h2>
         <div class="flex gap-1.5">
           <button id="btnExportDiemCong" onclick="exportRewardFile()" class="hidden text-xs bg-teal-600 hover:bg-teal-700 text-white font-medium px-2.5 py-1.5 rounded-lg shadow-sm"><i class="fa-solid fa-file-excel"></i> File điểm cộng</button>
@@ -378,7 +400,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có điểm rèn luyện âm trong tháng tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
+          📌 Danh sách học sinh có điểm rèn luyện trong kỳ đang âm tham gia tổng vệ sinh cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -799,12 +821,34 @@
     </div>
   </div>
 
+  <!-- HỘP THÔNG BÁO TÙY CHỈNH: KHÔNG HIỂN THỊ TÊN MIỀN TRÌNH DUYỆT -->
+  <div id="appDialog" class="fixed inset-0 bg-slate-950/60 backdrop-blur-[1px] hidden items-center justify-center p-4 z-[100]">
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="p-5 space-y-4">
+        <div class="flex items-start gap-3">
+          <div id="appDialogIcon" class="w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-lg bg-indigo-100 text-indigo-600">
+            <i class="fa-solid fa-circle-info"></i>
+          </div>
+          <div class="min-w-0 pt-0.5">
+            <h3 id="appDialogTitle" class="text-base font-black text-slate-800">Thông báo</h3>
+            <p id="appDialogMessage" class="text-sm text-slate-600 mt-1 leading-relaxed whitespace-pre-line"></p>
+          </div>
+        </div>
+        <input id="appDialogInput" type="email" class="hidden w-full border border-slate-300 rounded-xl p-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" autocomplete="email">
+      </div>
+      <div class="bg-slate-50 border-t border-slate-100 px-5 py-3 flex justify-end gap-2">
+        <button id="appDialogCancel" type="button" onclick="resolveAppDialog(false)" class="hidden px-4 py-2 rounded-lg bg-white border border-slate-300 text-slate-600 text-sm font-bold hover:bg-slate-100">Hủy</button>
+        <button id="appDialogOk" type="button" onclick="resolveAppDialog(true)" class="px-5 py-2 rounded-lg bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 shadow-sm">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
   <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC -->
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzDcSFh6CE7aAVfK91bDe24UmCAGc6KOFfdNpAjLNqz0siH8QbVYZJHbSyu37bVvwG-xw/exec";
     const ADMIN_EMAIL = "ngochuong290798@gmail.com";
 
-    let appData = { hocSinh: [], viPham: [], diemCong: [], baoBai: [], hoatDong: [], trucNhat: [], thoiKhoaBieu: [], diemDanh: [] };
+    let appData = { hocSinh: [], viPham: [], diemCong: [], baoBai: [], hoatDong: [], trucNhat: [], thoiKhoaBieu: [], diemDanh: [], renLuyenConfig: {} };
     let currentUserEmail = localStorage.getItem("user_email") || ADMIN_EMAIL;
     let currentUserRole = "HocSinh";
 
@@ -816,6 +860,8 @@
     let selectedMonth = new Date().getMonth() + 1;
     let collectivePenaltyPerStudent = 0;
     let collectiveViolationsList = [];
+    let renLuyenCollectivePenaltyPerStudent = 0;
+    let renLuyenCollectiveViolationsList = [];
     let hasTriggeredBirthdayConfetti = false;
 
     let currentAttendanceState = {};
@@ -824,6 +870,68 @@
     const AVATAR_LIST_2 = ["🍓","🍒","🍑","🥑","🍉","🍇","🍊","🍋","🍌","🍎","🥝","🥐","🥞","🍩","🧁","🍦","🍧","🍨","🍰","🎂","🍫","🍭","🍮","🍯","🧋","☕","🥤","🍿","🍕","🍔"];
     const AVATAR_LIST_3 = ["🌸","🌺","🌻","🌼","🌷","🍀","🌿","🍄","🌵","🌴","🌈","☀️","⭐","🌟","✨","🌙","🪐","🚀","🎈","🎨","🎭","🎪","🎡","🎠"];
     const AVATAR_LIST_4 = ["🐱‍👓","🐱‍👤","🧙‍♂️","🧙‍♀️","🧚‍♂️","🧚‍♀️","🦸‍♂️","🦸‍♀️","🐱‍🚀","🥰","🤩","🥳","😎","😺","😸","😻","😽","👾","🤖","👻","🧸","🎀","👑","💎"];
+
+    let appDialogResolver = null;
+    let appDialogMode = "alert";
+
+    function openAppDialog(message, options = {}) {
+      const dialog = document.getElementById("appDialog");
+      const title = document.getElementById("appDialogTitle");
+      const messageBox = document.getElementById("appDialogMessage");
+      const icon = document.getElementById("appDialogIcon");
+      const input = document.getElementById("appDialogInput");
+      const cancelBtn = document.getElementById("appDialogCancel");
+      const okBtn = document.getElementById("appDialogOk");
+
+      appDialogMode = options.mode || "alert";
+      title.textContent = options.title || (appDialogMode === "confirm" ? "Xác nhận thao tác" : appDialogMode === "prompt" ? "Đăng nhập" : "Thông báo");
+      messageBox.textContent = String(message || "");
+      cancelBtn.classList.toggle("hidden", appDialogMode === "alert");
+      input.classList.toggle("hidden", appDialogMode !== "prompt");
+      okBtn.textContent = appDialogMode === "confirm" ? "Xác nhận" : appDialogMode === "prompt" ? "Đăng nhập" : "Đồng ý";
+
+      const isError = String(message || "").includes("❌") || options.type === "error";
+      const isSuccess = String(message || "").includes("✅") || options.type === "success";
+      icon.className = `w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-lg ${isError ? "bg-rose-100 text-rose-600" : isSuccess ? "bg-emerald-100 text-emerald-600" : "bg-indigo-100 text-indigo-600"}`;
+      icon.innerHTML = `<i class="fa-solid ${isError ? "fa-circle-xmark" : isSuccess ? "fa-circle-check" : appDialogMode === "confirm" ? "fa-triangle-exclamation" : appDialogMode === "prompt" ? "fa-user" : "fa-circle-info"}"></i>`;
+
+      if (appDialogMode === "prompt") input.value = options.defaultValue || "";
+      dialog.classList.remove("hidden");
+      dialog.classList.add("flex");
+      setTimeout(() => (appDialogMode === "prompt" ? input : okBtn).focus(), 50);
+    }
+
+    function resolveAppDialog(accepted) {
+      const dialog = document.getElementById("appDialog");
+      const input = document.getElementById("appDialogInput");
+      dialog.classList.add("hidden");
+      dialog.classList.remove("flex");
+      if (appDialogResolver) {
+        const result = appDialogMode === "prompt" ? (accepted ? input.value : null) : Boolean(accepted);
+        const resolver = appDialogResolver;
+        appDialogResolver = null;
+        resolver(result);
+      }
+    }
+
+    function showAppConfirm(message, title = "Xác nhận thao tác") {
+      return new Promise(resolve => {
+        appDialogResolver = resolve;
+        openAppDialog(message, { mode: "confirm", title });
+      });
+    }
+
+    function showAppPrompt(message, defaultValue = "", title = "Đăng nhập") {
+      return new Promise(resolve => {
+        appDialogResolver = resolve;
+        openAppDialog(message, { mode: "prompt", title, defaultValue });
+      });
+    }
+
+    // Thay hộp alert mặc định của trình duyệt để không hiện dòng tên miền.
+    window.alert = function(message) {
+      openAppDialog(message, { mode: "alert" });
+    };
 
     function formatDisplayDate(dateStr) {
       if (!dateStr) return "";
@@ -865,6 +973,7 @@
         if (json.success) {
           appData = json.data;
           initMonthFilter();
+          initRenLuyenConfig();
           calculateScoreByMonth(selectedMonth);
           identifyUser();
           renderUI();
@@ -896,17 +1005,78 @@
       }
       select.innerHTML = html;
       document.getElementById("rankingMonthLabel").innerText = `Tháng ${selectedMonth}`;
-      document.getElementById("studentListMonthLabel").innerText = `Tháng ${selectedMonth}`;
+      document.getElementById("studentListMonthLabel").innerText = "Trong kỳ tính điểm";
     }
 
     function changeFilterMonth(m) {
       selectedMonth = parseInt(m, 10);
       document.getElementById("rankingMonthLabel").innerText = `Tháng ${selectedMonth}`;
-      document.getElementById("studentListMonthLabel").innerText = `Tháng ${selectedMonth}`;
+      document.getElementById("studentListMonthLabel").innerText = "Trong kỳ tính điểm";
       calculateScoreByMonth(selectedMonth);
       renderUI();
       renderThiDuaTo();
       renderLaoDongCuoiThang();
+    }
+
+    function parseFlexibleDate(dateStr) {
+      const str = String(dateStr || "").trim();
+      let match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (match) return new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+      match = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+      const parsed = new Date(str);
+      return isNaN(parsed.getTime()) ? null : new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+    }
+
+    function isDateInRenLuyenPeriod(dateStr) {
+      const value = parseFlexibleDate(dateStr);
+      const start = parseFlexibleDate(appData.renLuyenConfig?.startDate);
+      const end = parseFlexibleDate(appData.renLuyenConfig?.endDate);
+      if (!value || !start || !end) return false;
+      return value >= start && value <= end;
+    }
+
+    function initRenLuyenConfig() {
+      const startInput = document.getElementById("renLuyenStartDate");
+      const endInput = document.getElementById("renLuyenEndDate");
+      if (!startInput || !endInput) return;
+      startInput.value = appData.renLuyenConfig?.startDate || "";
+      endInput.value = appData.renLuyenConfig?.endDate || "";
+      const label = document.getElementById("renLuyenPeriodLabel");
+      if (label) label.innerText = `${formatDisplayDate(startInput.value)} – ${formatDisplayDate(endInput.value)}`;
+    }
+
+    async function saveRenLuyenConfig() {
+      if (currentUserRole !== "GVCN") return;
+      const startDate = document.getElementById("renLuyenStartDate").value;
+      const endDate = document.getElementById("renLuyenEndDate").value;
+      if (!startDate || !endDate || startDate > endDate) {
+        alert("❌ Vui lòng chọn khoảng thời gian hợp lệ!");
+        return;
+      }
+      const btn = document.getElementById("btnSaveRenLuyenConfig");
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang lưu...';
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "saveRenLuyenConfig", userEmail: currentUserEmail, payload: { startDate, endDate } })
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message || "Không thể lưu cấu hình");
+        appData.renLuyenConfig = { startDate, endDate };
+        initRenLuyenConfig();
+        calculateScoreByMonth(selectedMonth);
+        renderUI();
+        renderLaoDongCuoiThang();
+        renderSoDo24Ban();
+        alert("✅ " + json.message);
+      } catch (err) {
+        alert("❌ " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-floppy-disk mr-1"></i>Lưu mốc tính điểm';
+      }
     }
 
     function calculateScoreByMonth(targetMonth) {
@@ -920,6 +1090,14 @@
       collectivePenaltyPerStudent = totalStudents > 0 ? (totalCollectivePoints / totalStudents) : 0;
       collectivePenaltyPerStudent = Math.round(collectivePenaltyPerStudent * 10) / 10;
 
+      // Điểm rèn luyện cá nhân cộng dồn trong khoảng học kỳ do GVCN thiết lập.
+      // Chỉ các biến Thang_* bên dưới mới được dùng cho thi đua tổ theo tháng.
+      renLuyenCollectiveViolationsList = (appData.viPham || [])
+        .filter(v => String(v.STT).toUpperCase() === "ALL" && isDateInRenLuyenPeriod(v.Ngay));
+      const totalCollectivePointsInPeriod = renLuyenCollectiveViolationsList
+        .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
+      renLuyenCollectivePenaltyPerStudent = Math.round((totalCollectivePointsInPeriod / totalStudents) * 10) / 10;
+
       (appData.hocSinh || []).forEach(hs => {
         const myMonthTru = (appData.viPham || []).filter(v => String(v.STT) === String(hs.STT) && parseDateMonth(v.Ngay) === targetMonth)
                                                 .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
@@ -929,6 +1107,17 @@
         hs.Thang_Diem_Tru = Math.round((myMonthTru + collectivePenaltyPerStudent) * 10) / 10;
         hs.Thang_Diem_Cong = myMonthCong;
         hs.Thang_Diem_Hien_Tai = Math.round((hs.Thang_Diem_Cong - hs.Thang_Diem_Tru) * 10) / 10;
+
+        const myTotalTru = (appData.viPham || [])
+          .filter(v => String(v.STT) === String(hs.STT) && isDateInRenLuyenPeriod(v.Ngay))
+          .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
+        const myTotalCong = (appData.diemCong || [])
+          .filter(d => String(d.STT) === String(hs.STT) && isDateInRenLuyenPeriod(d.Ngay))
+          .reduce((sum, d) => sum + (Number(d.Diem_Cong) || 0), 0);
+
+        hs.Tong_Diem_Tru = Math.round((myTotalTru + renLuyenCollectivePenaltyPerStudent) * 10) / 10;
+        hs.Tong_Diem_Cong = Math.round(myTotalCong * 10) / 10;
+        hs.Tong_Diem_Hien_Tai = Math.round((hs.Tong_Diem_Cong - hs.Tong_Diem_Tru) * 10) / 10;
       });
     }
 
@@ -975,14 +1164,14 @@
       if (!container || !badge) return;
 
       const negativeStudents = (appData.hocSinh || [])
-        .filter(hs => Number(hs.Thang_Diem_Hien_Tai) < 0)
-        .sort((a, b) => Number(a.Thang_Diem_Hien_Tai) - Number(b.Thang_Diem_Hien_Tai));
+        .filter(hs => Number(hs.Tong_Diem_Hien_Tai) < 0)
+        .sort((a, b) => Number(a.Tong_Diem_Hien_Tai) - Number(b.Tong_Diem_Hien_Tai));
 
       badge.innerText = `${negativeStudents.length} HS`;
       if (negativeStudents.length === 0) {
         container.innerHTML = `
           <div class="bg-white/70 border border-emerald-200 text-emerald-700 rounded-xl p-2.5 text-xs text-center font-semibold">
-            <i class="fa-solid fa-circle-check mr-1"></i>Không có học sinh nào bị điểm rèn luyện âm trong Tháng ${selectedMonth}.
+            <i class="fa-solid fa-circle-check mr-1"></i>Không có học sinh nào có điểm rèn luyện âm trong kỳ tính điểm.
           </div>
         `;
         return;
@@ -994,10 +1183,10 @@
             <span class="text-lg">${hs.Avatar || "👤"}</span>
             <div class="min-w-0">
               <div class="font-bold text-slate-800 text-xs truncate">#${hs.STT} - ${hs.Ho_Ten}</div>
-              <div class="text-[10px] text-slate-500">${hs.To || "Chưa phân tổ"} • +${hs.Thang_Diem_Cong || 0} / -${hs.Thang_Diem_Tru || 0}</div>
+              <div class="text-[10px] text-slate-500">${hs.To || "Chưa phân tổ"} • +${hs.Tong_Diem_Cong || 0} / -${hs.Tong_Diem_Tru || 0}</div>
             </div>
           </div>
-          <span class="bg-rose-100 text-rose-700 border border-rose-200 px-2 py-1 rounded-lg text-xs font-black whitespace-nowrap">${hs.Thang_Diem_Hien_Tai} điểm</span>
+          <span class="bg-rose-100 text-rose-700 border border-rose-200 px-2 py-1 rounded-lg text-xs font-black whitespace-nowrap">${hs.Tong_Diem_Hien_Tai} điểm</span>
         </div>
       `).join("");
     }
@@ -1030,10 +1219,16 @@
     function checkPermissions() {
       const exportButtonIds = ["btnExportAll", "btnExportDiemDanh", "btnExportViPham", "btnExportDiemCong", "btnExportSoDo"];
       exportButtonIds.forEach(id => document.getElementById(id)?.classList.add("hidden"));
+      document.getElementById("btnSaveRenLuyenConfig")?.classList.add("hidden");
+      if (document.getElementById("renLuyenStartDate")) document.getElementById("renLuyenStartDate").disabled = true;
+      if (document.getElementById("renLuyenEndDate")) document.getElementById("renLuyenEndDate").disabled = true;
       if (currentUserRole === "GVCN") {
         exportButtonIds.forEach(id => {
           document.getElementById(id)?.classList.remove("hidden");
         });
+        document.getElementById("btnSaveRenLuyenConfig")?.classList.remove("hidden");
+        if (document.getElementById("renLuyenStartDate")) document.getElementById("renLuyenStartDate").disabled = false;
+        if (document.getElementById("renLuyenEndDate")) document.getElementById("renLuyenEndDate").disabled = false;
       }
       if (currentUserRole === "GVCN" || currentUserRole === "Lớp phó Học tập") {
         document.getElementById("btnThemBaoBai")?.classList.remove("hidden");
@@ -1521,18 +1716,18 @@
     }
 
     // ==============================================================
-    // RENDER XẾP HẠNG THI ĐUA CÁ NHÂN THEO THÁNG
+    // RENDER XẾP HẠNG RÈN LUYỆN CÁ NHÂN TRONG HỌC KỲ
     // ==============================================================
     function renderUI() {
       const isGVCN = (currentUserRole === "GVCN");
 
-      // Danh sách học sinh xếp hạng theo tháng
+      // Danh sách học sinh xếp hạng theo tổng điểm rèn luyện trong kỳ tính điểm
       const listHS = document.getElementById("listHocSinh");
       if (listHS && appData.hocSinh) {
-        const sortedStudents = [...appData.hocSinh].sort((a, b) => b.Thang_Diem_Hien_Tai - a.Thang_Diem_Hien_Tai);
+        const sortedStudents = [...appData.hocSinh].sort((a, b) => b.Tong_Diem_Hien_Tai - a.Tong_Diem_Hien_Tai);
 
         listHS.innerHTML = sortedStudents.map((hs, index) => {
-          const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
+          const score = Number(hs.Tong_Diem_Hien_Tai) || 0;
           const av = hs.Avatar || "👤";
           const color = score > 0 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 
                         score < 0 ? 'text-rose-700 bg-rose-50 border-rose-200' : 
@@ -1561,9 +1756,9 @@
                   ${score > 0 ? '+' : ''}${score} đ
                 </span>
                 <div class="text-[10px] mt-1 space-x-1 font-medium">
-                  <span class="text-emerald-600">+${hs.Thang_Diem_Cong || 0}</span>
+                  <span class="text-emerald-600">+${hs.Tong_Diem_Cong || 0}</span>
                   <span class="text-slate-300">|</span>
-                  <span class="text-rose-500">-${hs.Thang_Diem_Tru || 0}</span>
+                  <span class="text-rose-500">-${hs.Tong_Diem_Tru || 0}</span>
                 </div>
               </div>
             </div>
@@ -1889,12 +2084,12 @@
       const hs = (appData.hocSinh || []).find(h => String(h.STT) === String(stt));
       if (!hs) return;
 
-      const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
+      const score = Number(hs.Tong_Diem_Hien_Tai) || 0;
       const av = hs.Avatar || "🐱";
       const myLabel = `#${hs.STT} - ${hs.Ho_Ten}`;
 
-      const myViPham = (appData.viPham || []).filter(v => String(v.STT) === String(stt) && parseDateMonth(v.Ngay) === selectedMonth);
-      const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt) && parseDateMonth(d.Ngay) === selectedMonth);
+      const myViPham = (appData.viPham || []).filter(v => String(v.STT) === String(stt) && isDateInRenLuyenPeriod(v.Ngay));
+      const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt) && isDateInRenLuyenPeriod(d.Ngay));
       const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
 
       const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(stt));
@@ -1927,17 +2122,17 @@
             </div>
             <div class="text-right">
               <div class="text-2xl font-black text-yellow-300">${score > 0 ? '+' : ''}${score} <span class="text-xs text-white">điểm</span></div>
-              <div class="text-[10px] text-indigo-100">Điểm Tháng ${selectedMonth}</div>
+              <div class="text-[10px] text-indigo-100">Điểm rèn luyện trong kỳ</div>
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-white/20 text-center">
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[9px] block text-emerald-200">Thưởng T${selectedMonth}</span>
-              <span class="text-xs font-bold text-emerald-300">+${hs.Thang_Diem_Cong || 0} đ</span>
+              <span class="text-[9px] block text-emerald-200">Tổng điểm cộng</span>
+              <span class="text-xs font-bold text-emerald-300">+${hs.Tong_Diem_Cong || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
-              <span class="text-[9px] block text-rose-200">Phạt T${selectedMonth}</span>
-              <span class="text-xs font-bold text-rose-300">-${hs.Thang_Diem_Tru || 0} đ</span>
+              <span class="text-[9px] block text-rose-200">Tổng điểm trừ</span>
+              <span class="text-xs font-bold text-rose-300">-${hs.Tong_Diem_Tru || 0} đ</span>
             </div>
             <div class="bg-white/10 rounded-lg p-1.5">
               <span class="text-[9px] block text-amber-200">Tổng vắng</span>
@@ -1966,7 +2161,7 @@
 
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Điểm thưởng trong Tháng ${selectedMonth}</span>
+            <span><i class="fa-solid fa-circle-plus text-emerald-500 mr-1.5"></i>Điểm thưởng trong kỳ tính điểm</span>
             <span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myDiemCong.length}</span>
           </h4>
           <div class="space-y-1.5 max-h-48 overflow-y-auto">
@@ -1984,25 +2179,25 @@
                   <span>${d.Ghi_Chu || ''}</span>
                 </div>
               </div>
-            `).join('') : `<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng trong tháng ${selectedMonth}.</div>`}
+            `).join('') : `<div class="text-[11px] text-slate-400 italic text-center py-2">Chưa có điểm thưởng.</div>`}
           </div>
         </div>
 
         <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lỗi vi phạm trong Tháng ${selectedMonth}</span>
-            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length + (collectivePenaltyPerStudent > 0 ? 1 : 0)}</span>
+            <span><i class="fa-solid fa-circle-minus text-rose-500 mr-1.5"></i>Lỗi vi phạm trong kỳ tính điểm</span>
+            <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${myViPham.length + (renLuyenCollectivePenaltyPerStudent > 0 ? 1 : 0)}</span>
           </h4>
           
           <div class="space-y-1.5 max-h-56 overflow-y-auto">
-            ${collectivePenaltyPerStudent > 0 ? `
+            ${renLuyenCollectivePenaltyPerStudent > 0 ? `
               <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs space-y-1">
                 <div class="flex justify-between items-center">
-                  <span class="font-bold text-amber-900"><i class="fa-solid fa-users-viewfinder mr-1"></i>Trách nhiệm lỗi tập thể Tháng ${selectedMonth}</span>
-                  <span class="font-black text-rose-600">-${collectivePenaltyPerStudent}đ</span>
+                  <span class="font-bold text-amber-900"><i class="fa-solid fa-users-viewfinder mr-1"></i>Trách nhiệm lỗi tập thể trong kỳ</span>
+                  <span class="font-black text-rose-600">-${renLuyenCollectivePenaltyPerStudent}đ</span>
                 </div>
                 <div class="text-[10px] text-amber-700 leading-tight">
-                  (Tổng cộng ${collectiveViolationsList.length} lỗi tập thể chung của lớp được chia đều cho từng thành viên).
+                  (Tổng cộng ${renLuyenCollectiveViolationsList.length} lỗi tập thể trong kỳ được chia đều cho từng thành viên).
                 </div>
               </div>
             ` : ''}
@@ -2021,7 +2216,7 @@
                   <span class="text-rose-400">${v.Ghi_Chu || ''}</span>
                 </div>
               </div>
-            `).join('') : (collectivePenaltyPerStudent === 0 ? `<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào trong tháng ${selectedMonth}.</div>` : '')}
+            `).join('') : (renLuyenCollectivePenaltyPerStudent === 0 ? `<div class="text-[11px] text-emerald-600 font-medium italic text-center py-2"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>Tuyệt vời! Không có vi phạm nào trong kỳ tính điểm.</div>` : '')}
           </div>
         </div>
       `;
@@ -2126,7 +2321,7 @@
     }
 
     async function deleteBaoBaiItem(idBaoBai, rowIndex) {
-      if (!confirm("Cô có chắc chắn muốn xóa bài báo này?")) return;
+      if (!(await showAppConfirm("Cô có chắc chắn muốn xóa bài báo này?"))) return;
       await sendPostRequest("deleteBaoBai", { idBaoBai: idBaoBai, rowIndex: rowIndex }, "btnSubmitBB", "modalBaoBai");
     }
 
@@ -2164,7 +2359,7 @@
     }
 
     async function deleteHoatDongItem(idHoatDong) {
-      if (!confirm("Cô có chắc chắn muốn xóa hoạt động này?")) return;
+      if (!(await showAppConfirm("Cô có chắc chắn muốn xóa hoạt động này?"))) return;
       await sendPostRequest("deleteHoatDong", { idHoatDong: idHoatDong }, "btnSubmitHD", "modalHoatDong");
     }
 
@@ -2182,7 +2377,7 @@
     }
 
     async function deleteTrucNhatItem(idTrucNhat, rowIndex) {
-      if (!confirm("Cô có chắc chắn muốn xóa lịch trực nhật này?")) return;
+      if (!(await showAppConfirm("Cô có chắc chắn muốn xóa lịch trực nhật này?"))) return;
       await sendPostRequest("deleteTrucNhat", { idTrucNhat: idTrucNhat, rowIndex: rowIndex }, "btnSubmitTN", "modalTrucNhat");
     }
 
@@ -2378,7 +2573,7 @@
       if (!hs) {
         return `<span class="text-[9px] text-slate-300 italic font-medium">Trống</span>`;
       }
-      const score = Number(hs.Thang_Diem_Hien_Tai) || 0;
+      const score = Number(hs.Tong_Diem_Hien_Tai) || 0;
       const av = hs.Avatar || "🐱";
       const badgeColor = score > 0 ? 'bg-emerald-500' : score < 0 ? 'bg-rose-500' : 'bg-slate-400';
 
@@ -2945,8 +3140,8 @@
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
 
-    function loginPrompt() {
-      const email = prompt("Nhập Email Google của bạn:", currentUserEmail);
+    async function loginPrompt() {
+      const email = await showAppPrompt("Nhập Email Google của bạn:", currentUserEmail, "Đăng nhập tài khoản");
       if (email !== null) {
         localStorage.setItem("user_email", email.trim().toLowerCase());
         currentUserEmail = email.trim().toLowerCase();
