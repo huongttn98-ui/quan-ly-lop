@@ -401,7 +401,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh có điểm rèn luyện trong kỳ đang âm tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
+          📌 Chỉ thống kê học sinh có lỗi vi phạm cá nhân trong tháng đang chọn; không tính lỗi tập thể và không cộng dồn các tháng trước:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -1212,30 +1212,46 @@
       const badge = document.getElementById("countLaoDongBadge");
       if (!container || !badge) return;
 
-      const negativeStudents = (appData.hocSinh || [])
-        .filter(hs => Number(hs.Tong_Diem_Hien_Tai) < 0)
-        .sort((a, b) => Number(a.Tong_Diem_Hien_Tai) - Number(b.Tong_Diem_Hien_Tai));
+      // Danh sách vệ sinh cuối tháng là một thống kê độc lập với điểm rèn luyện học kỳ:
+      // chỉ lấy lỗi cá nhân đúng tháng đang xem, loại bỏ hoàn toàn lỗi tập thể (STT = ALL).
+      const personalViolationsThisMonth = (appData.viPham || []).filter(v => {
+        const stt = String(v.STT || "").trim();
+        return stt && stt.toUpperCase() !== "ALL" && parseDateMonth(v.Ngay) === selectedMonth;
+      });
 
-      badge.innerText = `${negativeStudents.length} HS`;
-      if (negativeStudents.length === 0) {
+      const violationByStudent = personalViolationsThisMonth.reduce((result, violation) => {
+        const stt = String(violation.STT || "").trim();
+        if (!result[stt]) result[stt] = { count: 0, totalDeduction: 0 };
+        result[stt].count += 1;
+        result[stt].totalDeduction += Number(violation.Diem_Tru) || 0;
+        return result;
+      }, {});
+
+      const violatingStudents = (appData.hocSinh || [])
+        .filter(hs => Boolean(violationByStudent[String(hs.STT)]))
+        .map(hs => ({ ...hs, monthlyViolation: violationByStudent[String(hs.STT)] }))
+        .sort((a, b) => b.monthlyViolation.totalDeduction - a.monthlyViolation.totalDeduction || String(a.Ho_Ten).localeCompare(String(b.Ho_Ten), "vi"));
+
+      badge.innerText = `${violatingStudents.length} HS`;
+      if (violatingStudents.length === 0) {
         container.innerHTML = `
           <div class="bg-white/70 border border-emerald-200 text-emerald-700 rounded-xl p-2.5 text-xs text-center font-semibold">
-            <i class="fa-solid fa-circle-check mr-1"></i>Không có học sinh nào có điểm rèn luyện âm trong kỳ tính điểm.
+            <i class="fa-solid fa-circle-check mr-1"></i>Không có học sinh nào vi phạm lỗi cá nhân trong tháng ${selectedMonth}.
           </div>
         `;
         return;
       }
 
-      container.innerHTML = negativeStudents.map(hs => `
+      container.innerHTML = violatingStudents.map(hs => `
         <div onclick="viewStudentProfile('${hs.STT}')" class="bg-white p-2.5 rounded-xl border border-rose-200 flex justify-between items-center cursor-pointer hover:bg-rose-50 transition">
           <div class="flex items-center gap-2 min-w-0">
             <span class="text-lg">${hs.Avatar || "👤"}</span>
             <div class="min-w-0">
               <div class="font-bold text-slate-800 text-xs truncate">#${hs.STT} - ${hs.Ho_Ten}</div>
-              <div class="text-[10px] text-slate-500">${hs.To || "Chưa phân tổ"} • +${hs.Tong_Diem_Cong || 0} / -${hs.Tong_Diem_Tru || 0}</div>
+              <div class="text-[10px] text-slate-500">${hs.To || "Chưa phân tổ"} • ${hs.monthlyViolation.count} lỗi cá nhân trong tháng ${selectedMonth}</div>
             </div>
           </div>
-          <span class="bg-rose-100 text-rose-700 border border-rose-200 px-2 py-1 rounded-lg text-xs font-black whitespace-nowrap">${hs.Tong_Diem_Hien_Tai} điểm</span>
+          <span class="bg-rose-100 text-rose-700 border border-rose-200 px-2 py-1 rounded-lg text-xs font-black whitespace-nowrap">-${hs.monthlyViolation.totalDeduction} điểm</span>
         </div>
       `).join("");
     }
