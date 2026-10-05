@@ -1672,27 +1672,45 @@
       }
 
       try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "saveDiemDanh",
-            userEmail: currentUserEmail,
-            payload: { ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang }
-          })
-        });
-        const json = await res.json();
+        const json = await postJsonWithRetry("saveDiemDanh", {
+          ngay: dateStr, buoi: buoiStr, danhSachVang: danhSachVang
+        }, true);
         if (json.success) {
+          applyImmediateAttendanceUpdate(dateStr, buoiStr, danhSachVang);
           alert("✅ " + json.message);
-          await loadData();
         } else {
           alert("❌ " + json.message);
         }
       } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
+        alert("Lỗi kết nối máy chủ. Vui lòng kiểm tra mạng rồi bấm lưu lại!");
       } finally {
         btn.innerText = "Lưu điểm danh";
         btn.disabled = false;
       }
+    }
+
+    function applyImmediateAttendanceUpdate(ngay, buoi, danhSachVang) {
+      const dateKey = formatDisplayDate(ngay);
+      appData.diemDanh = (appData.diemDanh || []).filter(item => !(
+        formatDisplayDate(item.Ngay) === dateKey && String(item.Buoi) === String(buoi)
+      ));
+      danhSachVang.forEach(item => {
+        appData.diemDanh.push({
+          Ngay: ngay,
+          Buoi: buoi,
+          STT: item.stt,
+          Ho_Ten: item.hoTen,
+          Trang_Thai: item.trangThai,
+          Ghi_Chu: item.ghiChu || "",
+          Nguoi_Diem_Danh: currentUserRole === "GVCN" ? "Cô Hương (GVCN)" : "Cán bộ lớp"
+        });
+      });
+      calculateScoreByMonth(selectedMonth);
+      renderUI();
+      renderThiDuaTo();
+      renderAbsenceSummary();
+      renderTrangChuDashboard();
+      renderSoDo24Ban();
     }
 
     // ==============================================================
@@ -3146,6 +3164,41 @@
       }
     }
 
+    function createRequestId() {
+      return `${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+    }
+
+    async function postJsonWithRetry(action, payload, allowRetry = false) {
+      const requestId = createRequestId();
+      const maxAttempts = allowRetry ? 2 : 1;
+      let lastError;
+      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 25000);
+        try {
+          const res = await fetch(GAS_API_URL, {
+            method: "POST",
+            body: JSON.stringify({ action, userEmail: currentUserEmail, payload, requestId }),
+            signal: controller.signal
+          });
+          const responseText = await res.text();
+          let json;
+          try {
+            json = JSON.parse(responseText);
+          } catch (_) {
+            throw new Error("Phản hồi máy chủ không hợp lệ");
+          }
+          return json;
+        } catch (err) {
+          lastError = err;
+          if (attempt < maxAttempts) await new Promise(resolve => setTimeout(resolve, 700));
+        } finally {
+          clearTimeout(timeoutId);
+        }
+      }
+      throw lastError || new Error("Không thể kết nối máy chủ");
+    }
+
     async function sendPostRequest(action, payload, btnId, modalId) {
       const btn = document.getElementById(btnId);
       if (btn) {
@@ -3153,21 +3206,17 @@
         btn.disabled = true;
       }
       try {
-        const res = await fetch(GAS_API_URL, {
-          method: "POST",
-          body: JSON.stringify({ action: action, userEmail: currentUserEmail, payload: payload })
-        });
-        const json = await res.json();
+        const json = await postJsonWithRetry(action, payload, action === "addViPham" || action === "editViPham");
         if (json.success) {
           alert("✅ " + json.message);
           closeModal(modalId);
-          applyImmediateScoreUpdate(action, payload);
-          loadData();
+          const updatedLocally = applyImmediateScoreUpdate(action, payload);
+          if (!updatedLocally) await loadData();
         } else {
           alert("❌ " + json.message);
         }
       } catch (err) {
-        alert("Lỗi kết nối máy chủ!");
+        alert("Lỗi kết nối máy chủ. Vui lòng kiểm tra mạng rồi thử lại!");
       } finally {
         if (btn) {
           btn.innerText = "Lưu lại";
@@ -3208,7 +3257,7 @@
           };
         }
       } else {
-        return;
+        return false;
       }
 
       calculateScoreByMonth(selectedMonth);
@@ -3216,6 +3265,8 @@
       renderThiDuaTo();
       renderLaoDongCuoiThang();
       renderTrangChuDashboard();
+      renderSoDo24Ban();
+      return true;
     }
 
     function switchTab(tabId, btn) {
