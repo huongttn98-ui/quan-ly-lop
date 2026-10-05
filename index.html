@@ -169,7 +169,7 @@
       <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm space-y-2.5">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
-            <i class="fa-solid fa-bullhorn text-amber-500"></i> Hoạt động
+            <i class="fa-solid fa-bullhorn text-amber-500"></i> Phong Trào & Sự Kiện Đang Mở Đăng Ký
           </h3>
           <button onclick="switchTabDirect('tab-hoatdong', 2)" class="text-[11px] text-amber-600 hover:underline font-bold">Xem tất cả <i class="fa-solid fa-angle-right"></i></button>
         </div>
@@ -267,7 +267,7 @@
           </div>
           <div>
             <label class="block text-[11px] font-bold text-slate-600 mb-1">Buổi học:</label>
-            <select id="dd_buoi" onchange="renderDiemDanhTable()" class="w-full border rounded-lg p-2 bg-white text-xs font-semibold">
+            <select id="dd_buoi" onchange="changeDiemDanhBuoi()" class="w-full border rounded-lg p-2 bg-white text-xs font-semibold">
               <option value="Sáng">Buổi Sáng</option>
               <option value="Chiều">Buổi Chiều</option>
             </select>
@@ -281,8 +281,9 @@
           <span class="text-xs font-bold text-slate-700">Danh sách lớp (<span id="ddTotalCount">40</span> HS):</span>
           <div class="text-[10px] space-x-2 font-bold">
             <span class="text-emerald-600">P: Có mặt</span>
-            <span class="text-amber-600">CP: Vắng có phép</span>
-            <span class="text-rose-600">KP: Vắng không phép</span>
+            <span class="text-sky-600">KTT: Vắng không trừ điểm</span>
+            <span class="text-amber-600">CP: Vắng có phép (−10đ)</span>
+            <span class="text-rose-600">KP: Vắng không phép (−15đ)</span>
           </div>
         </div>
         <div id="diemDanhTableList" class="space-y-1.5 max-h-[50vh] overflow-y-auto pr-1"></div>
@@ -400,7 +401,7 @@
           <span id="countLaoDongBadge" class="text-[10px] bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">0 HS</span>
         </div>
         <p class="text-[11px] text-rose-600 leading-relaxed">
-          📌 Danh sách học sinh tham gia tổng vệ sinh cuối tháng:
+          📌 Danh sách học sinh có điểm rèn luyện trong kỳ đang âm tham gia lao động công ích vào chiều thứ Bảy cuối tháng:
         </p>
         <div id="listLaoDongCuoiThang" class="space-y-1.5 max-h-48 overflow-y-auto pt-1"></div>
       </div>
@@ -1045,6 +1046,30 @@
       return dateA - dateB;
     }
 
+    function normalizeDateKeyClient(dateStr) {
+      const parsed = parseFlexibleDate(dateStr);
+      if (!parsed) return String(dateStr || "").trim();
+      const year = parsed.getFullYear();
+      const month = String(parsed.getMonth() + 1).padStart(2, "0");
+      const day = String(parsed.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function getUniqueAttendanceRecords(records = appData.diemDanh || []) {
+      const uniqueMap = new Map();
+      records.forEach(record => {
+        const key = `${normalizeDateKeyClient(record.Ngay)}|${String(record.Buoi || "").trim()}|${String(record.STT || "").trim()}`;
+        uniqueMap.set(key, record);
+      });
+      return Array.from(uniqueMap.values());
+    }
+
+    function getAttendancePenalty(status) {
+      if (status === "Vắng có phép") return 10;
+      if (status === "Vắng không phép") return 15;
+      return 0;
+    }
+
     function isDateInRenLuyenPeriod(dateStr) {
       const value = parseFlexibleDate(dateStr);
       const start = parseFlexibleDate(appData.renLuyenConfig?.startDate);
@@ -1114,10 +1139,14 @@
       const totalCollectivePointsInPeriod = renLuyenCollectiveViolationsList
         .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
       renLuyenCollectivePenaltyPerStudent = Math.round((totalCollectivePointsInPeriod / totalStudents) * 10) / 10;
+      const uniqueAttendanceRecords = getUniqueAttendanceRecords();
 
       (appData.hocSinh || []).forEach(hs => {
+        const myMonthAttendancePenalty = uniqueAttendanceRecords
+          .filter(d => String(d.STT) === String(hs.STT) && parseDateMonth(d.Ngay) === targetMonth)
+          .reduce((sum, d) => sum + getAttendancePenalty(d.Trang_Thai), 0);
         const myMonthTru = (appData.viPham || []).filter(v => String(v.STT) === String(hs.STT) && parseDateMonth(v.Ngay) === targetMonth)
-                                                .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
+                                                .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0) + myMonthAttendancePenalty;
         const myMonthCong = (appData.diemCong || []).filter(d => String(d.STT) === String(hs.STT) && parseDateMonth(d.Ngay) === targetMonth)
                                                   .reduce((sum, d) => sum + (Number(d.Diem_Cong) || 0), 0);
         
@@ -1125,9 +1154,12 @@
         hs.Thang_Diem_Cong = myMonthCong;
         hs.Thang_Diem_Hien_Tai = Math.round((hs.Thang_Diem_Cong - hs.Thang_Diem_Tru) * 10) / 10;
 
+        const myAttendancePenaltyInPeriod = uniqueAttendanceRecords
+          .filter(d => String(d.STT) === String(hs.STT) && isDateInRenLuyenPeriod(d.Ngay))
+          .reduce((sum, d) => sum + getAttendancePenalty(d.Trang_Thai), 0);
         const myTotalTru = (appData.viPham || [])
           .filter(v => String(v.STT) === String(hs.STT) && isDateInRenLuyenPeriod(v.Ngay))
-          .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0);
+          .reduce((sum, v) => sum + (Number(v.Diem_Tru) || 0), 0) + myAttendancePenaltyInPeriod;
         const myTotalCong = (appData.diemCong || [])
           .filter(d => String(d.STT) === String(hs.STT) && isDateInRenLuyenPeriod(d.Ngay))
           .reduce((sum, d) => sum + (Number(d.Diem_Cong) || 0), 0);
@@ -1385,7 +1417,7 @@
             </div>
           `).join('');
         } else {
-          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Không có hoạt động nào.</div>';
+          homeHD.innerHTML = '<div class="text-slate-400 italic text-center py-2 text-xs">Không có hoạt động nào đang mở đăng ký.</div>';
         }
       }
     }
@@ -1543,7 +1575,7 @@
       const dateStr = formatDisplayDate(document.getElementById("dd_ngay").value);
       const buoiStr = document.getElementById("dd_buoi").value;
 
-      const existingAttendance = (appData.diemDanh || []).filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
+      const existingAttendance = getUniqueAttendanceRecords().filter(d => formatDisplayDate(d.Ngay) === dateStr && d.Buoi === buoiStr);
       currentAttendanceState = {};
       
       // Mặc định tất cả Có mặt
@@ -1555,6 +1587,11 @@
       existingAttendance.forEach(a => {
         currentAttendanceState[a.STT] = { trangThai: a.Trang_Thai, ghiChu: a.Ghi_Chu };
       });
+    }
+
+    function changeDiemDanhBuoi() {
+      loadCurrentAttendanceState();
+      renderDiemDanhTable();
     }
 
     function renderDiemDanhTable() {
@@ -1580,9 +1617,11 @@
               <select onchange="setStudentAttendance('${hs.STT}', this.value)" class="text-xs font-black border rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 cursor-pointer ${
                 status === 'Vắng không phép' ? 'bg-rose-100 text-rose-900 border-rose-400' :
                 status === 'Vắng có phép' ? 'bg-amber-100 text-amber-900 border-amber-400' :
+                status === 'Vắng (không trừ điểm)' ? 'bg-sky-100 text-sky-900 border-sky-400' :
                 'bg-emerald-50 text-emerald-800 border-emerald-300'
               }">
                 <option value="Có mặt" ${status === 'Có mặt' ? 'selected' : ''}>P: Có mặt</option>
+                <option value="Vắng (không trừ điểm)" ${status === 'Vắng (không trừ điểm)' ? 'selected' : ''}>KTT: Vắng (không trừ điểm)</option>
                 <option value="Vắng có phép" ${status === 'Vắng có phép' ? 'selected' : ''}>CP: Vắng có phép</option>
                 <option value="Vắng không phép" ${status === 'Vắng không phép' ? 'selected' : ''}>KP: Vắng không phép</option>
               </select>
@@ -1659,12 +1698,14 @@
       const isGVCN = (currentUserRole === "GVCN");
       const currentLoggedInHS = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
 
+      const uniqueAttendanceRecords = getUniqueAttendanceRecords();
       const absenceStats = appData.hocSinh.map(hs => {
-        const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(hs.STT));
+        const myAbsences = uniqueAttendanceRecords.filter(d => String(d.STT) === String(hs.STT));
         const coPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng có phép").length;
         const khongPhep = myAbsences.filter(d => d.Trang_Thai === "Vắng không phép").length;
-        const tongNghi = coPhep + khongPhep;
-        return { ...hs, coPhep, khongPhep, tongNghi };
+        const khongTruDiem = myAbsences.filter(d => d.Trang_Thai === "Vắng (không trừ điểm)").length;
+        const tongNghi = coPhep + khongPhep + khongTruDiem;
+        return { ...hs, coPhep, khongPhep, khongTruDiem, tongNghi };
       });
 
       // 1. Cảnh báo > 30 buổi (CHỈ HIỆN VỚI HỌC SINH ĐÓ & GVCN)
@@ -1690,7 +1731,7 @@
       }
 
       // 2. Nhắc nhở nộp đơn xin phép (CHỈ HIỆN VỚI CHÍNH HỌC SINH VẮNG KP & GVCN)
-      const unexcusedList = (appData.diemDanh || []).filter(d => d.Trang_Thai === "Vắng không phép");
+      const unexcusedList = uniqueAttendanceRecords.filter(d => d.Trang_Thai === "Vắng không phép");
       let visibleUnexcused = [];
 
       if (isGVCN) {
@@ -1725,7 +1766,7 @@
               <span class="text-base">${s.Avatar || '👤'}</span>
               <div>
                 <span class="font-bold text-slate-800">#${s.STT} ${s.Ho_Ten}</span>
-                <span class="text-[10px] text-slate-400 block">${s.To} • CP: ${s.coPhep} | KP: ${s.khongPhep}</span>
+                <span class="text-[10px] text-slate-400 block">${s.To} • KTT: ${s.khongTruDiem} | CP: ${s.coPhep} | KP: ${s.khongPhep}</span>
               </div>
             </div>
             <div class="text-right">
@@ -2115,7 +2156,7 @@
       const myDiemCong = (appData.diemCong || []).filter(d => String(d.STT) === String(stt) && isDateInRenLuyenPeriod(d.Ngay));
       const myHoatDong = (appData.hoatDong || []).filter(hd => String(hd.DS_Tham_Gia || "").includes(myLabel) || String(hd.DS_Tham_Gia || "").includes(hs.Ho_Ten));
 
-      const myAbsences = (appData.diemDanh || []).filter(d => String(d.STT) === String(stt));
+      const myAbsences = getUniqueAttendanceRecords().filter(d => String(d.STT) === String(stt));
       const tongNghi = myAbsences.length;
 
       const loggedInStudent = (appData.hocSinh || []).find(h => (h.Email || "").toLowerCase().trim() === currentUserEmail.toLowerCase().trim());
@@ -2176,7 +2217,7 @@
                   <span class="font-bold text-slate-800">${a.Ngay} (${a.Buoi})</span>
                   <span class="text-[10px] text-slate-400 block">${a.Ghi_Chu ? `Ghi chú: ${a.Ghi_Chu}` : `Người ghi: ${a.Nguoi_Diem_Danh}`}</span>
                 </div>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${a.Trang_Thai === 'Vắng có phép' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'}">${a.Trang_Thai}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${a.Trang_Thai === 'Vắng có phép' ? 'bg-amber-100 text-amber-800' : a.Trang_Thai === 'Vắng (không trừ điểm)' ? 'bg-sky-100 text-sky-800' : 'bg-rose-100 text-rose-800'}">${a.Trang_Thai}${getAttendancePenalty(a.Trang_Thai) > 0 ? ` (−${getAttendancePenalty(a.Trang_Thai)}đ)` : ''}</span>
               </div>
             `).join('') : '<div class="text-[11px] text-emerald-600 italic text-center py-1">Chuyên cần 100%, không vắng buổi nào!</div>'}
           </div>
@@ -2520,6 +2561,24 @@
     }
 
     function initSeatingState() {
+      const serverSeating = {};
+      const usedSeats = new Set();
+      (appData.hocSinh || []).forEach(hs => {
+        const seatId = String(hs.Ghe_ID || "").trim();
+        if (/^T[1-4]_B[1-6]_[LR]$/.test(seatId) && !usedSeats.has(seatId)) {
+          serverSeating[seatId] = hs.STT;
+          usedSeats.add(seatId);
+        }
+      });
+
+      // Ưu tiên sơ đồ đã lưu trên Google Sheet để dùng thống nhất trên mọi thiết bị.
+      // Trường "To" của học sinh chỉ dùng để xác định tổ cố định, không phụ thuộc ghế.
+      if (Object.keys(serverSeating).length > 0) {
+        seatingState = serverSeating;
+        saveLocalSeating();
+        return;
+      }
+
       const saved = localStorage.getItem("seating_state_lop10c5");
       if (saved) {
         try {
@@ -2732,8 +2791,7 @@
       const assignments = [];
       for (const [seatId, stt] of Object.entries(seatingState)) {
         if (stt) {
-          const toNum = seatId.charAt(1);
-          assignments.push({ stt: stt, to: `Tổ ${toNum}`, gheId: seatId });
+          assignments.push({ stt: stt, gheId: seatId });
         }
       }
 
@@ -2748,6 +2806,11 @@
         });
         const json = await res.json();
         if (json.success) {
+          (appData.hocSinh || []).forEach(hs => {
+            const match = assignments.find(a => String(a.stt) === String(hs.STT));
+            hs.Ghe_ID = match ? match.gheId : "";
+          });
+          saveLocalSeating();
           alert("✅ Đã lưu sơ đồ lớp học thành công!");
           await loadData();
         } else {
@@ -2867,7 +2930,7 @@
 
     function buildAttendanceSheet() {
       const rows = [["STT", "Họ và tên", "Ngày", "Buổi", "Trạng thái", "Ghi chú", "Người điểm danh"]];
-      (appData.diemDanh || []).filter(d => d.STT || d.Ho_Ten).forEach(d => rows.push([
+      getUniqueAttendanceRecords().filter(d => d.STT || d.Ho_Ten).forEach(d => rows.push([
         d.STT, d.Ho_Ten, formatDisplayDate(d.Ngay), d.Buoi, d.Trang_Thai, d.Ghi_Chu || "", d.Nguoi_Diem_Danh || ""
       ]));
       const sheet = XLSX.utils.aoa_to_sheet(rows);
